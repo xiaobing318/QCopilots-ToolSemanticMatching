@@ -1,0 +1,325 @@
+Unicode true
+!include "MUI2.nsh"
+!include "FileFunc.nsh"
+!include "LogicLib.nsh"
+Name "QCopilots Tool Semantic Matching"
+OutFile "@OUTPUT@"
+InstallDir "$LOCALAPPDATA\Programs\qctsm"
+InstallDirRegKey HKCU "Software\QCopilots\@PRODUCT_ID@" ""
+RequestExecutionLevel user
+SetCompressor /SOLID lzma
+ManifestDPIAware true
+ManifestLongPathAware true
+ShowInstDetails show
+ShowUninstDetails show
+VIProductVersion "@VERSION@.0"
+VIAddVersionKey /LANG=1033 "ProductName" "QCopilots Tool Semantic Matching"
+VIAddVersionKey /LANG=1033 "FileVersion" "@VERSION@"
+VIAddVersionKey /LANG=1033 "FileDescription" "QCopilots Tool Semantic Matching offline payload installer"
+VIAddVersionKey /LANG=1033 "LegalCopyright" "QCopilots contributors"
+!define PRODUCT_KEY "Software\QCopilots\@PRODUCT_ID@"
+!define UNINSTALL_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\@PRODUCT_ID@"
+!insertmacro MUI_PAGE_WELCOME
+!insertmacro MUI_PAGE_LICENSE "@LICENSE@"
+!insertmacro MUI_PAGE_DIRECTORY
+!insertmacro MUI_PAGE_INSTFILES
+!insertmacro MUI_PAGE_FINISH
+!insertmacro MUI_UNPAGE_CONFIRM
+!insertmacro MUI_UNPAGE_INSTFILES
+!insertmacro MUI_LANGUAGE "English"
+!insertmacro MUI_LANGUAGE "SimpChinese"
+
+Var QcsPath
+Var QcsValid
+Var QcsBytes
+Var QcsDigest
+Var QcsActualDigest
+
+!macro QCS_REQUIRE condition message
+  ${If} ${condition} != 1
+    DetailPrint "${message}"
+    IfSilent +2
+    MessageBox MB_OK|MB_ICONSTOP "${message}"
+    SetErrorLevel 1
+    Quit
+  ${EndIf}
+!macroend
+!macro QCS_WRITE_OK
+  ${If} ${Errors}
+    DetailPrint "Unable to write the installation. Close QCopilots Tool Semantic Matching and check free space and permissions."
+    SetErrorLevel 1
+    Quit
+  ${EndIf}
+!macroend
+!macro QCS_VERIFY path bytes hash
+  StrCpy $QcsPath "${path}"
+  StrCpy $QcsBytes "${bytes}"
+  StrCpy $QcsDigest "${hash}"
+  Call QcsCheckParents
+  !insertmacro QCS_REQUIRE "$QcsValid" "Unsafe payload path: ${path}"
+  Call QcsVerifyFile
+  !insertmacro QCS_REQUIRE "$QcsValid" "Missing or damaged payload: ${path}. Extract the complete setup.zip before installing."
+!macroend
+
+# Reject existing reparse points anywhere in a source or destination chain.
+# Missing directories are permitted and will be created only after validation.
+!macro QCS_PARENT_FUNCTION prefix
+Function ${prefix}QcsCheckParents
+  Push $0
+  Push $1
+  Push $2
+  StrCpy $QcsValid 0
+  System::Call 'kernel32::GetFullPathNameW(w "$QcsPath", i ${NSIS_MAX_STRLEN}, w.r0, p 0) i.r1'
+  ${If} $1 == 0
+  ${OrIf} $1 >= ${NSIS_MAX_STRLEN}
+    Goto parents_done
+  ${EndIf}
+  ${Do}
+    System::Call 'kernel32::GetFileAttributesW(w r0) i.r1'
+    ${If} $1 != -1
+      IntOp $1 $1 & 0x400
+      ${If} $1 != 0
+        Goto parents_done
+      ${EndIf}
+    ${EndIf}
+    ${GetParent} "$0" $2
+    ${If} $2 == ""
+    ${OrIf} $2 == $0
+      StrCpy $QcsValid 1
+      Goto parents_done
+    ${EndIf}
+    StrCpy $0 $2
+  ${Loop}
+  parents_done:
+  Pop $2
+  Pop $1
+  Pop $0
+FunctionEnd
+!macroend
+!insertmacro QCS_PARENT_FUNCTION ""
+!insertmacro QCS_PARENT_FUNCTION "un."
+
+# Normalize the existing prefix as well as the spelling of a nonexistent leaf.
+# GetFullPathName alone does not expand 8.3 aliases, which could otherwise hide
+# an installation destination inside the source payload from the overlap check.
+Function QcsCanonicalPath
+  Push $0
+  Push $1
+  Push $2
+  Push $3
+  Push $4
+  StrCpy $QcsValid 0
+  StrCpy $4 ""
+  System::Call 'kernel32::GetFullPathNameW(w "$QcsPath", i ${NSIS_MAX_STRLEN}, w.r0, p 0) i.r1'
+  ${If} $1 == 0
+  ${OrIf} $1 >= ${NSIS_MAX_STRLEN}
+    Goto canonical_done
+  ${EndIf}
+  ${Do}
+    System::Call 'kernel32::GetLongPathNameW(w r0, w.r2, i ${NSIS_MAX_STRLEN}) i.r1'
+    ${If} $1 >= ${NSIS_MAX_STRLEN}
+      Goto canonical_done
+    ${EndIf}
+    ${If} $1 != 0
+      StrCpy $QcsPath "$2$4"
+      StrCpy $QcsValid 1
+      Goto canonical_done
+    ${EndIf}
+    ${GetFileName} "$0" $3
+    StrCpy $4 "\$3$4"
+    ${GetParent} "$0" $1
+    ${If} $1 == ""
+    ${OrIf} $1 == $0
+      Goto canonical_done
+    ${EndIf}
+    StrCpy $0 $1
+  ${Loop}
+  canonical_done:
+  Pop $4
+  Pop $3
+  Pop $2
+  Pop $1
+  Pop $0
+FunctionEnd
+
+# Use Windows CryptoAPI through NSIS's bundled System plug-in. No Python,
+# PowerShell, network download, third-party plug-in or SDK is needed to install.
+Function QcsVerifyFile
+  Push $0
+  Push $1
+  Push $2
+  Push $3
+  Push $4
+  Push $5
+  Push $6
+  Push $7
+  Push $8
+  Push $9
+  StrCpy $QcsValid 0
+  StrCpy $1 0
+  StrCpy $2 0
+  StrCpy $3 -1
+  StrCpy $5 0
+  System::Call 'advapi32::CryptAcquireContextW(*p.r1, p 0, p 0, i 24, i 0xF0000000) i.r0'
+  StrCmp $0 0 hash_done
+  System::Call 'advapi32::CryptCreateHash(p r1, i 0x800C, p 0, i 0, *p.r2) i.r0'
+  StrCmp $0 0 hash_done
+  System::Call 'kernel32::CreateFileW(w "$QcsPath", i 0x80000000, i 1, p 0, i 3, i 0x08000080, p 0) p.r3'
+  StrCmp $3 -1 hash_done
+  System::Call 'kernel32::GetFileSizeEx(p r3, *l.r4) i.r0'
+  StrCmp $0 0 hash_done
+  StrCmp $4 "$QcsBytes" 0 hash_done
+  System::Alloc 65536
+  Pop $5
+  StrCmp $5 0 hash_done
+  hash_read:
+    System::Call 'kernel32::ReadFile(p r3, p r5, i 65536, *i.r6, p 0) i.r0'
+    StrCmp $0 0 hash_done
+    StrCmp $6 0 hash_finish
+    System::Call 'advapi32::CryptHashData(p r2, p r5, i r6, i 0) i.r0'
+    StrCmp $0 0 hash_done
+    Goto hash_read
+  hash_finish:
+    System::Call 'advapi32::CryptGetHashParam(p r2, i 2, p r5, *i 32, i 0) i.r0'
+    StrCmp $0 0 hash_done
+    StrCpy $QcsActualDigest ""
+    StrCpy $7 $5
+    StrCpy $8 0
+    ${DoWhile} $8 < 32
+      System::Call '*$7(&i1 .r6)'
+      IntFmt $9 "%02x" $6
+      StrCpy $QcsActualDigest "$QcsActualDigest$9"
+      IntOp $7 $7 + 1
+      IntOp $8 $8 + 1
+    ${Loop}
+    ${If} $QcsActualDigest == $QcsDigest
+      StrCpy $QcsValid 1
+    ${EndIf}
+  hash_done:
+  ${If} $5 != 0
+    System::Free $5
+  ${EndIf}
+  ${If} $3 != -1
+    System::Call 'kernel32::CloseHandle(p r3)'
+  ${EndIf}
+  ${If} $2 != 0
+    System::Call 'advapi32::CryptDestroyHash(p r2)'
+  ${EndIf}
+  ${If} $1 != 0
+    System::Call 'advapi32::CryptReleaseContext(p r1, i 0)'
+  ${EndIf}
+  Pop $9
+  Pop $8
+  Pop $7
+  Pop $6
+  Pop $5
+  Pop $4
+  Pop $3
+  Pop $2
+  Pop $1
+  Pop $0
+FunctionEnd
+
+Function .onInit
+  SetShellVarContext current
+  SetRegView 64
+FunctionEnd
+Function un.onInit
+  SetShellVarContext current
+  SetRegView 64
+FunctionEnd
+
+Section "QCopilots Tool Semantic Matching"
+  AddSize @REQUIRED_KIB@
+  StrCpy $QcsPath "$INSTDIR"
+  Call QcsCanonicalPath
+  !insertmacro QCS_REQUIRE "$QcsValid" "The installation path cannot be resolved."
+  StrCpy $INSTDIR $QcsPath
+  ${GetRoot} "$INSTDIR" $0
+  StrCpy $QcsValid 1
+  ${If} $INSTDIR == $0
+  ${OrIf} $INSTDIR == "$0\"
+  ${OrIf} $INSTDIR == ""
+    StrCpy $QcsValid 0
+  ${EndIf}
+  !insertmacro QCS_REQUIRE "$QcsValid" "Choose an application directory, not a drive root."
+  # Installation and extracted source must be disjoint. This also prevents an
+  # uninstall from removing the source payload that a user is still installing.
+  StrCpy $QcsPath "$EXEDIR\payload"
+  Call QcsCanonicalPath
+  !insertmacro QCS_REQUIRE "$QcsValid" "The complete extracted payload must be next to setup.exe."
+  StrCpy $0 "$QcsPath"
+  StrCpy $1 "$INSTDIR\"
+  StrCpy $2 "$0\"
+  StrLen $3 $1
+  StrCpy $4 $2 $3
+  ${If} $4 == $1
+    StrCpy $QcsValid 0
+  ${EndIf}
+  StrLen $3 $2
+  StrCpy $4 $1 $3
+  ${If} $4 == $2
+    StrCpy $QcsValid 0
+  ${EndIf}
+  !insertmacro QCS_REQUIRE "$QcsValid" "The installation directory must be separate from the extracted payload."
+  StrCpy $QcsPath "$INSTDIR"
+  Call QcsCheckParents
+  !insertmacro QCS_REQUIRE "$QcsValid" "The installation path contains a symbolic link or junction."
+  StrCpy $0 "$INSTDIR"
+  ${Do}
+    IfFileExists "$0\*.*" disk_check
+    ${GetParent} "$0" $1
+    StrCmp $1 "" disk_fail
+    StrCmp $1 $0 disk_fail
+    StrCpy $0 $1
+  ${Loop}
+  disk_check:
+  System::Call 'kernel32::GetDiskFreeSpaceExW(w r0, *l.r1, p 0, p 0) i.r2'
+  StrCmp $2 0 disk_fail
+  System::Int64Op $1 >= @REQUIRED_BYTES@
+  Pop $QcsValid
+  Goto disk_done
+  disk_fail:
+  StrCpy $QcsValid 0
+  disk_done:
+  !insertmacro QCS_REQUIRE "$QcsValid" "Insufficient free space for the complete offline installation."
+  DetailPrint "Checking the complete offline payload..."
+@VERIFY_PAYLOAD@
+  StrCpy $QcsPath "$INSTDIR\Uninstall.exe"
+  Call QcsCheckParents
+  !insertmacro QCS_REQUIRE "$QcsValid" "Unsafe uninstaller destination path."
+  ClearErrors
+  CreateDirectory "$INSTDIR"
+  SetOutPath "$INSTDIR"
+  WriteUninstaller "$INSTDIR\Uninstall.exe"
+  !insertmacro QCS_WRITE_OK
+@INSTALL_PAYLOAD@
+  WriteRegStr HKCU "${PRODUCT_KEY}" "" "$INSTDIR"
+  WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayName" "QCopilots Tool Semantic Matching"
+  WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayVersion" "@VERSION@"
+  WriteRegStr HKCU "${UNINSTALL_KEY}" "Publisher" "QCopilots"
+  WriteRegStr HKCU "${UNINSTALL_KEY}" "InstallLocation" "$INSTDIR"
+  WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayIcon" '$\"$INSTDIR\bin\qctsm-gui.exe$\",0'
+  WriteRegStr HKCU "${UNINSTALL_KEY}" "UninstallString" '$\"$INSTDIR\Uninstall.exe$\"'
+  WriteRegStr HKCU "${UNINSTALL_KEY}" "QuietUninstallString" '$\"$INSTDIR\Uninstall.exe$\" /S'
+  WriteRegDWORD HKCU "${UNINSTALL_KEY}" "NoModify" 1
+  WriteRegDWORD HKCU "${UNINSTALL_KEY}" "NoRepair" 1
+  CreateDirectory "$SMPROGRAMS\@MENU@"
+  CreateShortCut "$SMPROGRAMS\@MENU@\QCopilots Tool Semantic Matching.lnk" "$INSTDIR\bin\qctsm-gui.exe" "" "$INSTDIR\bin\qctsm-gui.exe" 0
+  CreateShortCut "$SMPROGRAMS\@MENU@\Uninstall.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\Uninstall.exe" 0
+  !insertmacro QCS_WRITE_OK
+SectionEnd
+
+Section "Uninstall"
+@UNINSTALL_PAYLOAD@
+  Delete "$INSTDIR\Uninstall.exe"
+  RMDir "$INSTDIR"
+  ReadRegStr $0 HKCU "${UNINSTALL_KEY}" "InstallLocation"
+  ${If} $0 == $INSTDIR
+    DeleteRegKey HKCU "${UNINSTALL_KEY}"
+    DeleteRegKey HKCU "${PRODUCT_KEY}"
+    Delete "$SMPROGRAMS\@MENU@\QCopilots Tool Semantic Matching.lnk"
+    Delete "$SMPROGRAMS\@MENU@\Uninstall.lnk"
+    RMDir "$SMPROGRAMS\@MENU@"
+  ${EndIf}
+SectionEnd

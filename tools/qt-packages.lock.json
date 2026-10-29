@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "qtVersion": "6.12.0",
+  "platforms": {
+    "windows": {
+      "kit": "6.12.0/msvc2022_64",
+      "metadata": [
+        "https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/qt6_6120/qt6_6120_msvc2022_64/Updates.xml",
+        "https://download.qt.io/online/qtsdkrepository/windows_x86/extensions/qtpdf/6120/61400/msvc2022_64/Updates.xml"
+      ],
+      "archives": [
+        {
+          "module": "qtbase",
+          "package": "qt.qt6.6120.win64_msvc2022_64",
+          "version": "6.12.0-0-202609280346",
+          "url": "https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/qt6_6120/qt6_6120_msvc2022_64/qt.qt6.6120.win64_msvc2022_64/6.12.0-0-202609280346qtbase-Windows-Windows_11_24H2-MSVC2022-Windows-Windows_11_24H2-X86_64.7z",
+          "destination": "6.12.0/msvc2022_64",
+          "sha256": "219d1b86def3be418e31d704572bc4acc91b2ec373c65595c9fb12b42bf098dc",
+          "size": 40184745
+        },
+        {
+          "module": "d3dcompiler_47",
+          "package": "qt.qt6.6120.win64_msvc2022_64",
+          "version": "6.12.0-0-202609280346",
+          "url": "https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/qt6_6120/qt6_6120_msvc2022_64/qt.qt6.6120.win64_msvc2022_64/6.12.0-0-202609280346d3dcompiler_47-x64.7z",
+          "destination": "6.12.0/msvc2022_64/bin",
+          "sha256": "067506b5424849133fb4291737da010ff336be91195fd6299f47096fbf413a50",
+          "size": 1380117
+        },
+        {
+          "module": "opengl32sw",
+          "package": "qt.qt6.6120.win64_msvc2022_64",
+          "version": "6.12.0-0-202609280346",
+          "url": "https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/qt6_6120/qt6_6120_msvc2022_64/qt.qt6.6120.win64_msvc2022_64/6.12.0-0-202609280346opengl32sw-64-mesa_11_2_2-signed_sha256.7z",
+          "destination": "6.12.0/msvc2022_64/bin",
+          "sha256": "edc94ad93e8bb6a97b27932fe01a71c37dd435690eeeff2d0085880e1eda8be6",
+          "size": 5474526
+        },
+        {
+          "module": "qtsvg",
+          "package": "qt.qt6.6120.win64_msvc2022_64",
+          "version": "6.12.0-0-202609280346",
+          "url": "https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/qt6_6120/qt6_6120_msvc2022_64/qt.qt6.6120.win64_msvc2022_64/6.12.0-0-202609280346qtsvg-Windows-Windows_11_24H2-MSVC2022-Windows-Windows_11_24H2-X86_64.7z",
+          "destination": "6.12.0/msvc2022_64",
+          "sha256": "dfcad02224b71724e3314d0bc3ffc0b862dfa6e02bc4aadd39f1738f6c364c79",
+          "size": 690561
+        },
+        {
+          "module": "qttools",
+          "package": "qt.qt6.6120.win64_msvc2022_64",
+          "version": "6.12.0-0-202609280346",
+          "url": "https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/qt6_6120/qt6_6120_msvc2022_64/qt.qt6.6120.win64_msvc2022_64/6.12.0-0-202609280346qttools-Windows-Windows_11_24H2-MSVC2022-Windows-Windows_11_24H2-X86_64.7z",
+          "destination": "6.12.0/msvc2022_64",
+          "sha256": "73328e361429378df518f391ebe4d82c51e833f4d5a951692768ab5a5a1d7da5",
+          "size": 27373417
+        }
+      ]
+    },
+    "macos": {
+      "kit": "6.12.0/macos",
+      "metadata": [
+        "https://download.qt.io/online/qtsdkrepository/mac_x64/desktop/qt6_6120/qt6_6120/Updates.xml",
+        "https://download.qt.io/online/qtsdkrepository/mac_x64/extensions/qtpdf/6120/61400/clang_64/Updates.xml"
+      ],
+      "archives": [
+        {
+          "module": "qtbase",
+          "package": "qt.qt6.6120.clang_64",
+          "version": "6.12.0-0-202609280346",
+          "url": "https://download.qt.io/online/qtsdkrepository/mac_x64/desktop/qt6_6120/qt6_6120/qt.qt6.6120.clang_64/6.12.0-0-202609280346qtbase-MacOS-MacOS_26-Clang-MacOS-MacOS_26-X86_64-ARM64.7z",
+          "destination": "6.12.0/macos",
+          "sha256": "1e0df66ed17ae97997971ff481983c5c0b7497a52ef52f699725701401fd80ee",
+          "size": 31935810
+        },
+        {
+          "module": "qtsvg",
+          "package": "qt.qt6.6120.clang_64",
+          "version": "6.12.0-0-202609280346",
+          "url": "https://download.qt.io/online/qtsdkrepository/mac_x64/desktop/qt6_6120/qt6_6120/qt.qt6.6120.clang_64/6.12.0-0-202609280346qtsvg-MacOS-MacOS_26-Clang-MacOS-MacOS_26-X86_64-ARM64.7z",
+          "destination": "6.12.0/macos",
+          "sha256": "428c6d02a7bdaf832463aa97a19c1c0920a8e840c751499d05fa9e43dc69f172",
+          "size": 421333
+        },
+        {
+          "module": "qttools",
+          "package": "qt.qt6.6120.clang_64",
+          "version": "6.12.0-0-202609280346",
+          "url": "https://download.qt.io/online/qtsdkrepository/mac_x64/desktop/qt6_6120/qt6_6120/qt.qt6.6120.clang_64/6.12.0-0-202609280346qttools-MacOS-MacOS_26-Clang-MacOS-MacOS_26-X86_64-ARM64.7z",
+          "destination": "6.12.0/macos",
+          "sha256": "c503c114fbb96a2c2dad07fae4d195cb800ab498c9deb440c879e657ec14e8f8",
+          "size": 49363552
+        }
+      ]
+    },
+    "linux": {
+      "kit": "6.12.0/gcc_64",
+      "metadata": [
+        "https://download.qt.io/online/qtsdkrepository/linux_x64/desktop/qt6_6120/qt6_6120/Updates.xml",
+        "https://download.qt.io/online/qtsdkrepository/linux_x64/extensions/qtpdf/6120/61400/x86_64/Updates.xml"
+      ],
+      "archives": [
+        {
+          "module": "qtbase",
+          "package": "qt.qt6.6120.linux_gcc_64",
+          "version": "6.12.0-0-202609280346",
+          "url": "https://download.qt.io/online/qtsdkrepository/linux_x64/desktop/qt6_6120/qt6_6120/qt.qt6.6120.linux_gcc_64/6.12.0-0-202609280346qtbase-Linux-RHEL_9_6-GCC-Linux-RHEL_9_6-X86_64.7z",
+          "destination": "6.12.0/gcc_64",
+          "sha256": "943023b929d0c08eafe7341700b5ed7601284410b7afd6093f950be291d1d7cd",
+          "size": 23729678
+        },
+        {
+          "module": "qtsvg",
+          "package": "qt.qt6.6120.linux_gcc_64",
+          "version": "6.12.0-0-202609280346",
+          "url": "https://download.qt.io/online/qtsdkrepository/linux_x64/desktop/qt6_6120/qt6_6120/qt.qt6.6120.linux_gcc_64/6.12.0-0-202609280346qtsvg-Linux-RHEL_9_6-GCC-Linux-RHEL_9_6-X86_64.7z",
+          "destination": "6.12.0/gcc_64",
+          "sha256": "22a7404505a2883c54556183f19adfff1cdbea30664e34bfd4171180802142e9",
+          "size": 297464
+        },
+        {
+          "module": "qttools",
+          "package": "qt.qt6.6120.linux_gcc_64",
+          "version": "6.12.0-0-202609280346",
+          "url": "https://download.qt.io/online/qtsdkrepository/linux_x64/desktop/qt6_6120/qt6_6120/qt.qt6.6120.linux_gcc_64/6.12.0-0-202609280346qttools-Linux-RHEL_9_6-GCC-Linux-RHEL_9_6-X86_64.7z",
+          "destination": "6.12.0/gcc_64",
+          "sha256": "5d6f90961df3a1e5a57fac69bbbe6983860bad11c419a49736b84914588b4334",
+          "size": 29144192
+        }
+      ]
+    }
+  }
+}

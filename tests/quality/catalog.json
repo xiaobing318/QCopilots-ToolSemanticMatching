@@ -1,0 +1,1133 @@
+{
+  "schema_version": 1,
+  "source_id": "qctsm-quality-gis-v1",
+  "revision": "1",
+  "records": [
+    {
+      "record_id": "native:buffer",
+      "kind": "definition",
+      "capability_id": "native:buffer",
+      "name": "Buffer vector features",
+      "description": "Create polygon areas within a chosen distance of points, lines or polygons. Distance, end caps, joins and optional dissolving control the result.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "native:buffer",
+        "name": "Buffer vector features",
+        "description": "Create polygon areas within a chosen distance of points, lines or polygons. Distance, end caps, joins and optional dissolving control the result.",
+        "provider": "native"
+      },
+      "metadata": {
+        "source_path": "src/analysis/processing/qgsalgorithmbuffer.cpp",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "native:clip",
+      "kind": "definition",
+      "capability_id": "native:clip",
+      "name": "Clip vector features by polygon",
+      "description": "Keep only parts of vector input features that fall inside a polygon overlay. The output keeps input attributes.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "native:clip",
+        "name": "Clip vector features by polygon",
+        "description": "Keep only parts of vector input features that fall inside a polygon overlay. The output keeps input attributes.",
+        "provider": "native"
+      },
+      "metadata": {
+        "source_path": "src/analysis/processing/qgsalgorithmclip.cpp",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "native:dissolve",
+      "kind": "definition",
+      "capability_id": "native:dissolve",
+      "name": "Dissolve polygon boundaries",
+      "description": "Combine geometries, optionally grouping by attribute fields, and remove boundaries between adjacent or overlapping features in each group.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "native:dissolve",
+        "name": "Dissolve polygon boundaries",
+        "description": "Combine geometries, optionally grouping by attribute fields, and remove boundaries between adjacent or overlapping features in each group.",
+        "provider": "native"
+      },
+      "metadata": {
+        "source_path": "src/analysis/processing/qgsalgorithmdissolve.cpp",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "native:intersection",
+      "kind": "definition",
+      "capability_id": "native:intersection",
+      "name": "Intersect vector layers",
+      "description": "Calculate the overlapping geometry of two vector layers and include attributes from both inputs.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "native:intersection",
+        "name": "Intersect vector layers",
+        "description": "Calculate the overlapping geometry of two vector layers and include attributes from both inputs.",
+        "provider": "native"
+      },
+      "metadata": {
+        "source_path": "src/analysis/processing/qgsalgorithmintersection.cpp",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "native:union",
+      "kind": "definition",
+      "capability_id": "native:union",
+      "name": "Union vector overlays",
+      "description": "Split two polygon layers into overlapping and non-overlapping parts and combine their attribute fields.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "native:union",
+        "name": "Union vector overlays",
+        "description": "Split two polygon layers into overlapping and non-overlapping parts and combine their attribute fields.",
+        "provider": "native"
+      },
+      "metadata": {
+        "source_path": "src/analysis/processing/qgsalgorithmunion.cpp",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "native:difference",
+      "kind": "definition",
+      "capability_id": "native:difference",
+      "name": "Subtract vector overlay",
+      "description": "Remove the parts of input geometries covered by an overlay and keep the remainder of the input.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "native:difference",
+        "name": "Subtract vector overlay",
+        "description": "Remove the parts of input geometries covered by an overlay and keep the remainder of the input.",
+        "provider": "native"
+      },
+      "metadata": {
+        "source_path": "src/analysis/processing/qgsalgorithmdifference.cpp",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "native:reprojectlayer",
+      "kind": "definition",
+      "capability_id": "native:reprojectlayer",
+      "name": "Reproject a vector layer",
+      "description": "Transform feature coordinates from their source coordinate reference system into a target CRS and produce a new layer.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "native:reprojectlayer",
+        "name": "Reproject a vector layer",
+        "description": "Transform feature coordinates from their source coordinate reference system into a target CRS and produce a new layer.",
+        "provider": "native"
+      },
+      "metadata": {
+        "source_path": "src/analysis/processing/qgsalgorithmtransform.cpp",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "native:assignprojection",
+      "kind": "definition",
+      "capability_id": "native:assignprojection",
+      "name": "Assign a vector CRS",
+      "description": "Change the CRS declaration for a vector layer without transforming its numeric coordinates. Use when the original CRS metadata is missing or incorrect.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "native:assignprojection",
+        "name": "Assign a vector CRS",
+        "description": "Change the CRS declaration for a vector layer without transforming its numeric coordinates. Use when the original CRS metadata is missing or incorrect.",
+        "provider": "native"
+      },
+      "metadata": {
+        "source_path": "src/analysis/processing/qgsalgorithmassignprojection.cpp",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "native:fixgeometries",
+      "kind": "definition",
+      "capability_id": "native:fixgeometries",
+      "name": "Repair invalid geometry",
+      "description": "Attempt to construct valid geometries from invalid vector features, such as self-intersecting polygon rings.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "native:fixgeometries",
+        "name": "Repair invalid geometry",
+        "description": "Attempt to construct valid geometries from invalid vector features, such as self-intersecting polygon rings.",
+        "provider": "native"
+      },
+      "metadata": {
+        "source_path": "src/analysis/processing/qgsalgorithmfixgeometries.cpp",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "native:checkvalidity",
+      "kind": "definition",
+      "capability_id": "native:checkvalidity",
+      "name": "Check geometry validity",
+      "description": "Separate valid and invalid vector geometries and report their geometry errors without treating the diagnostic operation as a repair.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "native:checkvalidity",
+        "name": "Check geometry validity",
+        "description": "Separate valid and invalid vector geometries and report their geometry errors without treating the diagnostic operation as a repair.",
+        "provider": "native"
+      },
+      "metadata": {
+        "source_path": "src/analysis/processing/qgsalgorithmcheckvalidity.cpp",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "native:multiparttosingleparts",
+      "kind": "definition",
+      "capability_id": "native:multiparttosingleparts",
+      "name": "Split multipart features",
+      "description": "Create individual single-part features from multipart vector geometries while preserving the source attributes.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "native:multiparttosingleparts",
+        "name": "Split multipart features",
+        "description": "Create individual single-part features from multipart vector geometries while preserving the source attributes.",
+        "provider": "native"
+      },
+      "metadata": {
+        "source_path": "src/analysis/processing/qgsalgorithmmultiparttosinglepart.cpp",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "native:centroids",
+      "kind": "definition",
+      "capability_id": "native:centroids",
+      "name": "Calculate geometric centroids",
+      "description": "Create a point at the geometric center of each vector feature. A centroid is not guaranteed to lie inside a concave polygon.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "native:centroids",
+        "name": "Calculate geometric centroids",
+        "description": "Create a point at the geometric center of each vector feature. A centroid is not guaranteed to lie inside a concave polygon.",
+        "provider": "native"
+      },
+      "metadata": {
+        "source_path": "src/analysis/processing/qgsalgorithmcentroid.cpp",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "native:pointonsurface",
+      "kind": "definition",
+      "capability_id": "native:pointonsurface",
+      "name": "Create interior representative points",
+      "description": "Generate a representative point guaranteed to lie on the feature surface, useful when polygon centroids would fall outside.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "native:pointonsurface",
+        "name": "Create interior representative points",
+        "description": "Generate a representative point guaranteed to lie on the feature surface, useful when polygon centroids would fall outside.",
+        "provider": "native"
+      },
+      "metadata": {
+        "source_path": "src/analysis/processing/qgsalgorithmpointonsurface.cpp",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "native:simplifygeometries",
+      "kind": "definition",
+      "capability_id": "native:simplifygeometries",
+      "name": "Simplify vector vertices",
+      "description": "Reduce the number of vertices in lines or polygons according to a geometric tolerance while retaining the broad shape.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "native:simplifygeometries",
+        "name": "Simplify vector vertices",
+        "description": "Reduce the number of vertices in lines or polygons according to a geometric tolerance while retaining the broad shape.",
+        "provider": "native"
+      },
+      "metadata": {
+        "source_path": "src/analysis/processing/qgsalgorithmsimplify.cpp",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "native:smoothgeometry",
+      "kind": "definition",
+      "capability_id": "native:smoothgeometry",
+      "name": "Smooth vector corners",
+      "description": "Round sharp corners in line or polygon features using a smoothing process with iterations and offset controls.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "native:smoothgeometry",
+        "name": "Smooth vector corners",
+        "description": "Round sharp corners in line or polygon features using a smoothing process with iterations and offset controls.",
+        "provider": "native"
+      },
+      "metadata": {
+        "source_path": "src/analysis/processing/qgsalgorithmsmooth.cpp",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "native:extractbylocation",
+      "kind": "definition",
+      "capability_id": "native:extractbylocation",
+      "name": "Extract features by spatial relationship",
+      "description": "Write a subset of input features that satisfy a spatial predicate against another layer, such as within, intersects or disjoint.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "native:extractbylocation",
+        "name": "Extract features by spatial relationship",
+        "description": "Write a subset of input features that satisfy a spatial predicate against another layer, such as within, intersects or disjoint.",
+        "provider": "native"
+      },
+      "metadata": {
+        "source_path": "src/analysis/processing/qgsalgorithmextractbylocation.cpp",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "native:extractbyattribute",
+      "kind": "definition",
+      "capability_id": "native:extractbyattribute",
+      "name": "Extract features by attribute",
+      "description": "Write a subset of features whose selected attribute satisfies an operator and comparison value.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "native:extractbyattribute",
+        "name": "Extract features by attribute",
+        "description": "Write a subset of features whose selected attribute satisfies an operator and comparison value.",
+        "provider": "native"
+      },
+      "metadata": {
+        "source_path": "src/analysis/processing/qgsalgorithmextractbyattribute.cpp",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "native:joinattributesbylocation",
+      "kind": "definition",
+      "capability_id": "native:joinattributesbylocation",
+      "name": "Spatial attribute join",
+      "description": "Attach attribute values from spatially matching features in another vector layer using geometric predicates.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "native:joinattributesbylocation",
+        "name": "Spatial attribute join",
+        "description": "Attach attribute values from spatially matching features in another vector layer using geometric predicates.",
+        "provider": "native"
+      },
+      "metadata": {
+        "source_path": "src/analysis/processing/qgsalgorithmjoinbylocation.cpp",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "native:joinbynearest",
+      "kind": "definition",
+      "capability_id": "native:joinbynearest",
+      "name": "Join attributes from nearest features",
+      "description": "Find the closest features in another vector layer and transfer their attributes, with limits on neighbor count and distance.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "native:joinbynearest",
+        "name": "Join attributes from nearest features",
+        "description": "Find the closest features in another vector layer and transfer their attributes, with limits on neighbor count and distance.",
+        "provider": "native"
+      },
+      "metadata": {
+        "source_path": "src/analysis/processing/qgsalgorithmjoinbynearest.cpp",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "native:mergevectorlayers",
+      "kind": "definition",
+      "capability_id": "native:mergevectorlayers",
+      "name": "Merge vector layers",
+      "description": "Append features from several compatible vector layers into one output layer and reconcile their fields.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "native:mergevectorlayers",
+        "name": "Merge vector layers",
+        "description": "Append features from several compatible vector layers into one output layer and reconcile their fields.",
+        "provider": "native"
+      },
+      "metadata": {
+        "source_path": "src/analysis/processing/qgsalgorithmmergevector.cpp",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "native:fieldcalculator",
+      "kind": "definition",
+      "capability_id": "native:fieldcalculator",
+      "name": "Calculate an attribute field",
+      "description": "Create or update an output attribute using a QGIS expression such as area calculations or arithmetic on existing fields.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "native:fieldcalculator",
+        "name": "Calculate an attribute field",
+        "description": "Create or update an output attribute using a QGIS expression such as area calculations or arithmetic on existing fields.",
+        "provider": "native"
+      },
+      "metadata": {
+        "source_path": "src/analysis/processing/qgsalgorithmfieldcalculator.cpp",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "native:polygonize",
+      "kind": "definition",
+      "capability_id": "native:polygonize",
+      "name": "Build polygons from linework",
+      "description": "Construct polygon faces from connected vector lines. The source is line geometry rather than raster pixels.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "native:polygonize",
+        "name": "Build polygons from linework",
+        "description": "Construct polygon faces from connected vector lines. The source is line geometry rather than raster pixels.",
+        "provider": "native"
+      },
+      "metadata": {
+        "source_path": "src/analysis/processing/qgsalgorithmpolygonize.cpp",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "native:rastercalc",
+      "kind": "definition",
+      "capability_id": "native:rastercalc",
+      "name": "Raster expression calculator",
+      "description": "Compute a new raster from expressions combining raster bands, constants and mathematical or logical operators.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "native:rastercalc",
+        "name": "Raster expression calculator",
+        "description": "Compute a new raster from expressions combining raster bands, constants and mathematical or logical operators.",
+        "provider": "native"
+      },
+      "metadata": {
+        "source_path": "src/analysis/processing/qgsalgorithmrastercalculator.cpp",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "native:rastersampling",
+      "kind": "definition",
+      "capability_id": "native:rastersampling",
+      "name": "Sample raster values at points",
+      "description": "Read raster band values at point feature locations and attach the sampled values as point attributes.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "native:rastersampling",
+        "name": "Sample raster values at points",
+        "description": "Read raster band values at point feature locations and attach the sampled values as point attributes.",
+        "provider": "native"
+      },
+      "metadata": {
+        "source_path": "src/analysis/processing/qgsalgorithmrastersampling.cpp",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "native:rasterlayerstatistics",
+      "kind": "definition",
+      "capability_id": "native:rasterlayerstatistics",
+      "name": "Raster layer statistics",
+      "description": "Compute numeric summaries of a raster band, such as minimum, maximum, mean and standard deviation.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "native:rasterlayerstatistics",
+        "name": "Raster layer statistics",
+        "description": "Compute numeric summaries of a raster band, such as minimum, maximum, mean and standard deviation.",
+        "provider": "native"
+      },
+      "metadata": {
+        "source_path": "src/analysis/processing/qgsalgorithmrasterstatistics.cpp",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "native:dropgeometries",
+      "kind": "definition",
+      "capability_id": "native:dropgeometries",
+      "name": "Remove geometry from a table",
+      "description": "Produce an attribute-only table from vector features by removing the geometry while keeping attribute data.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "native:dropgeometries",
+        "name": "Remove geometry from a table",
+        "description": "Produce an attribute-only table from vector features by removing the geometry while keeping attribute data.",
+        "provider": "native"
+      },
+      "metadata": {
+        "source_path": "src/analysis/processing/qgsalgorithmdropgeometry.cpp",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "native:deletecolumn",
+      "kind": "definition",
+      "capability_id": "native:deletecolumn",
+      "name": "Delete attribute fields",
+      "description": "Remove selected columns from a vector layer while retaining its features and other fields.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "native:deletecolumn",
+        "name": "Delete attribute fields",
+        "description": "Remove selected columns from a vector layer while retaining its features and other fields.",
+        "provider": "native"
+      },
+      "metadata": {
+        "source_path": "src/analysis/processing/qgsalgorithmdropfields.cpp",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "native:convexhull",
+      "kind": "definition",
+      "capability_id": "native:convexhull",
+      "name": "Convex hull of features",
+      "description": "Construct the smallest convex geometry enclosing the input geometry, like stretching an elastic band around it.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "native:convexhull",
+        "name": "Convex hull of features",
+        "description": "Construct the smallest convex geometry enclosing the input geometry, like stretching an elastic band around it.",
+        "provider": "native"
+      },
+      "metadata": {
+        "source_path": "src/analysis/processing/qgsalgorithmconvexhull.cpp",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "native:boundingboxes",
+      "kind": "definition",
+      "capability_id": "native:boundingboxes",
+      "name": "Axis-aligned feature bounds",
+      "description": "Create rectangular bounding polygons aligned with the coordinate axes for the input features.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "native:boundingboxes",
+        "name": "Axis-aligned feature bounds",
+        "description": "Create rectangular bounding polygons aligned with the coordinate axes for the input features.",
+        "provider": "native"
+      },
+      "metadata": {
+        "source_path": "src/analysis/processing/qgsalgorithmboundingbox.cpp",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "gdal:warpreproject",
+      "kind": "definition",
+      "capability_id": "gdal:warpreproject",
+      "name": "Warp and reproject a raster",
+      "description": "Transform raster pixels into another CRS or resolution using a resampling method and target extent, NoData and output options.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "gdal:warpreproject",
+        "name": "Warp and reproject a raster",
+        "description": "Transform raster pixels into another CRS or resolution using a resampling method and target extent, NoData and output options.",
+        "provider": "gdal"
+      },
+      "metadata": {
+        "source_path": "python/plugins/processing/algs/gdal/warp.py",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "gdal:assignprojection",
+      "kind": "definition",
+      "capability_id": "gdal:assignprojection",
+      "name": "Assign raster projection metadata",
+      "description": "Write a raster CRS declaration without resampling or transforming the pixel grid.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "gdal:assignprojection",
+        "name": "Assign raster projection metadata",
+        "description": "Write a raster CRS declaration without resampling or transforming the pixel grid.",
+        "provider": "gdal"
+      },
+      "metadata": {
+        "source_path": "python/plugins/processing/algs/gdal/AssignProjection.py",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "gdal:cliprasterbymasklayer",
+      "kind": "definition",
+      "capability_id": "gdal:cliprasterbymasklayer",
+      "name": "Clip raster using polygon mask",
+      "description": "Crop or mask a raster with polygon boundaries, optionally changing resolution and assigning NoData outside the mask.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "gdal:cliprasterbymasklayer",
+        "name": "Clip raster using polygon mask",
+        "description": "Crop or mask a raster with polygon boundaries, optionally changing resolution and assigning NoData outside the mask.",
+        "provider": "gdal"
+      },
+      "metadata": {
+        "source_path": "python/plugins/processing/algs/gdal/ClipRasterByMask.py",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "gdal:cliprasterbyextent",
+      "kind": "definition",
+      "capability_id": "gdal:cliprasterbyextent",
+      "name": "Clip raster using rectangular extent",
+      "description": "Extract a raster window specified by a bounding rectangle rather than an irregular polygon mask.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "gdal:cliprasterbyextent",
+        "name": "Clip raster using rectangular extent",
+        "description": "Extract a raster window specified by a bounding rectangle rather than an irregular polygon mask.",
+        "provider": "gdal"
+      },
+      "metadata": {
+        "source_path": "python/plugins/processing/algs/gdal/ClipRasterByExtent.py",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "gdal:translate",
+      "kind": "definition",
+      "capability_id": "gdal:translate",
+      "name": "Convert raster format and options",
+      "description": "Translate raster data to another format or data type, with band selection and output creation options such as compression.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "gdal:translate",
+        "name": "Convert raster format and options",
+        "description": "Translate raster data to another format or data type, with band selection and output creation options such as compression.",
+        "provider": "gdal"
+      },
+      "metadata": {
+        "source_path": "python/plugins/processing/algs/gdal/translate.py",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "gdal:rasterize",
+      "kind": "definition",
+      "capability_id": "gdal:rasterize",
+      "name": "Burn vector features into raster",
+      "description": "Create a pixel grid from vector geometry using an attribute or fixed burn value and a selected cell size or image dimension.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "gdal:rasterize",
+        "name": "Burn vector features into raster",
+        "description": "Create a pixel grid from vector geometry using an attribute or fixed burn value and a selected cell size or image dimension.",
+        "provider": "gdal"
+      },
+      "metadata": {
+        "source_path": "python/plugins/processing/algs/gdal/rasterize.py",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "gdal:polygonize",
+      "kind": "definition",
+      "capability_id": "gdal:polygonize",
+      "name": "Convert raster regions into vector polygons",
+      "description": "Create vector polygons around connected raster cells sharing the same pixel value and store the value as an attribute.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "gdal:polygonize",
+        "name": "Convert raster regions into vector polygons",
+        "description": "Create vector polygons around connected raster cells sharing the same pixel value and store the value as an attribute.",
+        "provider": "gdal"
+      },
+      "metadata": {
+        "source_path": "python/plugins/processing/algs/gdal/polygonize.py",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "gdal:contour",
+      "kind": "definition",
+      "capability_id": "gdal:contour",
+      "name": "Generate elevation contour lines",
+      "description": "Create vector isolines from a raster elevation surface at a chosen vertical interval.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "gdal:contour",
+        "name": "Generate elevation contour lines",
+        "description": "Create vector isolines from a raster elevation surface at a chosen vertical interval.",
+        "provider": "gdal"
+      },
+      "metadata": {
+        "source_path": "python/plugins/processing/algs/gdal/contour.py",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "gdal:hillshade",
+      "kind": "definition",
+      "capability_id": "gdal:hillshade",
+      "name": "Shaded relief from elevation",
+      "description": "Render terrain shading from a digital elevation model using a simulated sun azimuth and altitude.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "gdal:hillshade",
+        "name": "Shaded relief from elevation",
+        "description": "Render terrain shading from a digital elevation model using a simulated sun azimuth and altitude.",
+        "provider": "gdal"
+      },
+      "metadata": {
+        "source_path": "python/plugins/processing/algs/gdal/hillshade.py",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "gdal:slope",
+      "kind": "definition",
+      "capability_id": "gdal:slope",
+      "name": "Terrain slope",
+      "description": "Calculate terrain steepness from a digital elevation raster in degrees or percent.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "gdal:slope",
+        "name": "Terrain slope",
+        "description": "Calculate terrain steepness from a digital elevation raster in degrees or percent.",
+        "provider": "gdal"
+      },
+      "metadata": {
+        "source_path": "python/plugins/processing/algs/gdal/slope.py",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "gdal:aspect",
+      "kind": "definition",
+      "capability_id": "gdal:aspect",
+      "name": "Terrain aspect",
+      "description": "Calculate the compass direction faced by terrain slopes from an elevation raster.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "gdal:aspect",
+        "name": "Terrain aspect",
+        "description": "Calculate the compass direction faced by terrain slopes from an elevation raster.",
+        "provider": "gdal"
+      },
+      "metadata": {
+        "source_path": "python/plugins/processing/algs/gdal/aspect.py",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "gdal:fillnodata",
+      "kind": "definition",
+      "capability_id": "gdal:fillnodata",
+      "name": "Interpolate raster NoData gaps",
+      "description": "Fill missing raster cells by interpolation from surrounding valid pixels within a search distance.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "gdal:fillnodata",
+        "name": "Interpolate raster NoData gaps",
+        "description": "Fill missing raster cells by interpolation from surrounding valid pixels within a search distance.",
+        "provider": "gdal"
+      },
+      "metadata": {
+        "source_path": "python/plugins/processing/algs/gdal/fillnodata.py",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "gdal:merge",
+      "kind": "definition",
+      "capability_id": "gdal:merge",
+      "name": "Mosaic raster datasets",
+      "description": "Combine neighboring or overlapping raster files into a single raster, with optional separate bands and NoData handling.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "gdal:merge",
+        "name": "Mosaic raster datasets",
+        "description": "Combine neighboring or overlapping raster files into a single raster, with optional separate bands and NoData handling.",
+        "provider": "gdal"
+      },
+      "metadata": {
+        "source_path": "python/plugins/processing/algs/gdal/merge.py",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "gdal:proximity",
+      "kind": "definition",
+      "capability_id": "gdal:proximity",
+      "name": "Raster proximity distance",
+      "description": "Calculate the distance from raster cells to specified target pixel values and produce a distance raster.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "gdal:proximity",
+        "name": "Raster proximity distance",
+        "description": "Calculate the distance from raster cells to specified target pixel values and produce a distance raster.",
+        "provider": "gdal"
+      },
+      "metadata": {
+        "source_path": "python/plugins/processing/algs/gdal/proximity.py",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "gdal:buildvirtualraster",
+      "kind": "definition",
+      "capability_id": "gdal:buildvirtualraster",
+      "name": "Build virtual raster mosaic",
+      "description": "Create a lightweight VRT referencing multiple raster sources without copying every pixel into a new physical mosaic.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "gdal:buildvirtualraster",
+        "name": "Build virtual raster mosaic",
+        "description": "Create a lightweight VRT referencing multiple raster sources without copying every pixel into a new physical mosaic.",
+        "provider": "gdal"
+      },
+      "metadata": {
+        "source_path": "python/plugins/processing/algs/gdal/buildvrt.py",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "gdal:gdalinfo",
+      "kind": "definition",
+      "capability_id": "gdal:gdalinfo",
+      "name": "Inspect raster dataset information",
+      "description": "Read raster driver, dimensions, georeferencing, bands and metadata for diagnostic inspection.",
+      "available": true,
+      "payload": {
+        "algorithm_id": "gdal:gdalinfo",
+        "name": "Inspect raster dataset information",
+        "description": "Read raster driver, dimensions, georeferencing, bands and metadata for diagnostic inspection.",
+        "provider": "gdal"
+      },
+      "metadata": {
+        "source_path": "python/plugins/processing/algs/gdal/gdalinfo.py",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "get_project_crs",
+      "kind": "definition",
+      "capability_id": "get_project_crs",
+      "name": "Read project CRS",
+      "description": "Report the coordinate reference system used by the current QGIS project.",
+      "available": true,
+      "payload": {
+        "name": "get_project_crs",
+        "description": "Report the coordinate reference system used by the current QGIS project."
+      },
+      "metadata": {
+        "source_path": "python/plugins/qcopilots_common/interactive_layer_tools.py",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "set_project_crs",
+      "kind": "definition",
+      "capability_id": "set_project_crs",
+      "name": "Set project CRS",
+      "description": "Change the QGIS project display coordinate reference system from an authority identifier or WKT.",
+      "available": true,
+      "payload": {
+        "name": "set_project_crs",
+        "description": "Change the QGIS project display coordinate reference system from an authority identifier or WKT."
+      },
+      "metadata": {
+        "source_path": "python/plugins/qcopilots_common/interactive_layer_tools.py",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "get_layer_metadata",
+      "kind": "definition",
+      "capability_id": "get_layer_metadata",
+      "name": "Inspect map layer metadata",
+      "description": "Read a layer's geometry or raster type, CRS, extent, fields and type-specific metadata.",
+      "available": true,
+      "payload": {
+        "name": "get_layer_metadata",
+        "description": "Read a layer's geometry or raster type, CRS, extent, fields and type-specific metadata."
+      },
+      "metadata": {
+        "source_path": "python/plugins/qcopilots_common/interactive_layer_tools.py",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "list_map_layers",
+      "kind": "definition",
+      "capability_id": "list_map_layers",
+      "name": "List loaded project layers",
+      "description": "Enumerate the layers currently present in the QGIS project.",
+      "available": true,
+      "payload": {
+        "name": "list_map_layers",
+        "description": "Enumerate the layers currently present in the QGIS project."
+      },
+      "metadata": {
+        "source_path": "python/plugins/qcopilots_common/interactive_layer_tools.py",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "load_map_layer",
+      "kind": "definition",
+      "capability_id": "load_map_layer",
+      "name": "Load a map data source",
+      "description": "Open a map layer from a file, provider URI, tile endpoint or supported service and optionally add it to the current project.",
+      "available": true,
+      "payload": {
+        "name": "load_map_layer",
+        "description": "Open a map layer from a file, provider URI, tile endpoint or supported service and optionally add it to the current project."
+      },
+      "metadata": {
+        "source_path": "python/plugins/qcopilots_common/interactive_layer_tools.py",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "query_vector_features",
+      "kind": "definition",
+      "capability_id": "query_vector_features",
+      "name": "Read vector feature rows",
+      "description": "Fetch a bounded page of feature attributes and optionally geometry from a vector layer.",
+      "available": true,
+      "payload": {
+        "name": "query_vector_features",
+        "description": "Fetch a bounded page of feature attributes and optionally geometry from a vector layer."
+      },
+      "metadata": {
+        "source_path": "python/plugins/qcopilots_common/interactive_layer_tools.py",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "set_vector_selection",
+      "kind": "definition",
+      "capability_id": "set_vector_selection",
+      "name": "Change selected vector features",
+      "description": "Replace, add to, remove from or clear a vector layer selection without creating a new dataset.",
+      "available": true,
+      "payload": {
+        "name": "set_vector_selection",
+        "description": "Replace, add to, remove from or clear a vector layer selection without creating a new dataset."
+      },
+      "metadata": {
+        "source_path": "python/plugins/qcopilots_common/interactive_layer_tools.py",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "get_raster_statistics",
+      "kind": "definition",
+      "capability_id": "get_raster_statistics",
+      "name": "Read raster band statistics",
+      "description": "Calculate bounded statistics for a band of an existing QGIS raster layer.",
+      "available": true,
+      "payload": {
+        "name": "get_raster_statistics",
+        "description": "Calculate bounded statistics for a band of an existing QGIS raster layer."
+      },
+      "metadata": {
+        "source_path": "python/plugins/qcopilots_common/interactive_layer_tools.py",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "apply_layer_style",
+      "kind": "definition",
+      "capability_id": "apply_layer_style",
+      "name": "Apply a saved layer style",
+      "description": "Load a QML or SLD style from a local file and apply it to a QGIS layer.",
+      "available": true,
+      "payload": {
+        "name": "apply_layer_style",
+        "description": "Load a QML or SLD style from a local file and apply it to a QGIS layer."
+      },
+      "metadata": {
+        "source_path": "python/plugins/qcopilots_common/interactive_layer_tools.py",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "configure_vector_labels",
+      "kind": "definition",
+      "capability_id": "configure_vector_labels",
+      "name": "Configure vector labels",
+      "description": "Enable or disable labels based on a field or expression for a vector layer.",
+      "available": true,
+      "payload": {
+        "name": "configure_vector_labels",
+        "description": "Enable or disable labels based on a field or expression for a vector layer."
+      },
+      "metadata": {
+        "source_path": "python/plugins/qcopilots_common/interactive_layer_tools.py",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "bin.gdalwarp",
+      "kind": "definition",
+      "capability_id": "bin.gdalwarp",
+      "name": "gdalwarp command",
+      "description": "Execute GDAL raster warping and resampling with exact argv. Supports target CRS, output dimensions, Lanczos interpolation, NoData, output type and GeoTIFF compression creation options.",
+      "available": true,
+      "payload": {
+        "binary_id": "bin.gdalwarp",
+        "name": "gdalwarp command",
+        "description": "Execute GDAL raster warping and resampling with exact argv. Supports target CRS, output dimensions, Lanczos interpolation, NoData, output type and GeoTIFF compression creation options."
+      },
+      "metadata": {
+        "source_path": "python/plugins/qcopilots_mcp_server_qgis_binary/qgis_binaries.json",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "bin.gdal_translate",
+      "kind": "definition",
+      "capability_id": "bin.gdal_translate",
+      "name": "gdal_translate command",
+      "description": "Execute GDAL raster translation with exact argv for format conversion, selected bands, output type and creation options.",
+      "available": true,
+      "payload": {
+        "binary_id": "bin.gdal_translate",
+        "name": "gdal_translate command",
+        "description": "Execute GDAL raster translation with exact argv for format conversion, selected bands, output type and creation options."
+      },
+      "metadata": {
+        "source_path": "python/plugins/qcopilots_mcp_server_qgis_binary/qgis_binaries.json",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "bin.ogr2ogr",
+      "kind": "definition",
+      "capability_id": "bin.ogr2ogr",
+      "name": "ogr2ogr command",
+      "description": "Execute GDAL vector dataset conversion with exact argv, including output format, coordinate transformations, feature filtering and attribute selection.",
+      "available": true,
+      "payload": {
+        "binary_id": "bin.ogr2ogr",
+        "name": "ogr2ogr command",
+        "description": "Execute GDAL vector dataset conversion with exact argv, including output format, coordinate transformations, feature filtering and attribute selection."
+      },
+      "metadata": {
+        "source_path": "python/plugins/qcopilots_mcp_server_qgis_binary/qgis_binaries.json",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "example:gdalwarp-lanczos-geotiff",
+      "kind": "example",
+      "capability_id": "bin.gdalwarp",
+      "name": "Lanczos raster warp example",
+      "description": "A command example requesting Lanczos resampling, Byte output, tiled GeoTIFF and DEFLATE compression.",
+      "payload": {
+        "binary_id": "bin.gdalwarp",
+        "confirmed_risk": true,
+        "client_request_id": "example-only-do-not-execute",
+        "arguments": [
+          "--config",
+          "GDAL_PAM_ENABLED",
+          "NO",
+          "-of",
+          "GTiff",
+          "-r",
+          "lanczos",
+          "-ts",
+          "30000",
+          "30000",
+          "-ot",
+          "Byte",
+          "-dstnodata",
+          "0",
+          "-wm",
+          "16",
+          "-wo",
+          "NUM_THREADS=1",
+          "-co",
+          "TILED=YES",
+          "-co",
+          "COMPRESS=DEFLATE",
+          "-co",
+          "ZLEVEL=9",
+          "-co",
+          "NUM_THREADS=1",
+          "C:/GIS/fixtures/input-dem.tif",
+          "C:/GIS/results/warped-output.tif"
+        ]
+      },
+      "available": true,
+      "metadata": {
+        "definition_id": "bin.gdalwarp",
+        "fixture_scope": "example-only-not-executable"
+      }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": {"major": 3, "minor": 28, "patch": 0},
+  "configurePresets": [{"name":"qctsm-release","generator":"Ninja","binaryDir":"$env{QCOPILOTS_TOOL_SEMANTIC_MATCHING_BUILD_ROOT}/$env{QCOPILOTS_TOOL_SEMANTIC_MATCHING_VARIANT}/Release","cacheVariables":{"CMAKE_BUILD_TYPE":"Release","CMAKE_PREFIX_PATH":"$env{QCOPILOTS_TOOL_SEMANTIC_MATCHING_QT_PREFIX}","QCOPILOTS_TOOL_SEMANTIC_MATCHING_VARIANT":"$env{QCOPILOTS_TOOL_SEMANTIC_MATCHING_VARIANT}"}}],
+  "buildPresets":[{"name":"qctsm-release","configurePreset":"qctsm-release"}],
+  "testPresets":[{"name":"qctsm-release","configurePreset":"qctsm-release","output":{"outputOnFailure":true},"execution":{"noTestsAction":"error"}}]
+}

@@ -1,0 +1,603 @@
+{
+  "schema_version": 1,
+  "dataset_id": "qctsm-gis-multilingual-v1",
+  "revision": "1",
+  "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+  "top_n": 8,
+  "minimum_recall": 0.9,
+  "label_policy": "Every expected ID is relevant. Recall is the fraction of expected capabilities found, averaged over all queries. IDs refer to native algorithm/tool identifiers.",
+  "queries": [
+    {
+      "id": "gis-001",
+      "language": "zh",
+      "query": "为道路生成两侧各五百米的缓冲区",
+      "expected": [
+        "native:buffer"
+      ]
+    },
+    {
+      "id": "gis-002",
+      "language": "en",
+      "query": "Create a setback polygon around each school point",
+      "expected": [
+        "native:buffer"
+      ]
+    },
+    {
+      "id": "gis-003",
+      "language": "zh",
+      "query": "按县界裁剪道路矢量，只保留县内的线段",
+      "expected": [
+        "native:clip"
+      ]
+    },
+    {
+      "id": "gis-004",
+      "language": "en",
+      "query": "Trim a vector layer to the county polygon boundary",
+      "expected": [
+        "native:clip"
+      ]
+    },
+    {
+      "id": "gis-005",
+      "language": "zh",
+      "query": "按乡镇名称合并地块并消除内部边界",
+      "expected": [
+        "native:dissolve"
+      ]
+    },
+    {
+      "id": "gis-006",
+      "language": "en",
+      "query": "Dissolve touching parcels by their district field",
+      "expected": [
+        "native:dissolve"
+      ]
+    },
+    {
+      "id": "gis-007",
+      "language": "zh",
+      "query": "获取保护区和地块的重叠区域，并保留两边的属性",
+      "expected": [
+        "native:intersection"
+      ]
+    },
+    {
+      "id": "gis-008",
+      "language": "en",
+      "query": "Intersect two polygon layers and carry attributes from both",
+      "expected": [
+        "native:intersection"
+      ]
+    },
+    {
+      "id": "gis-009",
+      "language": "zh",
+      "query": "把两组面做联合叠加，重叠和不重叠部分都保留",
+      "expected": [
+        "native:union"
+      ]
+    },
+    {
+      "id": "gis-010",
+      "language": "en",
+      "query": "Overlay union retaining the non-overlap of both polygon layers",
+      "expected": [
+        "native:union"
+      ]
+    },
+    {
+      "id": "gis-011",
+      "language": "zh",
+      "query": "从开发区范围中扣除自然保护区",
+      "expected": [
+        "native:difference"
+      ]
+    },
+    {
+      "id": "gis-012",
+      "language": "en",
+      "query": "Erase the overlay polygons from the input parcels",
+      "expected": [
+        "native:difference"
+      ]
+    },
+    {
+      "id": "gis-013",
+      "language": "zh",
+      "query": "把矢量图层的坐标真正转换到 EPSG:3857",
+      "expected": [
+        "native:reprojectlayer"
+      ]
+    },
+    {
+      "id": "gis-014",
+      "language": "en",
+      "query": "Reproject vector feature coordinates into a different CRS",
+      "expected": [
+        "native:reprojectlayer"
+      ]
+    },
+    {
+      "id": "gis-015",
+      "language": "zh",
+      "query": "这份矢量缺少坐标系声明，补写 CRS 但不要改变坐标值",
+      "expected": [
+        "native:assignprojection"
+      ]
+    },
+    {
+      "id": "gis-016",
+      "language": "en",
+      "query": "Assign a CRS label to a vector dataset without coordinate transformation",
+      "expected": [
+        "native:assignprojection"
+      ]
+    },
+    {
+      "id": "gis-017",
+      "language": "zh",
+      "query": "修复面图层里的自相交和无效几何",
+      "expected": [
+        "native:fixgeometries"
+      ]
+    },
+    {
+      "id": "gis-018",
+      "language": "en",
+      "query": "Repair self-intersecting polygon geometries",
+      "expected": [
+        "native:fixgeometries"
+      ]
+    },
+    {
+      "id": "gis-019",
+      "language": "zh",
+      "query": "只检查几何是否有效并输出错误报告，不要修复",
+      "expected": [
+        "native:checkvalidity"
+      ]
+    },
+    {
+      "id": "gis-020",
+      "language": "en",
+      "query": "Diagnose invalid vector geometries and separate errors",
+      "expected": [
+        "native:checkvalidity"
+      ]
+    },
+    {
+      "id": "gis-021",
+      "language": "zh",
+      "query": "把多部件面拆成各自独立的单部件要素",
+      "expected": [
+        "native:multiparttosingleparts"
+      ]
+    },
+    {
+      "id": "gis-022",
+      "language": "en",
+      "query": "Explode multipart polygons into single-part features",
+      "expected": [
+        "native:multiparttosingleparts"
+      ]
+    },
+    {
+      "id": "gis-023",
+      "language": "zh",
+      "query": "计算每个面的几何质心，即使它落在面外也可以",
+      "expected": [
+        "native:centroids"
+      ]
+    },
+    {
+      "id": "gis-024",
+      "language": "en",
+      "query": "Calculate geometric centroids for polygon features",
+      "expected": [
+        "native:centroids"
+      ]
+    },
+    {
+      "id": "gis-025",
+      "language": "zh",
+      "query": "每个凹多边形取一个代表点，必须确保在面内部",
+      "expected": [
+        "native:pointonsurface"
+      ]
+    },
+    {
+      "id": "gis-026",
+      "language": "en",
+      "query": "Place a representative point guaranteed to lie inside each polygon",
+      "expected": [
+        "native:pointonsurface"
+      ]
+    },
+    {
+      "id": "gis-027",
+      "language": "zh",
+      "query": "按容差减少道路折线的顶点数量",
+      "expected": [
+        "native:simplifygeometries"
+      ]
+    },
+    {
+      "id": "gis-028",
+      "language": "en",
+      "query": "Reduce line vertex count using a distance tolerance",
+      "expected": [
+        "native:simplifygeometries"
+      ]
+    },
+    {
+      "id": "gis-029",
+      "language": "zh",
+      "query": "让边界尖角圆滑些，使用多次迭代平滑",
+      "expected": [
+        "native:smoothgeometry"
+      ]
+    },
+    {
+      "id": "gis-030",
+      "language": "en",
+      "query": "Smooth sharp corners of polygon boundaries",
+      "expected": [
+        "native:smoothgeometry"
+      ]
+    },
+    {
+      "id": "gis-031",
+      "language": "zh",
+      "query": "把行政区内的点提取成新的矢量数据集",
+      "expected": [
+        "native:extractbylocation"
+      ]
+    },
+    {
+      "id": "gis-032",
+      "language": "en",
+      "query": "Extract features meeting a spatial predicate into a new layer",
+      "expected": [
+        "native:extractbylocation"
+      ]
+    },
+    {
+      "id": "gis-033",
+      "language": "zh",
+      "query": "提取人口字段超过十万的行政区形成新图层",
+      "expected": [
+        "native:extractbyattribute"
+      ]
+    },
+    {
+      "id": "gis-034",
+      "language": "en",
+      "query": "Write features whose population attribute exceeds a threshold",
+      "expected": [
+        "native:extractbyattribute"
+      ]
+    },
+    {
+      "id": "gis-035",
+      "language": "zh",
+      "query": "根据空间位置把所属行政区属性连接到点图层",
+      "expected": [
+        "native:joinattributesbylocation"
+      ]
+    },
+    {
+      "id": "gis-036",
+      "language": "en",
+      "query": "Transfer polygon attributes to spatially matching point features",
+      "expected": [
+        "native:joinattributesbylocation"
+      ]
+    },
+    {
+      "id": "gis-037",
+      "language": "zh",
+      "query": "给每个村庄附上距离最近医院的属性",
+      "expected": [
+        "native:joinbynearest"
+      ]
+    },
+    {
+      "id": "gis-038",
+      "language": "en",
+      "query": "Join attributes of the closest facility to each feature",
+      "expected": [
+        "native:joinbynearest"
+      ]
+    },
+    {
+      "id": "gis-039",
+      "language": "zh",
+      "query": "将多个同类型道路图层追加合并成一个图层",
+      "expected": [
+        "native:mergevectorlayers"
+      ]
+    },
+    {
+      "id": "gis-040",
+      "language": "en",
+      "query": "Append several vector datasets into a single layer",
+      "expected": [
+        "native:mergevectorlayers"
+      ]
+    },
+    {
+      "id": "gis-041",
+      "language": "zh",
+      "query": "利用表达式新增一个面积属性字段",
+      "expected": [
+        "native:fieldcalculator"
+      ]
+    },
+    {
+      "id": "gis-042",
+      "language": "en",
+      "query": "Calculate a new attribute column using a QGIS expression",
+      "expected": [
+        "native:fieldcalculator"
+      ]
+    },
+    {
+      "id": "gis-043",
+      "language": "zh",
+      "query": "把封闭的矢量线网构造成面",
+      "expected": [
+        "native:polygonize"
+      ]
+    },
+    {
+      "id": "gis-044",
+      "language": "en",
+      "query": "Build polygon faces from connected vector linework",
+      "expected": [
+        "native:polygonize"
+      ]
+    },
+    {
+      "id": "gis-045",
+      "language": "mixed",
+      "query": "用 raster band 表达式计算 NDVI 新栅格",
+      "expected": [
+        "native:rastercalc"
+      ]
+    },
+    {
+      "id": "gis-046",
+      "language": "mixed",
+      "query": "在监测点位置 sample DEM 的像元值到属性表",
+      "expected": [
+        "native:rastersampling"
+      ]
+    },
+    {
+      "id": "gis-047",
+      "language": "zh",
+      "query": "将影像重投影并使用双线性重采样",
+      "expected": [
+        "gdal:warpreproject"
+      ]
+    },
+    {
+      "id": "gis-048",
+      "language": "en",
+      "query": "Warp a raster into another projection with bilinear resampling",
+      "expected": [
+        "gdal:warpreproject"
+      ]
+    },
+    {
+      "id": "gis-049",
+      "language": "zh",
+      "query": "只设置影像的投影元数据，不改动像元网格",
+      "expected": [
+        "gdal:assignprojection"
+      ]
+    },
+    {
+      "id": "gis-050",
+      "language": "en",
+      "query": "Assign raster projection metadata without resampling pixels",
+      "expected": [
+        "gdal:assignprojection"
+      ]
+    },
+    {
+      "id": "gis-051",
+      "language": "zh",
+      "query": "用不规则流域多边形作为掩膜裁剪 DEM",
+      "expected": [
+        "gdal:cliprasterbymasklayer"
+      ]
+    },
+    {
+      "id": "gis-052",
+      "language": "en",
+      "query": "Crop an elevation raster to an irregular watershed mask polygon",
+      "expected": [
+        "gdal:cliprasterbymasklayer"
+      ]
+    },
+    {
+      "id": "gis-053",
+      "language": "zh",
+      "query": "根据给定矩形范围裁剪栅格窗口",
+      "expected": [
+        "gdal:cliprasterbyextent"
+      ]
+    },
+    {
+      "id": "gis-054",
+      "language": "en",
+      "query": "Extract raster pixels inside a rectangular bounding extent",
+      "expected": [
+        "gdal:cliprasterbyextent"
+      ]
+    },
+    {
+      "id": "gis-055",
+      "language": "mixed",
+      "query": "把分类 raster 的相同像元区域转为 vector polygons",
+      "expected": [
+        "gdal:polygonize"
+      ]
+    },
+    {
+      "id": "gis-056",
+      "language": "mixed",
+      "query": "把土地利用面按 category 字段 burn 到栅格网格",
+      "expected": [
+        "gdal:rasterize"
+      ]
+    },
+    {
+      "id": "gis-057",
+      "language": "zh",
+      "query": "从数字高程模型生成每十米一条等高线",
+      "expected": [
+        "gdal:contour"
+      ]
+    },
+    {
+      "id": "gis-058",
+      "language": "en",
+      "query": "Generate contour isolines at ten-meter elevation intervals",
+      "expected": [
+        "gdal:contour"
+      ]
+    },
+    {
+      "id": "gis-059",
+      "language": "zh",
+      "query": "根据太阳方位角和高度角制作地形阴影",
+      "expected": [
+        "gdal:hillshade"
+      ]
+    },
+    {
+      "id": "gis-060",
+      "language": "en",
+      "query": "Render shaded relief from a DEM with a chosen sun angle",
+      "expected": [
+        "gdal:hillshade"
+      ]
+    },
+    {
+      "id": "gis-061",
+      "language": "zh",
+      "query": "根据 DEM 计算坡度，结果以度为单位",
+      "expected": [
+        "gdal:slope"
+      ]
+    },
+    {
+      "id": "gis-062",
+      "language": "en",
+      "query": "Calculate terrain slope steepness in degrees",
+      "expected": [
+        "gdal:slope"
+      ]
+    },
+    {
+      "id": "gis-063",
+      "language": "zh",
+      "query": "计算山坡朝向的罗盘方位",
+      "expected": [
+        "gdal:aspect"
+      ]
+    },
+    {
+      "id": "gis-064",
+      "language": "en",
+      "query": "Determine the compass direction faced by terrain slopes",
+      "expected": [
+        "gdal:aspect"
+      ]
+    },
+    {
+      "id": "gis-065",
+      "language": "zh",
+      "query": "用周围有效像元插值填补栅格 NoData 空洞",
+      "expected": [
+        "gdal:fillnodata"
+      ]
+    },
+    {
+      "id": "gis-066",
+      "language": "en",
+      "query": "Interpolate missing raster cells from nearby valid pixels",
+      "expected": [
+        "gdal:fillnodata"
+      ]
+    },
+    {
+      "id": "gis-067",
+      "language": "mixed",
+      "query": "构建 VRT 虚拟镶嵌，不复制所有影像像元",
+      "expected": [
+        "gdal:buildvirtualraster"
+      ]
+    },
+    {
+      "id": "gis-068",
+      "language": "mixed",
+      "query": "用 gdalwarp 的 argv 做 Lanczos 重采样，输出 Byte、GTiff、DEFLATE 压缩",
+      "expected": [
+        "bin.gdalwarp"
+      ]
+    },
+    {
+      "id": "gis-069",
+      "language": "zh",
+      "query": "读取当前 QGIS 工程使用的坐标参考系统",
+      "expected": [
+        "get_project_crs"
+      ]
+    },
+    {
+      "id": "gis-070",
+      "language": "en",
+      "query": "What coordinate reference system is the current project using?",
+      "expected": [
+        "get_project_crs"
+      ]
+    },
+    {
+      "id": "gis-071",
+      "language": "zh",
+      "query": "列出工程已经加载的地图图层",
+      "expected": [
+        "list_map_layers"
+      ]
+    },
+    {
+      "id": "gis-072",
+      "language": "en",
+      "query": "List the layers currently loaded in this QGIS project",
+      "expected": [
+        "list_map_layers"
+      ]
+    },
+    {
+      "id": "gis-073",
+      "language": "mixed",
+      "query": "把已有 QML style 应用到道路图层",
+      "expected": [
+        "apply_layer_style"
+      ]
+    },
+    {
+      "id": "gis-074",
+      "language": "mixed",
+      "query": "根据 name field 打开矢量图层 labels",
+      "expected": [
+        "configure_vector_labels"
+      ]
+    }
+  ]
+}

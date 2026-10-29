@@ -1,0 +1,6 @@
+add_library(qctsm-retrieval STATIC retrieval.cpp retrieval.h)
+add_library(qctsm::retrieval ALIAS qctsm-retrieval)
+target_compile_features(qctsm-retrieval PUBLIC cxx_std_20)
+target_include_directories(qctsm-retrieval PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/..")
+target_link_libraries(qctsm-retrieval PUBLIC Qt6::Core PRIVATE SQLite::SQLite3)
+set_target_properties(qctsm-retrieval PROPERTIES POSITION_INDEPENDENT_CODE ON)

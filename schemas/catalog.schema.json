@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/xiaobing318/QCopilots-ToolSemanticMatching/main/schemas/catalog.schema.json",
+  "title": "QCTSM capability catalog snapshot v1",
+  "description": "A complete replacement snapshot for one source. Original payload objects are retained without field rewriting.",
+  "type": "object",
+  "required": ["schema_version", "source_id", "revision", "records"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "source_id": {"type": "string", "minLength": 1, "pattern": "\\S"},
+    "revision": {"type": "string", "description": "An opaque caller-owned revision. Reusing a revision with different content is invalid."},
+    "expected_revision": {"type": ["string", "null"], "description": "Optional optimistic concurrency precondition. A string must match the current source revision. Null requires the source not to exist. Omission replaces without a revision precondition."},
+    "force_rebuild": {"type": "boolean", "default": false, "description": "Recompute available records for the active embedding profile while retaining existing compatible vectors until replacements are published. Does not bypass revision preconditions."},
+    "records": {
+      "type": "array",
+      "maxItems": 50000,
+      "items": {
+        "oneOf": [
+          {"$ref": "#/$defs/record"},
+          {"$ref": "#/$defs/rawInvocation"}
+        ]
+      }
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "record": {
+      "title": "Definition or invocation example envelope",
+      "type": "object",
+      "required": ["payload"],
+      "properties": {
+        "record_id": {"type": "string", "description": "Unique within source_id. Omission or an empty value selects a canonical content hash."},
+        "kind": {"enum": ["definition", "example"], "default": "definition"},
+        "capability_id": {"type": "string", "description": "Groups a definition and its invocation examples. Omission permits inference from payload identifiers."},
+        "payload": {"type": "object", "additionalProperties": true},
+        "name": {"type": "string"},
+        "description": {"type": "string"},
+        "tags": {"type": "array", "items": {"type": "string"}},
+        "available": {"type": "boolean", "default": true},
+        "metadata": {"type": "object", "additionalProperties": true}
+      },
+      "additionalProperties": true
+    },
+    "rawInvocation": {
+      "title": "Unwrapped invocation JSON",
+      "description": "A record with no payload field is imported as an example. Use an envelope when the original JSON itself has a payload field.",
+      "type": "object",
+      "not": {"required": ["payload"]},
+      "additionalProperties": true
+    }
+  }
+}

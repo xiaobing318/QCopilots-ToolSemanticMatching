@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "upstream": {
+    "repository": "https://github.com/ggml-org/llama.cpp",
+    "tag": "v0.7.0",
+    "commit": "620d2225cc436ab0b001e3200e590e3b286ef9ab"
+  },
+  "variants": [
+    {"id":"windows-x64-cpu","packageVariant":"windows-x64-cpu","os":"windows","arch":"x64","backend":"cpu","runner":"windows-2022","generators":["NSIS","ZIP"],"toolkitVersion":"","gpuTargets":[],"upstreamJob":"windows-cpu"},
+    {"id":"windows-x64-vulkan","packageVariant":"windows-x64-vulkan-1.4.357.0","os":"windows","arch":"x64","backend":"vulkan","runner":"windows-2022","generators":["NSIS","ZIP"],"toolkitVersion":"1.4.357.0","gpuTargets":[],"upstreamJob":"windows"},
+    {"id":"windows-x64-rocm","packageVariant":"windows-x64-rocm-10.0.0","os":"windows","arch":"x64","backend":"hip","runner":"windows-2022","generators":["NSIS","ZIP"],"toolkitVersion":"10.0.0","gpuTargets":["gfx1200","gfx1201"],"upstreamJob":"windows-rocm"},
+    {"id":"windows-x64-cuda-12.4","packageVariant":"windows-x64-cuda-12.4","os":"windows","arch":"x64","backend":"cuda","runner":"windows-2022","generators":["NSIS","ZIP"],"toolkitVersion":"12.4","cudaLabel":"12.4","gpuTargets":[],"upstreamJob":"windows-cuda"},
+    {"id":"windows-x64-cuda-13.4","packageVariant":"windows-x64-cuda-13.4","os":"windows","arch":"x64","backend":"cuda","runner":"windows-2022","generators":["NSIS","ZIP"],"toolkitVersion":"13.4","cudaLabel":"13.4","gpuTargets":[],"upstreamJob":"windows-cuda"},
+    {"id":"linux-x64-cpu","packageVariant":"linux-x64-cpu","os":"linux","arch":"x64","backend":"cpu","runner":"ubuntu-22.04","generators":["DEB","TGZ"],"toolkitVersion":"","gpuTargets":[],"upstreamJob":"ubuntu-cpu"},
+    {"id":"linux-x64-vulkan","packageVariant":"linux-x64-vulkan-1.4.313.0","os":"linux","arch":"x64","backend":"vulkan","runner":"ubuntu-22.04","generators":["DEB","TGZ"],"toolkitVersion":"1.4.313.0","gpuTargets":[],"upstreamJob":"ubuntu-vulkan"},
+    {"id":"linux-x64-rocm","packageVariant":"linux-x64-rocm-10.0.0","os":"linux","arch":"x64","backend":"hip","runner":"ubuntu-24.04","generators":["DEB","TGZ"],"toolkitVersion":"10.0.0","gpuTargets":["gfx1200","gfx1201"],"upstreamJob":"ubuntu-24-rocm"},
+    {"id":"linux-x64-cuda-12.8","packageVariant":"linux-x64-cuda-12.8","os":"linux","arch":"x64","backend":"cuda","runner":"ubuntu-24.04","generators":["DEB","TGZ"],"toolkitVersion":"12.8.2","cudaLabel":"12.8","container":"nvidia/cuda:12.8.2-devel-ubuntu24.04","gpuTargets":[],"upstreamJob":"ubuntu-cuda"},
+    {"id":"linux-x64-cuda-13.4","packageVariant":"linux-x64-cuda-13.4","os":"linux","arch":"x64","backend":"cuda","runner":"ubuntu-24.04","generators":["DEB","TGZ"],"toolkitVersion":"13.4.1","cudaLabel":"13.4","container":"nvidia/cuda:13.4.1-devel-ubuntu24.04","gpuTargets":[],"upstreamJob":"ubuntu-cuda"},
+    {"id":"macos-arm64-metal","packageVariant":"macos-arm64-metal","os":"macos","arch":"arm64","backend":"metal","runner":"macos-15","generators":["DragNDrop"],"toolkitVersion":"system","gpuTargets":[],"upstreamJob":"macos-cpu"}
+  ]
+}

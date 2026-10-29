@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/xiaobing318/QCopilots-ToolSemanticMatching/main/schemas/records-request.schema.json",
+  "title": "QCTSM record lookup request v1",
+  "type": "object",
+  "required": ["ids"],
+  "properties": {
+    "ids": {"type": "array", "minItems": 1, "maxItems": 100, "items": {"type": "string", "minLength": 1}}
+  },
+  "additionalProperties": false
+}

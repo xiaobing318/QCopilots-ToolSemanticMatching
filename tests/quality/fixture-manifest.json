@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "catalog_sha256": "4985bceb67205e82ef199e0f611358ba8243101a47aafebd9d06984aa10e7b7d",
+  "queries_sha256": "2160c3a9728ce845cebe2696ff0e6aabdd1a1202430a7cf27f3bcfaaa4fd397a",
+  "record_count": 59,
+  "query_count": 74,
+  "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c"
+}

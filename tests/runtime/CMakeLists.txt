@@ -1,0 +1,17 @@
+add_executable(qctsm-tests-model-files model_files_test.cpp)
+target_link_libraries(qctsm-tests-model-files PRIVATE qctsm-model-files Qt6::Test)
+add_test(NAME qctsm-model-files COMMAND qctsm-tests-model-files)
+set_tests_properties(qctsm-model-files PROPERTIES LABELS "unit;runtime" TIMEOUT 60)
+
+add_executable(qctsm-tests-embedding embedding_test.cpp)
+target_link_libraries(qctsm-tests-embedding PRIVATE qctsm-runtime Qt6::Test)
+target_compile_definitions(qctsm-tests-embedding PRIVATE QCTSM_RUNTIME_FIXTURES="${CMAKE_CURRENT_SOURCE_DIR}/fixtures")
+add_test(NAME qctsm-embedding-real-model COMMAND qctsm-tests-embedding)
+set_tests_properties(qctsm-embedding-real-model PROPERTIES LABELS "real-model;runtime" RUN_SERIAL TRUE TIMEOUT 900)
+
+add_executable(qctsm-tests-worker-protocol worker_protocol_test.cpp)
+target_link_libraries(qctsm-tests-worker-protocol PRIVATE Qt6::Core Qt6::Test)
+target_compile_definitions(qctsm-tests-worker-protocol PRIVATE QCTSM_WORKER_EXECUTABLE="$<TARGET_FILE:qctsm-worker>")
+add_dependencies(qctsm-tests-worker-protocol qctsm-worker)
+add_test(NAME qctsm-worker-protocol COMMAND qctsm-tests-worker-protocol)
+set_tests_properties(qctsm-worker-protocol PROPERTIES LABELS "integration;runtime" TIMEOUT 60)

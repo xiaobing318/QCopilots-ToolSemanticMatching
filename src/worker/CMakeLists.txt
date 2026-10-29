@@ -1,0 +1,5 @@
+find_package(Threads REQUIRED)
+add_executable(qctsm-worker main.cpp)
+target_compile_features(qctsm-worker PRIVATE cxx_std_20)
+target_compile_definitions(qctsm-worker PRIVATE QCTSM_VERSION="${PROJECT_VERSION}")
+target_link_libraries(qctsm-worker PRIVATE qctsm-runtime Qt6::Core Threads::Threads)

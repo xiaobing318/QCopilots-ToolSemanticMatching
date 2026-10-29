@@ -1,0 +1,106 @@
+Unicode true
+!include "MUI2.nsh"
+# These are compiler input/output paths, never the user's installation path.
+# NSIS File /r otherwise fails once a nested payload exceeds MAX_PATH. Convert
+# CMake separators first, and preserve the distinct extended UNC spelling.
+!macro QCOPILOTS_TOOL_SEMANTIC_MATCHING_COMPILER_PATH _qcopilots_path_symbol _qcopilots_source_path
+  !searchreplace ${_qcopilots_path_symbol} "${_qcopilots_source_path}" "/" "\"
+  !searchparse /noerrors "|${${_qcopilots_path_symbol}}" "|\\?\" _qcopilots_extended
+  !ifdef _qcopilots_extended
+    !undef _qcopilots_extended
+  !else
+    !searchparse /noerrors "|${${_qcopilots_path_symbol}}" "|\\" _qcopilots_unc
+    !ifdef _qcopilots_unc
+      !undef ${_qcopilots_path_symbol}
+      !define ${_qcopilots_path_symbol} "\\?\UNC\${_qcopilots_unc}"
+      !undef _qcopilots_unc
+    !else
+      !define /redef ${_qcopilots_path_symbol} "\\?\${${_qcopilots_path_symbol}}"
+    !endif
+  !endif
+!macroend
+!macro QCOPILOTS_TOOL_SEMANTIC_MATCHING_REQUIRE_WRITE_SUCCESS
+  IfErrors 0 +3
+  SetErrorLevel 1
+  Quit
+!macroend
+!insertmacro QCOPILOTS_TOOL_SEMANTIC_MATCHING_COMPILER_PATH INST_DIR "@CPACK_TEMPORARY_DIRECTORY@"
+!insertmacro QCOPILOTS_TOOL_SEMANTIC_MATCHING_COMPILER_PATH QCOPILOTS_TOOL_SEMANTIC_MATCHING_OUTPUT "@CPACK_TOPLEVEL_DIRECTORY@/@CPACK_OUTPUT_FILE_NAME@"
+!insertmacro QCOPILOTS_TOOL_SEMANTIC_MATCHING_COMPILER_PATH QCOPILOTS_TOOL_SEMANTIC_MATCHING_LICENSE "@CPACK_RESOURCE_FILE_LICENSE@"
+!define PRODUCT_KEY "Software\QCopilots\qcopilots-tool-semantic-matching"
+!define UNINSTALL_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\qcopilots-tool-semantic-matching"
+Name "QCopilots Tool Semantic Matching"
+OutFile "${QCOPILOTS_TOOL_SEMANTIC_MATCHING_OUTPUT}"
+InstallDir "$LOCALAPPDATA\Programs\qctsm"
+InstallDirRegKey HKCU "${PRODUCT_KEY}" ""
+RequestExecutionLevel user
+SetCompressor /SOLID lzma
+SetCompressorDictSize 32
+ManifestDPIAware true
+ManifestLongPathAware true
+ShowInstDetails show
+ShowUninstDetails show
+VIProductVersion "@CPACK_PACKAGE_VERSION@.0"
+VIAddVersionKey /LANG=1033 "ProductName" "QCopilots Tool Semantic Matching"
+VIAddVersionKey /LANG=1033 "FileDescription" "QCopilots Tool Semantic Matching per-user installer"
+VIAddVersionKey /LANG=1033 "FileVersion" "@CPACK_PACKAGE_VERSION@"
+VIAddVersionKey /LANG=1033 "LegalCopyright" "QCopilots contributors"
+!define MUI_ABORTWARNING
+!insertmacro MUI_PAGE_WELCOME
+!insertmacro MUI_PAGE_LICENSE "${QCOPILOTS_TOOL_SEMANTIC_MATCHING_LICENSE}"
+!insertmacro MUI_PAGE_DIRECTORY
+!insertmacro MUI_PAGE_INSTFILES
+!insertmacro MUI_PAGE_FINISH
+!insertmacro MUI_UNPAGE_CONFIRM
+!insertmacro MUI_UNPAGE_INSTFILES
+!insertmacro MUI_LANGUAGE "English"
+!insertmacro MUI_LANGUAGE "SimpChinese"
+
+Function .onInit
+  SetShellVarContext current
+  SetRegView 64
+FunctionEnd
+Function un.onInit
+  SetShellVarContext current
+  SetRegView 64
+FunctionEnd
+
+Section "QCopilots Tool Semantic Matching"
+  ClearErrors
+  SetOutPath "$INSTDIR"
+  # Keep a way to remove a partial payload, but register the product only after
+  # extraction succeeds. Silent NSIS extraction can otherwise return success.
+  WriteUninstaller "$INSTDIR\Uninstall.exe"
+  !insertmacro QCOPILOTS_TOOL_SEMANTIC_MATCHING_REQUIRE_WRITE_SUCCESS
+  ClearErrors
+  @CPACK_NSIS_FULL_INSTALL@
+  !insertmacro QCOPILOTS_TOOL_SEMANTIC_MATCHING_REQUIRE_WRITE_SUCCESS
+  WriteRegStr HKCU "${PRODUCT_KEY}" "" "$INSTDIR"
+  WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayName" "QCopilots Tool Semantic Matching"
+  WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayVersion" "@CPACK_PACKAGE_VERSION@"
+  WriteRegStr HKCU "${UNINSTALL_KEY}" "Publisher" "QCopilots"
+  WriteRegStr HKCU "${UNINSTALL_KEY}" "InstallLocation" "$INSTDIR"
+  WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayIcon" '$\"$INSTDIR\bin\qctsm-gui.exe$\",0'
+  WriteRegStr HKCU "${UNINSTALL_KEY}" "UninstallString" '$\"$INSTDIR\Uninstall.exe$\"'
+  WriteRegStr HKCU "${UNINSTALL_KEY}" "QuietUninstallString" '$\"$INSTDIR\Uninstall.exe$\" /S'
+  WriteRegDWORD HKCU "${UNINSTALL_KEY}" "NoModify" 1
+  WriteRegDWORD HKCU "${UNINSTALL_KEY}" "NoRepair" 1
+  CreateDirectory "$SMPROGRAMS\QCopilots Tool Semantic Matching"
+  CreateShortCut "$SMPROGRAMS\QCopilots Tool Semantic Matching\QCopilots Tool Semantic Matching.lnk" "$INSTDIR\bin\qctsm-gui.exe" "" "$INSTDIR\bin\qctsm-gui.exe" 0
+  CreateShortCut "$SMPROGRAMS\QCopilots Tool Semantic Matching\Uninstall.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\Uninstall.exe" 0
+SectionEnd
+
+Section "Uninstall"
+  @CPACK_NSIS_DELETE_FILES@
+  @CPACK_NSIS_DELETE_DIRECTORIES@
+  Delete "$INSTDIR\Uninstall.exe"
+  RMDir "$INSTDIR"
+  ReadRegStr $0 HKCU "${UNINSTALL_KEY}" "InstallLocation"
+  StrCmp $0 "$INSTDIR" 0 done
+  DeleteRegKey HKCU "${UNINSTALL_KEY}"
+  DeleteRegKey HKCU "${PRODUCT_KEY}"
+  Delete "$SMPROGRAMS\QCopilots Tool Semantic Matching\QCopilots Tool Semantic Matching.lnk"
+  Delete "$SMPROGRAMS\QCopilots Tool Semantic Matching\Uninstall.lnk"
+  RMDir "$SMPROGRAMS\QCopilots Tool Semantic Matching"
+  done:
+SectionEnd

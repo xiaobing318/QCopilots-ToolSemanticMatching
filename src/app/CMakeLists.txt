@@ -1,0 +1,16 @@
+add_executable(qctsm-gui main.cpp main_window.cpp main_window.h)
+target_compile_features(qctsm-gui PRIVATE cxx_std_20)
+target_link_libraries(qctsm-gui PRIVATE Qt6::Widgets Qt6::Network qctsm-service-library)
+target_include_directories(qctsm-gui PRIVATE "${PROJECT_SOURCE_DIR}/src")
+target_compile_definitions(qctsm-gui PRIVATE QCTSM_APP_VERSION="${PROJECT_VERSION}")
+
+if(QCOPILOTS_TOOL_SEMANTIC_MATCHING_BUILD_TESTS)
+  add_executable(qctsm-gui-test gui_test.cpp main_window.cpp main_window.h)
+  set_target_properties(qctsm-gui-test PROPERTIES AUTOMOC ON)
+  target_compile_features(qctsm-gui-test PRIVATE cxx_std_20)
+  target_include_directories(qctsm-gui-test PRIVATE "${PROJECT_SOURCE_DIR}/src")
+  target_link_libraries(qctsm-gui-test PRIVATE Qt6::Widgets Qt6::Network Qt6::Test qctsm-service-library)
+  add_test(NAME qctsm-gui-interaction COMMAND qctsm-gui-test)
+  set_tests_properties(qctsm-gui-interaction PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=offscreen" LABELS "gui;functional" TIMEOUT 45)
+endif()
+

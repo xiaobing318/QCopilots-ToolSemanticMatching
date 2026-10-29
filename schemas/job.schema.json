@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/xiaobing318/QCopilots-ToolSemanticMatching/main/schemas/job.schema.json",
+  "title": "QCTSM asynchronous job acknowledgement or snapshot",
+  "type": "object",
+  "required": ["job_id", "status"],
+  "properties": {
+    "job_id": {"type": "string", "minLength": 1},
+    "operation": {"type": "string"},
+    "status": {"enum": ["queued", "running", "cancelling", "succeeded", "failed", "cancelled"]},
+    "result": {"type": "object", "additionalProperties": true},
+    "error_code": {"type": "string"},
+    "message": {"type": "string"}
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,328 @@
+{
+  "schemaVersion": 1,
+  "upstreamCommit": "620d2225cc436ab0b001e3200e590e3b286ef9ab",
+  "cuda": {
+    "windows": {
+      "12.4": {
+        "metadataUrl": "https://developer.download.nvidia.com/compute/cuda/redist/redistrib_12.4.1.json",
+        "metadataSha256": "9cd815f3b71c2e3686ef2219b7794b81044f9dcefaa8e21dacfcb5bc4d931892",
+        "components": [
+          {
+            "name": "cuda_cudart",
+            "version": "12.4.127",
+            "url": "https://developer.download.nvidia.com/compute/cuda/redist/cuda_cudart/windows-x86_64/cuda_cudart-windows-x86_64-12.4.127-archive.zip",
+            "sha256": "6a1c32e68ee1a95ca17334691ff9ad1ffe7f352c24a083d55e4c96b8063b2bcb",
+            "size": 2474721
+          },
+          {
+            "name": "cuda_nvcc",
+            "version": "12.4.131",
+            "url": "https://developer.download.nvidia.com/compute/cuda/redist/cuda_nvcc/windows-x86_64/cuda_nvcc-windows-x86_64-12.4.131-archive.zip",
+            "sha256": "3b14cf8dd9dda4a3b1a9682270d46eef775f018e17650187a8a448a06111f2b8",
+            "size": 63662970
+          },
+          {
+            "name": "cuda_nvrtc",
+            "version": "12.4.127",
+            "url": "https://developer.download.nvidia.com/compute/cuda/redist/cuda_nvrtc/windows-x86_64/cuda_nvrtc-windows-x86_64-12.4.127-archive.zip",
+            "sha256": "f140545e06d0d10780c1382a577db2e2c242db7a2d94970f0e6026b2d01aeb1b",
+            "size": 101865624
+          },
+          {
+            "name": "libcublas",
+            "version": "12.4.5.8",
+            "url": "https://developer.download.nvidia.com/compute/cuda/redist/libcublas/windows-x86_64/libcublas-windows-x86_64-12.4.5.8-archive.zip",
+            "sha256": "698140f12da055a3709eee2e022fcfe7bc8edf31f30115e3f7a5c877a9491de5",
+            "size": 391538487
+          },
+          {
+            "name": "cuda_nvtx",
+            "version": "12.4.127",
+            "url": "https://developer.download.nvidia.com/compute/cuda/redist/cuda_nvtx/windows-x86_64/cuda_nvtx-windows-x86_64-12.4.127-archive.zip",
+            "sha256": "95b7f96bdb2701d764d969cdadfbc439b4ab995d0a3695682da5284e14f66d21",
+            "size": 65879
+          },
+          {
+            "name": "cuda_profiler_api",
+            "version": "12.4.127",
+            "url": "https://developer.download.nvidia.com/compute/cuda/redist/cuda_profiler_api/windows-x86_64/cuda_profiler_api-windows-x86_64-12.4.127-archive.zip",
+            "sha256": "8c0c81125d2f0ef6f42bc46723f2c5565863731cf3a3de3ea3e738ea2d7a938f",
+            "size": 20232
+          },
+          {
+            "name": "visual_studio_integration",
+            "version": "12.4.127",
+            "url": "https://developer.download.nvidia.com/compute/cuda/redist/visual_studio_integration/windows-x86_64/visual_studio_integration-windows-x86_64-12.4.127-archive.zip",
+            "sha256": "c89fd04ac409b93ae0d575626d5d956e3f3d9a21656765ce1c0b25e36c2a103d",
+            "size": 518984
+          },
+          {
+            "name": "cuda_nvprof",
+            "version": "12.4.127",
+            "url": "https://developer.download.nvidia.com/compute/cuda/redist/cuda_nvprof/windows-x86_64/cuda_nvprof-windows-x86_64-12.4.127-archive.zip",
+            "sha256": "bd434d759948b4ef9d9e663b89f5019ea104afec6bf7a17267c624b0bfbc1a03",
+            "size": 1701799
+          },
+          {
+            "name": "cuda_cccl",
+            "version": "12.4.127",
+            "url": "https://developer.download.nvidia.com/compute/cuda/redist/cuda_cccl/windows-x86_64/cuda_cccl-windows-x86_64-12.4.127-archive.zip",
+            "sha256": "908742d8f3c6fdd6d1d6316a7b919b5c506474f9551f491aa7335cb4f50bffbd",
+            "size": 3171223
+          }
+        ],
+        "compilerVersion": "12.4.131",
+        "runtimeLicenseSha256": "e2c71babfd18a8e69542dd7e9ca018f9caa438094001a58e6bc4d8c999bf0d07"
+      },
+      "13.4": {
+        "metadataUrl": "https://developer.download.nvidia.com/compute/cuda/redist/redistrib_13.4.1.json",
+        "metadataSha256": "291178934b2139727407c76f697bb0dfbac4014753a8094d7c290b0f4124a302",
+        "components": [
+          {
+            "name": "cuda_crt",
+            "version": "13.4.59",
+            "url": "https://developer.download.nvidia.com/compute/cuda/redist/cuda_crt/windows-x86_64/cuda_crt-windows-x86_64-13.4.59-archive.zip",
+            "sha256": "f969a0e3b086a48f940563cd1b965cb5197fd9540c79cc952b1abfa479f9ede7",
+            "size": 166601
+          },
+          {
+            "name": "cuda_cudart",
+            "version": "13.4.49",
+            "url": "https://developer.download.nvidia.com/compute/cuda/redist/cuda_cudart/windows-x86_64/cuda_cudart-windows-x86_64-13.4.49-archive.zip",
+            "sha256": "e6663f3d3e8949eedc2d5ab92c7c5b9fa3f2a222086d91c42bfc5a38bf2b0225",
+            "size": 2736140
+          },
+          {
+            "name": "cuda_nvcc",
+            "version": "13.4.59",
+            "url": "https://developer.download.nvidia.com/compute/cuda/redist/cuda_nvcc/windows-x86_64/cuda_nvcc-windows-x86_64-13.4.59-archive.zip",
+            "sha256": "06a4fe6ec543030c5e5a7b85493cda90612015d9fff2a54ed0227162c937ea46",
+            "size": 32989100
+          },
+          {
+            "name": "cuda_nvrtc",
+            "version": "13.4.59",
+            "url": "https://developer.download.nvidia.com/compute/cuda/redist/cuda_nvrtc/windows-x86_64/cuda_nvrtc-windows-x86_64-13.4.59-archive.zip",
+            "sha256": "cfbc01669d2059b7fdeff242082223d23bd6a7605bc398bdc77fc77de5c310f0",
+            "size": 319932890
+          },
+          {
+            "name": "libcublas",
+            "version": "13.7.0.27",
+            "url": "https://developer.download.nvidia.com/compute/cuda/redist/libcublas/windows-x86_64/libcublas-windows-x86_64-13.7.0.27-archive.zip",
+            "sha256": "fff93984ee8a85dd8568e4b9000f9e3ef7153f0f73b176756bcbad3c6622d1f0",
+            "size": 423620712
+          },
+          {
+            "name": "libnvvm",
+            "version": "13.4.59",
+            "url": "https://developer.download.nvidia.com/compute/cuda/redist/libnvvm/windows-x86_64/libnvvm-windows-x86_64-13.4.59-archive.zip",
+            "sha256": "a7a07bcc21cc05bce83eedebcbcd9b9f5418c58316b0fa28a57cb2c548b29841",
+            "size": 60031482
+          },
+          {
+            "name": "cuda_nvtx",
+            "version": "13.4.49",
+            "url": "https://developer.download.nvidia.com/compute/cuda/redist/cuda_nvtx/windows-x86_64/cuda_nvtx-windows-x86_64-13.4.49-archive.zip",
+            "sha256": "01a6f60403d79459f0b1ba00e3038e1ebdeaa0c8144751b9eb6245ab36c994c1",
+            "size": 153681
+          },
+          {
+            "name": "cuda_profiler_api",
+            "version": "13.4.49",
+            "url": "https://developer.download.nvidia.com/compute/cuda/redist/cuda_profiler_api/windows-x86_64/cuda_profiler_api-windows-x86_64-13.4.49-archive.zip",
+            "sha256": "34c38ea6ee834a070ee605799f4488d2a3b05246a36e57ff1d429b11a2a9cc03",
+            "size": 21250
+          },
+          {
+            "name": "visual_studio_integration",
+            "version": "13.4.49",
+            "url": "https://developer.download.nvidia.com/compute/cuda/redist/visual_studio_integration/windows-x86_64/visual_studio_integration-windows-x86_64-13.4.49-archive.zip",
+            "sha256": "b74a3482b0b8fccf3db751c3c2eb623924ebbc3731df15743e75e08dd434ab8e",
+            "size": 889506
+          },
+          {
+            "name": "cccl",
+            "version": "13.3.4.2.1",
+            "url": "https://developer.download.nvidia.com/compute/cuda/redist/cccl/windows-x86_64/cccl-windows-x86_64-13.3.4.2.1-archive.zip",
+            "sha256": "ea3ebdd98d4d98819cc26b66bc5a0931004ed35ff18eea8b93e0bd2c8bfa5d7c",
+            "size": 4022245
+          }
+        ],
+        "compilerVersion": "13.4.59",
+        "runtimeLicenseSha256": "088381bc2d891e719a2a9398645b00bb45f3b24231473a8283ac7e3e66b8a028"
+      }
+    },
+    "linux": {
+      "12.8.2": {
+        "compilerVersion": "12.8.93",
+        "container": "nvidia/cuda:12.8.2-devel-ubuntu24.04",
+        "runtimeLicenseSha256": "e2c71babfd18a8e69542dd7e9ca018f9caa438094001a58e6bc4d8c999bf0d07"
+      },
+      "13.4.1": {
+        "compilerVersion": "13.4.59",
+        "container": "nvidia/cuda:13.4.1-devel-ubuntu24.04",
+        "runtimeLicenseSha256": "088381bc2d891e719a2a9398645b00bb45f3b24231473a8283ac7e3e66b8a028"
+      }
+    }
+  },
+  "rocm": {
+    "windows": {
+      "version": "10.0.0",
+      "integrity": "official-versioned-https-and-wheel-RECORD; whole-wheel SHA256 recorded on download because publisher supplies no checksum",
+      "buildWheels": [
+        {
+          "name": "rocm-sdk-core",
+          "version": "10.0.0",
+          "url": "https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-core/rocm_sdk_core-10.0.0-py3-none-win_amd64.whl"
+        },
+        {
+          "name": "rocm-sdk-libraries",
+          "version": "10.0.0",
+          "url": "https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-libraries/rocm_sdk_libraries-10.0.0-py3-none-win_amd64.whl"
+        },
+        {
+          "name": "rocm-sdk-devel",
+          "version": "10.0.0",
+          "url": "https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-devel/rocm_sdk_devel-10.0.0-py3-none-win_amd64.whl"
+        }
+      ],
+      "deviceWheels": [
+        {
+          "name": "rocm-sdk-device-gfx1200",
+          "version": "10.0.0",
+          "url": "https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-device-gfx1200/rocm_sdk_device_gfx1200-10.0.0-py3-none-win_amd64.whl"
+        },
+        {
+          "name": "rocm-sdk-device-gfx1201",
+          "version": "10.0.0",
+          "url": "https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-device-gfx1201/rocm_sdk_device_gfx1201-10.0.0-py3-none-win_amd64.whl"
+        }
+      ]
+    },
+    "linux": {
+      "version": "10.0.0",
+      "integrity": "official-versioned-https-and-wheel-RECORD; whole-wheel SHA256 recorded on download because publisher supplies no checksum",
+      "buildWheels": [
+        {
+          "name": "rocm-sdk-core",
+          "version": "10.0.0",
+          "url": "https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-core/rocm_sdk_core-10.0.0-py3-none-linux_x86_64.whl"
+        },
+        {
+          "name": "rocm-sdk-libraries",
+          "version": "10.0.0",
+          "url": "https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-libraries/rocm_sdk_libraries-10.0.0-py3-none-linux_x86_64.whl"
+        },
+        {
+          "name": "rocm-sdk-devel",
+          "version": "10.0.0",
+          "url": "https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-devel/rocm_sdk_devel-10.0.0-py3-none-linux_x86_64.whl"
+        }
+      ],
+      "deviceWheels": [
+        {
+          "name": "rocm-sdk-device-gfx1200",
+          "version": "10.0.0",
+          "url": "https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-device-gfx1200/rocm_sdk_device_gfx1200-10.0.0-py3-none-linux_x86_64.whl"
+        },
+        {
+          "name": "rocm-sdk-device-gfx1201",
+          "version": "10.0.0",
+          "url": "https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-device-gfx1201/rocm_sdk_device_gfx1201-10.0.0-py3-none-linux_x86_64.whl"
+        }
+      ]
+    },
+    "selector": {
+      "url": "https://stable.repo.amd.com/rocm/whl-next/rocm/rocm-10.0.0.tar.gz",
+      "sha256": "65b5982249612a310135f5e061b9f28909e8ad718a1ddb3f1abba92298b7216b"
+    },
+    "buildRequirements": [
+      {
+        "name": "setuptools",
+        "version": "80.9.0",
+        "url": "https://files.pythonhosted.org/packages/a3/dc/17031897dae0efacfea57dfd3a82fdd2a2aeb58e0ff71b77b87e44edc772/setuptools-80.9.0-py3-none-any.whl",
+        "sha256": "062d34222ad13e0cc312a4c02d73f059e86a4acbfbdea8f8f76b28c99f306922"
+      },
+      {
+        "name": "wheel",
+        "version": "0.45.1",
+        "url": "https://files.pythonhosted.org/packages/0b/2c/87f3254fd8ffd29e4c02732eee68a83a1d3c346ae39bc6822dcbcb697f2b/wheel-0.45.1-py3-none-any.whl",
+        "sha256": "708e7481cc80179af0e556bbf0cc00b8444c7321e2700b8d8580231d13017248"
+      }
+    ]
+  },
+  "vulkan": {
+    "windows": {
+      "version": "1.4.357.0",
+      "sdk": {
+        "url": "https://sdk.lunarg.com/sdk/download/1.4.357.0/windows/vulkansdk-windows-X64-1.4.357.0.exe",
+        "sha256": "81f474711e9042f4cd22b31b2f7a8870db2e428b21586fb43dd80150be97310d"
+      },
+      "runtime": {
+        "url": "https://sdk.lunarg.com/sdk/download/1.4.357.0/windows/VulkanRT-X64-1.4.357.0-Components.zip",
+        "sha256": "a14672efed15aafc7f5a16572d35cd3a3416eadf670aeee3cdf50ee32d5fbf83"
+      }
+    },
+    "linux": {
+      "sdkVersion": "1.4.313.0",
+      "glslcEmbeddedVersion": "shaderc v2023.8 unknown hash, 2025-04-29",
+      "glslcSha256": "eec1de502915d3db58c17ae53c29c59e3780391b07e753e765c0709d4c4217f6",
+      "glslcSize": 5376448,
+      "apt": {
+        "repository": "https://packages.lunarg.com/vulkan/1.4.313",
+        "suite": "jammy",
+        "component": "main",
+        "metadataUrl": "https://packages.lunarg.com/vulkan/1.4.313/dists/jammy/main/binary-amd64/Packages",
+        "signingKey": {
+          "url": "https://packages.lunarg.com/lunarg-signing-key-pub.asc",
+          "sha256": "aa1c3c29673140e77f0d6a9aaeed5d9b5621e305ead51c59fae4458bbb4df92b"
+        },
+        "packages": [
+          {
+            "name": "vulkan-sdk",
+            "version": "1.4.313.0~rc3-1lunarg22.04-1",
+            "url": "https://packages.lunarg.com/vulkan/1.4.313/pool/main/v/vulkan-sdk/vulkan-sdk_1.4.313.0~rc3-1lunarg22.04-1_all.deb",
+            "size": 5632,
+            "sha256": "9eba4977e0c521c2e11ae02710fc0468db37e4ec43c95d32c1f6b830bb9271ee"
+          },
+          {
+            "name": "shaderc",
+            "version": "2025.2~rc1-1lunarg22.04-1",
+            "url": "https://packages.lunarg.com/vulkan/1.4.313/pool/main/s/shaderc/shaderc_2025.2~rc1-1lunarg22.04-1_amd64.deb",
+            "size": 6541474,
+            "sha256": "53a024e2939e13e86caa49930450f38fdfbc528e129d8ecffc142d7e5ff27d5c"
+          },
+          {
+            "name": "spirv-headers",
+            "version": "1.6.1+1.4.313.0~rc1-1lunarg22.04-1",
+            "url": "https://packages.lunarg.com/vulkan/1.4.313/pool/main/s/spirv-headers/spirv-headers_1.6.1+1.4.313.0~rc1-1lunarg22.04-1_all.deb",
+            "size": 186318,
+            "sha256": "9c72f6ccca5125cfb91bb0161d8841cc54059303cdb6c022d1f464c36029df7a"
+          },
+          {
+            "name": "vulkan-headers",
+            "version": "1.4.313.0~rc1-1lunarg22.04-1",
+            "url": "https://packages.lunarg.com/vulkan/1.4.313/pool/main/v/vulkan-headers/vulkan-headers_1.4.313.0~rc1-1lunarg22.04-1_all.deb",
+            "size": 1512346,
+            "sha256": "587b2d8e79416b394170ab61557c98765570cd153730f819a917866d78f45e1a"
+          },
+          {
+            "name": "libvulkan-dev",
+            "version": "1.4.313.0~rc1-1lunarg22.04-1",
+            "url": "https://packages.lunarg.com/vulkan/1.4.313/pool/main/v/vulkan-loader/libvulkan-dev_1.4.313.0~rc1-1lunarg22.04-1_amd64.deb",
+            "size": 44748,
+            "sha256": "93a2c6795f08263a66a1a54bf0f8b0627cc7d4c622b11a701ef670ac9c5d6f89"
+          },
+          {
+            "name": "libvulkan1",
+            "version": "1.4.313.0~rc1-1lunarg22.04-1",
+            "url": "https://packages.lunarg.com/vulkan/1.4.313/pool/main/v/vulkan-loader/libvulkan1_1.4.313.0~rc1-1lunarg22.04-1_amd64.deb",
+            "size": 174492,
+            "sha256": "0fc9b0587059230743433cdbfd5723dd16b2c13b4a05f397ae45047033f4ddd5"
+          }
+        ]
+      }
+    }
+  }
+}

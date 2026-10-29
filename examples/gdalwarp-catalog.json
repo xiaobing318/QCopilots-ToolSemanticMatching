@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "source_id": "gdalwarp-definition-and-example",
+  "revision": "1",
+  "records": [
+    {
+      "record_id": "bin.gdalwarp",
+      "kind": "definition",
+      "capability_id": "bin.gdalwarp",
+      "name": "gdalwarp command",
+      "description": "Execute GDAL raster warping and resampling with exact argv. Supports target CRS, output dimensions, Lanczos interpolation, NoData, output type and GeoTIFF compression creation options.",
+      "available": true,
+      "payload": {
+        "binary_id": "bin.gdalwarp",
+        "name": "gdalwarp command",
+        "description": "Execute GDAL raster warping and resampling with exact argv. Supports target CRS, output dimensions, Lanczos interpolation, NoData, output type and GeoTIFF compression creation options."
+      },
+      "metadata": {
+        "source_path": "python/plugins/qcopilots_mcp_server_qgis_binary/qgis_binaries.json",
+        "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+        "fixture_scope": "retrieval-only-authored-summary"
+      }
+    },
+    {
+      "record_id": "example:gdalwarp-lanczos-geotiff",
+      "kind": "example",
+      "capability_id": "bin.gdalwarp",
+      "name": "Lanczos raster warp example",
+      "description": "A command example requesting Lanczos resampling, Byte output, tiled GeoTIFF and DEFLATE compression.",
+      "payload": {
+        "binary_id": "bin.gdalwarp",
+        "confirmed_risk": true,
+        "client_request_id": "example-only-do-not-execute",
+        "arguments": [
+          "--config",
+          "GDAL_PAM_ENABLED",
+          "NO",
+          "-of",
+          "GTiff",
+          "-r",
+          "lanczos",
+          "-ts",
+          "30000",
+          "30000",
+          "-ot",
+          "Byte",
+          "-dstnodata",
+          "0",
+          "-wm",
+          "16",
+          "-wo",
+          "NUM_THREADS=1",
+          "-co",
+          "TILED=YES",
+          "-co",
+          "COMPRESS=DEFLATE",
+          "-co",
+          "ZLEVEL=9",
+          "-co",
+          "NUM_THREADS=1",
+          "C:/GIS/fixtures/input-dem.tif",
+          "C:/GIS/results/warped-output.tif"
+        ]
+      },
+      "available": true,
+      "metadata": {
+        "definition_id": "bin.gdalwarp",
+        "fixture_scope": "example-only-not-executable"
+      }
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+CMakeUserPresets.json
+*.user
+*.gguf
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm

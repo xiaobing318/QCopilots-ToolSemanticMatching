@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/xiaobing318/QCopilots-ToolSemanticMatching/main/schemas/search-response.schema.json",
+  "title": "QCTSM successful search result v1",
+  "description": "Describes a completed search result, which may be nested in an asynchronous job response. Fused scores are ranking values rather than confidence probabilities.",
+  "type": "object",
+  "required": ["status", "generation", "embedding_profile", "retrieval_mode", "candidates"],
+  "properties": {
+    "status": {"const": "succeeded"},
+    "generation": {"type": "integer", "minimum": 0},
+    "embedding_profile": {"type": "object", "additionalProperties": true},
+    "retrieval_mode": {"enum": ["hybrid", "lexical"]},
+    "degradation_reason": {"type": "string"},
+    "record_count": {"type": "integer", "minimum": 0},
+    "score_kind": {"const": "rrf_not_probability"},
+    "candidates": {"type": "array", "maxItems": 100, "items": {"$ref": "#/$defs/candidate"}}
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "candidate": {
+      "type": "object",
+      "required": ["source_id", "capability_id", "record_id", "name", "description", "score", "semantic_score", "lexical_score", "payload", "matched_records"],
+      "properties": {
+        "source_id": {"type": "string"},
+        "capability_id": {"type": "string"},
+        "record_id": {"type": "string"},
+        "name": {"type": "string"},
+        "description": {"type": "string"},
+        "score": {"type": "number"},
+        "semantic_score": {"type": ["number", "null"]},
+        "lexical_score": {"type": "number"},
+        "payload": {"type": "object", "additionalProperties": true},
+        "metadata": {"type": ["object", "null"], "additionalProperties": true},
+        "matched_records": {"type": "array", "maxItems": 8, "items": {"$ref": "#/$defs/matchedRecord"}}
+      },
+      "additionalProperties": true
+    },
+    "matchedRecord": {
+      "type": "object",
+      "required": ["record_id", "kind", "score", "payload"],
+      "properties": {
+        "record_id": {"type": "string"},
+        "kind": {"enum": ["definition", "example"]},
+        "score": {"type": "number"},
+        "payload": {"type": "object", "additionalProperties": true}
+      },
+      "additionalProperties": true
+    }
+  }
+}

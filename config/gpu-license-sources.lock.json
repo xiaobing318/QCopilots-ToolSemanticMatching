@@ -1,0 +1,1527 @@
+{
+  "schemaVersion": 1,
+  "rocm": {
+    "10.0.0": {
+      "release": "https://github.com/ROCm/TheRock/releases/tag/therock-10.0",
+      "repositories": {
+        "rocm-libraries": "8d1ae90eff7d022f26019ec55b2ec6a7674b3112",
+        "rocm-systems": "6b0e43f341195e203754e08f850e437ff2fc09f9",
+        "llvm-project": "8f497e0992fb7513f7f78a6f6b6f1056c375e961",
+        "TheRock": "16adc4d875fd4f65ea23c7c84e1c66706fde3047"
+      },
+      "resources": [
+        {
+          "name": "rocm-hip",
+          "version": "10.0.0",
+          "repository": "https://github.com/ROCm/rocm-systems",
+          "commit": "6b0e43f341195e203754e08f850e437ff2fc09f9",
+          "files": [
+            {
+              "path": "projects/hip/LICENSE.md",
+              "url": "https://raw.githubusercontent.com/ROCm/rocm-systems/6b0e43f341195e203754e08f850e437ff2fc09f9/projects/hip/LICENSE.md",
+              "sha256": "b185aaa652b0bf066c37a0d6314ce4bf4521e4a3c9bf46edd2f6a777ac522223",
+              "size": 1080
+            },
+            {
+              "path": "projects/clr/LICENSE.md",
+              "url": "https://raw.githubusercontent.com/ROCm/rocm-systems/6b0e43f341195e203754e08f850e437ff2fc09f9/projects/clr/LICENSE.md",
+              "sha256": "b185aaa652b0bf066c37a0d6314ce4bf4521e4a3c9bf46edd2f6a777ac522223",
+              "size": 1080
+            },
+            {
+              "path": "projects/clr/hipamd/LICENSE.md",
+              "url": "https://raw.githubusercontent.com/ROCm/rocm-systems/6b0e43f341195e203754e08f850e437ff2fc09f9/projects/clr/hipamd/LICENSE.md",
+              "sha256": "b185aaa652b0bf066c37a0d6314ce4bf4521e4a3c9bf46edd2f6a777ac522223",
+              "size": 1080
+            },
+            {
+              "path": "projects/clr/rocclr/LICENSE.md",
+              "url": "https://raw.githubusercontent.com/ROCm/rocm-systems/6b0e43f341195e203754e08f850e437ff2fc09f9/projects/clr/rocclr/LICENSE.md",
+              "sha256": "b185aaa652b0bf066c37a0d6314ce4bf4521e4a3c9bf46edd2f6a777ac522223",
+              "size": 1080
+            }
+          ]
+        },
+        {
+          "name": "rocm-kpack",
+          "version": "10.0.0",
+          "repository": "https://github.com/ROCm/rocm-systems",
+          "commit": "6b0e43f341195e203754e08f850e437ff2fc09f9",
+          "files": [
+            {
+              "path": "shared/kpack/LICENSE",
+              "url": "https://raw.githubusercontent.com/ROCm/rocm-systems/6b0e43f341195e203754e08f850e437ff2fc09f9/shared/kpack/LICENSE",
+              "sha256": "e071e8c7d920817b6415f4b87c115c6aefafe137e36843b3723f28dde5f484c3",
+              "size": 1076
+            }
+          ]
+        },
+        {
+          "name": "rocm-rocr",
+          "version": "10.0.0",
+          "repository": "https://github.com/ROCm/rocm-systems",
+          "commit": "6b0e43f341195e203754e08f850e437ff2fc09f9",
+          "files": [
+            {
+              "path": "projects/rocr-runtime/LICENSE.txt",
+              "url": "https://raw.githubusercontent.com/ROCm/rocm-systems/6b0e43f341195e203754e08f850e437ff2fc09f9/projects/rocr-runtime/LICENSE.txt",
+              "sha256": "ffa5a77ce21419e276bd9068faec94333128e49e1c95426d9c1d35435e8fe835",
+              "size": 1748
+            },
+            {
+              "path": "projects/rocr-runtime/libhsakmt/LICENSE.md",
+              "url": "https://raw.githubusercontent.com/ROCm/rocm-systems/6b0e43f341195e203754e08f850e437ff2fc09f9/projects/rocr-runtime/libhsakmt/LICENSE.md",
+              "sha256": "f45a5bc0bc68dd9a00e9609097788b1cbda79726fee02549cb0c04b90190b419",
+              "size": 2534
+            },
+            {
+              "path": "projects/rocr-runtime/runtime/hsa-runtime/LICENSE.md",
+              "url": "https://raw.githubusercontent.com/ROCm/rocm-systems/6b0e43f341195e203754e08f850e437ff2fc09f9/projects/rocr-runtime/runtime/hsa-runtime/LICENSE.md",
+              "sha256": "dac0a5360f50972cceaed16767bc9e94642aa497d558a74471e842f7192c7403",
+              "size": 1770
+            }
+          ]
+        },
+        {
+          "name": "rocm-amdsmi",
+          "version": "10.0.0",
+          "repository": "https://github.com/ROCm/rocm-systems",
+          "commit": "6b0e43f341195e203754e08f850e437ff2fc09f9",
+          "files": [
+            {
+              "path": "projects/amdsmi/LICENSE",
+              "url": "https://raw.githubusercontent.com/ROCm/rocm-systems/6b0e43f341195e203754e08f850e437ff2fc09f9/projects/amdsmi/LICENSE",
+              "sha256": "91452fe01aabb20286da0b0f4db72bec60f14beb85926befcee56814a5a09337",
+              "size": 1088
+            },
+            {
+              "path": "projects/amdsmi/third_party/shared_mutex/LICENSE",
+              "url": "https://raw.githubusercontent.com/ROCm/rocm-systems/6b0e43f341195e203754e08f850e437ff2fc09f9/projects/amdsmi/third_party/shared_mutex/LICENSE",
+              "sha256": "1660df7b541be812b7115c0aeff5b6fc6052642c5c659320aedb1c51f477f0a1",
+              "size": 1070
+            }
+          ]
+        },
+        {
+          "name": "rocm-smi",
+          "version": "10.0.0",
+          "repository": "https://github.com/ROCm/rocm-systems",
+          "commit": "6b0e43f341195e203754e08f850e437ff2fc09f9",
+          "files": [
+            {
+              "path": "projects/rocm-smi-lib/LICENSE.md",
+              "url": "https://raw.githubusercontent.com/ROCm/rocm-systems/6b0e43f341195e203754e08f850e437ff2fc09f9/projects/rocm-smi-lib/LICENSE.md",
+              "sha256": "b185aaa652b0bf066c37a0d6314ce4bf4521e4a3c9bf46edd2f6a777ac522223",
+              "size": 1080
+            },
+            {
+              "path": "projects/rocm-smi-lib/third_party/shared_mutex/LICENSE",
+              "url": "https://raw.githubusercontent.com/ROCm/rocm-systems/6b0e43f341195e203754e08f850e437ff2fc09f9/projects/rocm-smi-lib/third_party/shared_mutex/LICENSE",
+              "sha256": "1660df7b541be812b7115c0aeff5b6fc6052642c5c659320aedb1c51f477f0a1",
+              "size": 1070
+            }
+          ]
+        },
+        {
+          "name": "rocm-profiler-register",
+          "version": "10.0.0",
+          "repository": "https://github.com/ROCm/rocm-systems",
+          "commit": "6b0e43f341195e203754e08f850e437ff2fc09f9",
+          "files": [
+            {
+              "path": "projects/rocprofiler-register/LICENSE.md",
+              "url": "https://raw.githubusercontent.com/ROCm/rocm-systems/6b0e43f341195e203754e08f850e437ff2fc09f9/projects/rocprofiler-register/LICENSE.md",
+              "sha256": "b185aaa652b0bf066c37a0d6314ce4bf4521e4a3c9bf46edd2f6a777ac522223",
+              "size": 1080
+            }
+          ]
+        },
+        {
+          "name": "rocm-roctracer",
+          "version": "10.0.0",
+          "repository": "https://github.com/ROCm/rocm-systems",
+          "commit": "6b0e43f341195e203754e08f850e437ff2fc09f9",
+          "files": [
+            {
+              "path": "projects/roctracer/LICENSE.md",
+              "url": "https://raw.githubusercontent.com/ROCm/rocm-systems/6b0e43f341195e203754e08f850e437ff2fc09f9/projects/roctracer/LICENSE.md",
+              "sha256": "b185aaa652b0bf066c37a0d6314ce4bf4521e4a3c9bf46edd2f6a777ac522223",
+              "size": 1080
+            }
+          ]
+        },
+        {
+          "name": "rocm-profiler-sdk",
+          "version": "10.0.0",
+          "repository": "https://github.com/ROCm/rocm-systems",
+          "commit": "6b0e43f341195e203754e08f850e437ff2fc09f9",
+          "files": [
+            {
+              "path": "projects/rocprofiler-sdk/LICENSE.md",
+              "url": "https://raw.githubusercontent.com/ROCm/rocm-systems/6b0e43f341195e203754e08f850e437ff2fc09f9/projects/rocprofiler-sdk/LICENSE.md",
+              "sha256": "b185aaa652b0bf066c37a0d6314ce4bf4521e4a3c9bf46edd2f6a777ac522223",
+              "size": 1080
+            }
+          ]
+        },
+        {
+          "name": "rocm-core",
+          "version": "10.0.0",
+          "repository": "https://github.com/ROCm/rocm-systems",
+          "commit": "6b0e43f341195e203754e08f850e437ff2fc09f9",
+          "files": [
+            {
+              "path": "projects/rocm-core/LICENSE.md",
+              "url": "https://raw.githubusercontent.com/ROCm/rocm-systems/6b0e43f341195e203754e08f850e437ff2fc09f9/projects/rocm-core/LICENSE.md",
+              "sha256": "b185aaa652b0bf066c37a0d6314ce4bf4521e4a3c9bf46edd2f6a777ac522223",
+              "size": 1080
+            }
+          ]
+        },
+        {
+          "name": "rocm-windows-interop",
+          "version": "10.0.0",
+          "repository": "https://github.com/ROCm/rocm-systems",
+          "commit": "6b0e43f341195e203754e08f850e437ff2fc09f9",
+          "files": [
+            {
+              "path": "shared/amdgpu-windows-interop/LICENSE",
+              "url": "https://raw.githubusercontent.com/ROCm/rocm-systems/6b0e43f341195e203754e08f850e437ff2fc09f9/shared/amdgpu-windows-interop/LICENSE",
+              "sha256": "154bdf053ef72a3cbf01d0065cfcbc0188745de81b914f744f90a0bb8015d18a",
+              "size": 13611
+            },
+            {
+              "path": "shared/amdgpu-windows-interop/pal/LICENSE",
+              "url": "https://raw.githubusercontent.com/ROCm/rocm-systems/6b0e43f341195e203754e08f850e437ff2fc09f9/shared/amdgpu-windows-interop/pal/LICENSE",
+              "sha256": "0774a30583c3e28700537f2f3ca225128c271935baea7cbbed84a1a94a3c3f8b",
+              "size": 1137
+            },
+            {
+              "path": "shared/amdgpu-windows-interop/pal/shared/metrohash/LICENSE",
+              "url": "https://raw.githubusercontent.com/ROCm/rocm-systems/6b0e43f341195e203754e08f850e437ff2fc09f9/shared/amdgpu-windows-interop/pal/shared/metrohash/LICENSE",
+              "sha256": "1eb85fc97224598dad1852b5d6483bbcf0aa8608790dcc657a5a2a761ae9c8c6",
+              "size": 11558
+            },
+            {
+              "path": "shared/amdgpu-windows-interop/pal/shared/devdriver/third_party/dd_crc32/inc/dd_crc32.h",
+              "url": "https://raw.githubusercontent.com/ROCm/rocm-systems/6b0e43f341195e203754e08f850e437ff2fc09f9/shared/amdgpu-windows-interop/pal/shared/devdriver/third_party/dd_crc32/inc/dd_crc32.h",
+              "sha256": "37705b190cef44545c779b76c05c822adf31c862248f04ab215a245d7d55cf9d",
+              "size": 1894
+            }
+          ]
+        },
+        {
+          "name": "rocm-hipblas",
+          "version": "10.0.0",
+          "repository": "https://github.com/ROCm/rocm-libraries",
+          "commit": "8d1ae90eff7d022f26019ec55b2ec6a7674b3112",
+          "files": [
+            {
+              "path": "projects/hipblas/LICENSE.md",
+              "url": "https://raw.githubusercontent.com/ROCm/rocm-libraries/8d1ae90eff7d022f26019ec55b2ec6a7674b3112/projects/hipblas/LICENSE.md",
+              "sha256": "fec91d5fe42b9fef3e0d8088e769c113f8dd6eda614b6bc5a646feacb16c88a4",
+              "size": 3479
+            }
+          ]
+        },
+        {
+          "name": "rocm-rocblas",
+          "version": "10.0.0",
+          "repository": "https://github.com/ROCm/rocm-libraries",
+          "commit": "8d1ae90eff7d022f26019ec55b2ec6a7674b3112",
+          "files": [
+            {
+              "path": "projects/rocblas/LICENSE.md",
+              "url": "https://raw.githubusercontent.com/ROCm/rocm-libraries/8d1ae90eff7d022f26019ec55b2ec6a7674b3112/projects/rocblas/LICENSE.md",
+              "sha256": "b57f384b03b348ca6dc3694dafa3ed7e69003a910fcd9e402eca514f4d86af83",
+              "size": 9200
+            }
+          ]
+        },
+        {
+          "name": "rocm-hipblaslt",
+          "version": "10.0.0",
+          "repository": "https://github.com/ROCm/rocm-libraries",
+          "commit": "8d1ae90eff7d022f26019ec55b2ec6a7674b3112",
+          "files": [
+            {
+              "path": "projects/hipblaslt/LICENSE.md",
+              "url": "https://raw.githubusercontent.com/ROCm/rocm-libraries/8d1ae90eff7d022f26019ec55b2ec6a7674b3112/projects/hipblaslt/LICENSE.md",
+              "sha256": "b185aaa652b0bf066c37a0d6314ce4bf4521e4a3c9bf46edd2f6a777ac522223",
+              "size": 1080
+            }
+          ]
+        },
+        {
+          "name": "rocm-rocsolver",
+          "version": "10.0.0",
+          "repository": "https://github.com/ROCm/rocm-libraries",
+          "commit": "8d1ae90eff7d022f26019ec55b2ec6a7674b3112",
+          "files": [
+            {
+              "path": "projects/rocsolver/LICENSE.md",
+              "url": "https://raw.githubusercontent.com/ROCm/rocm-libraries/8d1ae90eff7d022f26019ec55b2ec6a7674b3112/projects/rocsolver/LICENSE.md",
+              "sha256": "a037bdde286c83bb33b905fbabe2aa4187553b7abe41ae281aa1b2dab89ef95a",
+              "size": 5128
+            }
+          ]
+        },
+        {
+          "name": "rocm-origami",
+          "version": "10.0.0",
+          "repository": "https://github.com/ROCm/rocm-libraries",
+          "commit": "8d1ae90eff7d022f26019ec55b2ec6a7674b3112",
+          "files": [
+            {
+              "path": "shared/origami/LICENSE.md",
+              "url": "https://raw.githubusercontent.com/ROCm/rocm-libraries/8d1ae90eff7d022f26019ec55b2ec6a7674b3112/shared/origami/LICENSE.md",
+              "sha256": "b185aaa652b0bf066c37a0d6314ce4bf4521e4a3c9bf46edd2f6a777ac522223",
+              "size": 1080
+            }
+          ]
+        },
+        {
+          "name": "rocm-rocroller",
+          "version": "10.0.0",
+          "repository": "https://github.com/ROCm/rocm-libraries",
+          "commit": "8d1ae90eff7d022f26019ec55b2ec6a7674b3112",
+          "files": [
+            {
+              "path": "shared/rocroller/LICENSE.md",
+              "url": "https://raw.githubusercontent.com/ROCm/rocm-libraries/8d1ae90eff7d022f26019ec55b2ec6a7674b3112/shared/rocroller/LICENSE.md",
+              "sha256": "b185aaa652b0bf066c37a0d6314ce4bf4521e4a3c9bf46edd2f6a777ac522223",
+              "size": 1080
+            }
+          ]
+        },
+        {
+          "name": "rocm-tensile",
+          "version": "10.0.0",
+          "repository": "https://github.com/ROCm/rocm-libraries",
+          "commit": "8d1ae90eff7d022f26019ec55b2ec6a7674b3112",
+          "files": [
+            {
+              "path": "shared/tensile/LICENSE.md",
+              "url": "https://raw.githubusercontent.com/ROCm/rocm-libraries/8d1ae90eff7d022f26019ec55b2ec6a7674b3112/shared/tensile/LICENSE.md",
+              "sha256": "b185aaa652b0bf066c37a0d6314ce4bf4521e4a3c9bf46edd2f6a777ac522223",
+              "size": 1080
+            }
+          ]
+        },
+        {
+          "name": "rocm-rocprim",
+          "version": "10.0.0",
+          "repository": "https://github.com/ROCm/rocm-libraries",
+          "commit": "8d1ae90eff7d022f26019ec55b2ec6a7674b3112",
+          "files": [
+            {
+              "path": "projects/rocprim/LICENSE.md",
+              "url": "https://raw.githubusercontent.com/ROCm/rocm-libraries/8d1ae90eff7d022f26019ec55b2ec6a7674b3112/projects/rocprim/LICENSE.md",
+              "sha256": "b185aaa652b0bf066c37a0d6314ce4bf4521e4a3c9bf46edd2f6a777ac522223",
+              "size": 1080
+            },
+            {
+              "path": "projects/rocprim/NOTICES.txt",
+              "url": "https://raw.githubusercontent.com/ROCm/rocm-libraries/8d1ae90eff7d022f26019ec55b2ec6a7674b3112/projects/rocprim/NOTICES.txt",
+              "sha256": "b6337760e30c124dd6b8dab97279af2a86bbf4e96122de739bf93efa17dfb303",
+              "size": 3470
+            }
+          ]
+        },
+        {
+          "name": "rocm-mxdatagenerator",
+          "version": "10.0.0",
+          "repository": "https://github.com/ROCm/rocm-libraries",
+          "commit": "8d1ae90eff7d022f26019ec55b2ec6a7674b3112",
+          "files": [
+            {
+              "path": "shared/mxdatagenerator/LICENSE.md",
+              "url": "https://raw.githubusercontent.com/ROCm/rocm-libraries/8d1ae90eff7d022f26019ec55b2ec6a7674b3112/shared/mxdatagenerator/LICENSE.md",
+              "sha256": "b185aaa652b0bf066c37a0d6314ce4bf4521e4a3c9bf46edd2f6a777ac522223",
+              "size": 1080
+            }
+          ]
+        },
+        {
+          "name": "rocm-llvm",
+          "version": "10.0.0",
+          "repository": "https://github.com/ROCm/llvm-project",
+          "commit": "8f497e0992fb7513f7f78a6f6b6f1056c375e961",
+          "files": [
+            {
+              "path": "llvm/LICENSE.TXT",
+              "url": "https://raw.githubusercontent.com/ROCm/llvm-project/8f497e0992fb7513f7f78a6f6b6f1056c375e961/llvm/LICENSE.TXT",
+              "sha256": "8d85c1057d742e597985c7d4e6320b015a9139385cff4cbae06ffc0ebe89afee",
+              "size": 15141
+            },
+            {
+              "path": "clang/LICENSE.TXT",
+              "url": "https://raw.githubusercontent.com/ROCm/llvm-project/8f497e0992fb7513f7f78a6f6b6f1056c375e961/clang/LICENSE.TXT",
+              "sha256": "ebcd9bbf783a73d05c53ba4d586b8d5813dcdf3bbec50265860ccc885e606f47",
+              "size": 15140
+            },
+            {
+              "path": "compiler-rt/LICENSE.TXT",
+              "url": "https://raw.githubusercontent.com/ROCm/llvm-project/8f497e0992fb7513f7f78a6f6b6f1056c375e961/compiler-rt/LICENSE.TXT",
+              "sha256": "1a8f1058753f1ba890de984e48f0242a3a5c29a6a8f2ed9fd813f36985387e8d",
+              "size": 16708
+            },
+            {
+              "path": "libcxx/LICENSE.TXT",
+              "url": "https://raw.githubusercontent.com/ROCm/llvm-project/8f497e0992fb7513f7f78a6f6b6f1056c375e961/libcxx/LICENSE.TXT",
+              "sha256": "539dd7aed86e8a4f12cbdd0e6c50c189c7d74847e4fecc64ce2c6ee3a01da38b",
+              "size": 16703
+            },
+            {
+              "path": "libcxxabi/LICENSE.TXT",
+              "url": "https://raw.githubusercontent.com/ROCm/llvm-project/8f497e0992fb7513f7f78a6f6b6f1056c375e961/libcxxabi/LICENSE.TXT",
+              "sha256": "e2b35be49f7284a45b7baca8fc7b3ab7440e7902392b2528a457816b5bb2a15c",
+              "size": 16706
+            },
+            {
+              "path": "libunwind/LICENSE.TXT",
+              "url": "https://raw.githubusercontent.com/ROCm/llvm-project/8f497e0992fb7513f7f78a6f6b6f1056c375e961/libunwind/LICENSE.TXT",
+              "sha256": "b5efebcaca80879234098e52d1725e6d9eb8fb96a19fce625d39184b705f7b6d",
+              "size": 16706
+            },
+            {
+              "path": "llvm/include/llvm/Support/LICENSE.TXT",
+              "url": "https://raw.githubusercontent.com/ROCm/llvm-project/8f497e0992fb7513f7f78a6f6b6f1056c375e961/llvm/include/llvm/Support/LICENSE.TXT",
+              "sha256": "54cbc326a78b9400065bfc5830a57fdcdaf808286d4ac35d8a9e324aa77b7241",
+              "size": 303
+            },
+            {
+              "path": "llvm/lib/Support/BLAKE3/LICENSE",
+              "url": "https://raw.githubusercontent.com/ROCm/llvm-project/8f497e0992fb7513f7f78a6f6b6f1056c375e961/llvm/lib/Support/BLAKE3/LICENSE",
+              "sha256": "6a94bedb8b707ed97f6e310d0d015ab14e0683ffa0a612b02958581b9cc9fc0e",
+              "size": 18691
+            },
+            {
+              "path": "llvm/lib/Support/COPYRIGHT.regex",
+              "url": "https://raw.githubusercontent.com/ROCm/llvm-project/8f497e0992fb7513f7f78a6f6b6f1056c375e961/llvm/lib/Support/COPYRIGHT.regex",
+              "sha256": "0424e57d4303164dc59a8509c20dae0518b853692e5c2b0e98b11816fdbc97c7",
+              "size": 2718
+            },
+            {
+              "path": "llvm/lib/Support/xxhash.cpp",
+              "url": "https://raw.githubusercontent.com/ROCm/llvm-project/8f497e0992fb7513f7f78a6f6b6f1056c375e961/llvm/lib/Support/xxhash.cpp",
+              "sha256": "699389b388a56d0caf330bb872739b2e23d51a22b7e2f758f2c11fac9936752d",
+              "size": 36697
+            },
+            {
+              "path": "llvm/lib/Support/ConvertUTF.cpp",
+              "url": "https://raw.githubusercontent.com/ROCm/llvm-project/8f497e0992fb7513f7f78a6f6b6f1056c375e961/llvm/lib/Support/ConvertUTF.cpp",
+              "sha256": "85455b58238689b379a28e7a784b1097e1c63e9b08bcd9617dbd5b1f57f663eb",
+              "size": 29482
+            },
+            {
+              "path": "llvm/lib/Support/MD5.cpp",
+              "url": "https://raw.githubusercontent.com/ROCm/llvm-project/8f497e0992fb7513f7f78a6f6b6f1056c375e961/llvm/lib/Support/MD5.cpp",
+              "sha256": "7b7e82f5508a7d5551b78a1140b1d6aa9cba87282168219743cb6377cd5f9acd",
+              "size": 9841
+            },
+            {
+              "path": "llvm/lib/Support/SHA1.cpp",
+              "url": "https://raw.githubusercontent.com/ROCm/llvm-project/8f497e0992fb7513f7f78a6f6b6f1056c375e961/llvm/lib/Support/SHA1.cpp",
+              "sha256": "cc6c4b80b5c2a85f915fd336b72a87aeac696a03c30ce87756e71b060c5ca8a9",
+              "size": 10556
+            },
+            {
+              "path": "llvm/lib/Support/SHA256.cpp",
+              "url": "https://raw.githubusercontent.com/ROCm/llvm-project/8f497e0992fb7513f7f78a6f6b6f1056c375e961/llvm/lib/Support/SHA256.cpp",
+              "sha256": "9b1f22d8181e5776527fe8d45948dc31d99d264a68065f6da6d8fab0db7ea232",
+              "size": 11123
+            }
+          ]
+        },
+        {
+          "name": "rocm-comgr",
+          "version": "10.0.0",
+          "repository": "https://github.com/ROCm/llvm-project",
+          "commit": "8f497e0992fb7513f7f78a6f6b6f1056c375e961",
+          "files": [
+            {
+              "path": "amd/comgr/LICENSE.txt",
+              "url": "https://raw.githubusercontent.com/ROCm/llvm-project/8f497e0992fb7513f7f78a6f6b6f1056c375e961/amd/comgr/LICENSE.txt",
+              "sha256": "6ad4983498652cb8c73c70a705a0d9175c5e3ff5db93c799d8e09557a04af140",
+              "size": 15014
+            }
+          ]
+        },
+        {
+          "name": "rocm-device-libs",
+          "version": "10.0.0",
+          "repository": "https://github.com/ROCm/llvm-project",
+          "commit": "8f497e0992fb7513f7f78a6f6b6f1056c375e961",
+          "files": [
+            {
+              "path": "amd/device-libs/LICENSE.TXT",
+              "url": "https://raw.githubusercontent.com/ROCm/llvm-project/8f497e0992fb7513f7f78a6f6b6f1056c375e961/amd/device-libs/LICENSE.TXT",
+              "sha256": "a4e8e3ba6e9255928a29d3085f929de402e61413cb0c49276e16b558effa8a2a",
+              "size": 1952
+            }
+          ]
+        },
+        {
+          "name": "rocm-hipcc",
+          "version": "10.0.0",
+          "repository": "https://github.com/ROCm/llvm-project",
+          "commit": "8f497e0992fb7513f7f78a6f6b6f1056c375e961",
+          "files": [
+            {
+              "path": "amd/hipcc/LICENSE.txt",
+              "url": "https://raw.githubusercontent.com/ROCm/llvm-project/8f497e0992fb7513f7f78a6f6b6f1056c375e961/amd/hipcc/LICENSE.txt",
+              "sha256": "0c421a032ba7b3ce6cc1fa0282b5d33d4a2d646404c07b90b3b2c1bd073286d6",
+              "size": 1079
+            }
+          ]
+        },
+        {
+          "name": "rocm-build-recipes",
+          "version": "10.0.0",
+          "repository": "https://github.com/ROCm/TheRock",
+          "commit": "16adc4d875fd4f65ea23c7c84e1c66706fde3047",
+          "files": [
+            {
+              "path": "LICENSE",
+              "url": "https://raw.githubusercontent.com/ROCm/TheRock/16adc4d875fd4f65ea23c7c84e1c66706fde3047/LICENSE",
+              "sha256": "7728762ecd3256782c89e28b1887727a484deda6356887ef2f2898598e950cb8",
+              "size": 1113
+            }
+          ]
+        },
+        {
+          "name": "rocm-bzip2",
+          "version": "1.0.8",
+          "files": [
+            {
+              "path": "bzip2-1.0.8/LICENSE",
+              "archive": "rocm-source-bzip2",
+              "member": "bzip2-1.0.8/LICENSE",
+              "sha256": "c6dbbf828498be844a89eaa3b84adbab3199e342eb5cb2ed2f0d4ba7ec0f38a3",
+              "size": 1896
+            }
+          ]
+        },
+        {
+          "name": "rocm-elfutils",
+          "version": "0.195",
+          "files": [
+            {
+              "path": "elfutils-0.195/doc/COPYING-GFDL",
+              "archive": "rocm-source-elfutils",
+              "member": "elfutils-0.195/doc/COPYING-GFDL",
+              "sha256": "62b0aef0fcad4d041e9de52278b2dcbbf999fe0650fa162f37a25cfd969cf4dd",
+              "size": 23176
+            },
+            {
+              "path": "elfutils-0.195/libasm/libasm.h",
+              "archive": "rocm-source-elfutils",
+              "member": "elfutils-0.195/libasm/libasm.h",
+              "sha256": "b94db464373bc7b872383934e06238d41f3a5ecf8cfd007e12d0766fea7e1a49",
+              "size": 7116
+            },
+            {
+              "path": "elfutils-0.195/libdw/libdw.h",
+              "archive": "rocm-source-elfutils",
+              "member": "elfutils-0.195/libdw/libdw.h",
+              "sha256": "c9d2b6703bb6e782e9a871cd6e5c19f85bde0ed02da542c0b338517a4ab0a2cd",
+              "size": 47932
+            },
+            {
+              "path": "elfutils-0.195/libelf/libelf.h",
+              "archive": "rocm-source-elfutils",
+              "member": "elfutils-0.195/libelf/libelf.h",
+              "sha256": "589e331105a216305f609c0ce8a4b02461c3f1d6bde7e68853cada5d51386d2b",
+              "size": 20795
+            },
+            {
+              "path": "elfutils-0.195/COPYING-LGPLV3",
+              "archive": "rocm-source-elfutils",
+              "member": "elfutils-0.195/COPYING-LGPLV3",
+              "sha256": "da7eabb7bafdf7d3ae5e9f223aa5bdc1eece45ac569dc21b3b037520b4464768",
+              "size": 7651
+            },
+            {
+              "path": "elfutils-0.195/COPYING-GPLV2",
+              "archive": "rocm-source-elfutils",
+              "member": "elfutils-0.195/COPYING-GPLV2",
+              "sha256": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643",
+              "size": 18092
+            },
+            {
+              "path": "elfutils-0.195/README",
+              "archive": "rocm-source-elfutils",
+              "member": "elfutils-0.195/README",
+              "sha256": "57cbd369cc5131df619fb7cdd21e8e777f1c2ec28f4a08ce062786d14c46eb17",
+              "size": 1185
+            },
+            {
+              "path": "elfutils-0.195/COPYING",
+              "archive": "rocm-source-elfutils",
+              "member": "elfutils-0.195/COPYING",
+              "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903",
+              "size": 35147
+            },
+            {
+              "path": "elfutils-0.195/AUTHORS",
+              "archive": "rocm-source-elfutils",
+              "member": "elfutils-0.195/AUTHORS",
+              "sha256": "a12e829266d6f307c952720e80df170834f28f369e30753fae6568b7887ef90f",
+              "size": 1545
+            }
+          ]
+        },
+        {
+          "name": "rocm-fmt",
+          "version": "11.1.3",
+          "files": [
+            {
+              "path": "fmt-11.1.3/LICENSE",
+              "archive": "rocm-source-fmt",
+              "member": "fmt-11.1.3/LICENSE",
+              "sha256": "07580f2a3b35709ce703d523f447b242f6dfec7582a8c0df102c7fa2849375f8",
+              "size": 1431
+            },
+            {
+              "path": "fmt-11.1.3/doc-html/python-license.txt",
+              "archive": "rocm-source-fmt",
+              "member": "fmt-11.1.3/doc-html/python-license.txt",
+              "sha256": "dcc4d9738d3e8d3b9f51286f1dc90d0c49ea8325982008ced021932a0b0b0cda",
+              "size": 14903
+            },
+            {
+              "path": "fmt-11.1.3/doc/python-license.txt",
+              "archive": "rocm-source-fmt",
+              "member": "fmt-11.1.3/doc/python-license.txt",
+              "sha256": "dcc4d9738d3e8d3b9f51286f1dc90d0c49ea8325982008ced021932a0b0b0cda",
+              "size": 14903
+            }
+          ]
+        },
+        {
+          "name": "rocm-host-blas",
+          "version": "18638c70eff1f0d08e2833b2724deaa128d6a334",
+          "files": [
+            {
+              "path": "OpenBLAS-18638c7/LICENSE",
+              "archive": "rocm-source-host-blas",
+              "member": "OpenBLAS-18638c7/LICENSE",
+              "sha256": "190b5a9c8d9723fe958ad33916bd7346d96fab3c5ea90832bb02d854f620fcff",
+              "size": 1548
+            },
+            {
+              "path": "OpenBLAS-18638c7/lapack-netlib/LAPACKE/LICENSE",
+              "archive": "rocm-source-host-blas",
+              "member": "OpenBLAS-18638c7/lapack-netlib/LAPACKE/LICENSE",
+              "sha256": "871f415ebd2fd06c7ab8cc3c0016aa2d26b918622345116e2d0c740b688d4843",
+              "size": 1545
+            },
+            {
+              "path": "OpenBLAS-18638c7/lapack-netlib/LICENSE",
+              "archive": "rocm-source-host-blas",
+              "member": "OpenBLAS-18638c7/lapack-netlib/LICENSE",
+              "sha256": "978539245c405775bf347b1256c36df4daf8b69a64b099e94b1d53742201621e",
+              "size": 2266
+            },
+            {
+              "path": "OpenBLAS-18638c7/reference/LICENSE",
+              "archive": "rocm-source-host-blas",
+              "member": "OpenBLAS-18638c7/reference/LICENSE",
+              "sha256": "c1ceeff23f242ddac805ba9d332f58b559454ec00447e65540c0e818f7de69da",
+              "size": 963
+            },
+            {
+              "path": "OpenBLAS-18638c7/relapack/LICENSE",
+              "archive": "rocm-source-host-blas",
+              "member": "OpenBLAS-18638c7/relapack/LICENSE",
+              "sha256": "abd17b9664b38cfab093e7cca625ac08d3a686fc63142ea58c27bae15969dd3a",
+              "size": 1079
+            }
+          ]
+        },
+        {
+          "name": "rocm-libbacktrace",
+          "version": "b9e40069c0b47a722286b94eb5231f7f05c08713",
+          "files": [
+            {
+              "path": "libbacktrace-b9e40069c0b47a722286b94eb5231f7f05c08713/LICENSE",
+              "archive": "rocm-source-libbacktrace",
+              "member": "libbacktrace-b9e40069c0b47a722286b94eb5231f7f05c08713/LICENSE",
+              "sha256": "ef8a9b3247488f8901ca60de9b17b745d7bd67e5ec1e622f80d62364572200d8",
+              "size": 1478
+            }
+          ]
+        },
+        {
+          "name": "rocm-libcap",
+          "version": "2.69",
+          "files": [
+            {
+              "path": "libcap-2.69/License",
+              "archive": "rocm-source-libcap",
+              "member": "libcap-2.69/License",
+              "sha256": "68467e731f4744bd6e0bb69e8df9c3a994e09cd6b203d0c41327ac6d079c581d",
+              "size": 20318
+            },
+            {
+              "path": "libcap-2.69/cap/License",
+              "archive": "rocm-source-libcap",
+              "member": "libcap-2.69/cap/License",
+              "sha256": "18eb30b662ed0abeef6ad6ded90a99b30332418d2f71e63dcb4646bbb23b9acc",
+              "size": 20459
+            },
+            {
+              "path": "libcap-2.69/pam_cap/License",
+              "archive": "rocm-source-libcap",
+              "member": "libcap-2.69/pam_cap/License",
+              "sha256": "018163f725c6a553035d5e475fe2449966a94413b57ce6c1dceec0c8d3ab2bc3",
+              "size": 2121
+            },
+            {
+              "path": "libcap-2.69/psx/License",
+              "archive": "rocm-source-libcap",
+              "member": "libcap-2.69/psx/License",
+              "sha256": "279fa656c62857d42952b86a0789b98669ca1cb4b324a8d9e91397c174af4c14",
+              "size": 20459
+            },
+            {
+              "path": "libcap-2.69/libcap/_makenames.c",
+              "archive": "rocm-source-libcap",
+              "member": "libcap-2.69/libcap/_makenames.c",
+              "sha256": "0cc6b26f31044fa563775b146b69f4bef4e4ddfd764bdc2017ed3495e814cf8f",
+              "size": 2038
+            },
+            {
+              "path": "libcap-2.69/libcap/cap_alloc.c",
+              "archive": "rocm-source-libcap",
+              "member": "libcap-2.69/libcap/cap_alloc.c",
+              "sha256": "790e4b9ac23526ba7233ba68e420f753864111b01ffaaba07231f4b6ed8f09d4",
+              "size": 7153
+            },
+            {
+              "path": "libcap-2.69/libcap/cap_extint.c",
+              "archive": "rocm-source-libcap",
+              "member": "libcap-2.69/libcap/cap_extint.c",
+              "sha256": "c10519146584a3310b4300094a6cc8e25b59c837e9f27c921b9e084b8fd96b46",
+              "size": 5183
+            },
+            {
+              "path": "libcap-2.69/libcap/cap_file.c",
+              "archive": "rocm-source-libcap",
+              "member": "libcap-2.69/libcap/cap_file.c",
+              "sha256": "7d9087a19da2146ca52959a0a35e10ddeec00d4ff0ca0f166dc2e3f4902a977c",
+              "size": 9201
+            },
+            {
+              "path": "libcap-2.69/libcap/cap_flag.c",
+              "archive": "rocm-source-libcap",
+              "member": "libcap-2.69/libcap/cap_flag.c",
+              "sha256": "da7665cd4125a17b27287057ff545622ed0c05e85ced500864a03d5ce9a754f7",
+              "size": 8375
+            },
+            {
+              "path": "libcap-2.69/libcap/cap_proc.c",
+              "archive": "rocm-source-libcap",
+              "member": "libcap-2.69/libcap/cap_proc.c",
+              "sha256": "505685fc1bff6962d4339a98abd5e915473aebe84f9c8e97b55e25f3d4781b04",
+              "size": 28033
+            },
+            {
+              "path": "libcap-2.69/libcap/cap_text.c",
+              "archive": "rocm-source-libcap",
+              "member": "libcap-2.69/libcap/cap_text.c",
+              "sha256": "f56250c1d9617d362f3aefb7e76864b94cb5d57a48a1db9db3ab5a021254f880",
+              "size": 17389
+            },
+            {
+              "path": "libcap-2.69/libcap/execable.h",
+              "archive": "rocm-source-libcap",
+              "member": "libcap-2.69/libcap/execable.h",
+              "sha256": "4c2481e2606f576d20e92e45d4e3d24758b46d4799cb3e0cb95687e8ade6b9b4",
+              "size": 2795
+            },
+            {
+              "path": "libcap-2.69/libcap/include/sys/capability.h",
+              "archive": "rocm-source-libcap",
+              "member": "libcap-2.69/libcap/include/sys/capability.h",
+              "sha256": "6917b74df2788303245bdcf4017bd7b0f790974f78428554eae8acaa2e1dbbf2",
+              "size": 8681
+            },
+            {
+              "path": "libcap-2.69/libcap/include/sys/securebits.h",
+              "archive": "rocm-source-libcap",
+              "member": "libcap-2.69/libcap/include/sys/securebits.h",
+              "sha256": "40e409a518862d079f076356a07278a767c822488d859106799fea24c395605b",
+              "size": 305
+            },
+            {
+              "path": "libcap-2.69/libcap/libcap.h",
+              "archive": "rocm-source-libcap",
+              "member": "libcap-2.69/libcap/libcap.h",
+              "sha256": "9f5a5311b2e3d7f98da525f1543fca3ced8cb1c9c729a8acc8bb4c2a496a48ba",
+              "size": 9116
+            },
+            {
+              "path": "libcap-2.69/psx/psx.c",
+              "archive": "rocm-source-libcap",
+              "member": "libcap-2.69/psx/psx.c",
+              "sha256": "43464283a75974e3b2bcb1100963e4f67cd074bf32fd10d2661621c2870b372c",
+              "size": 22070
+            }
+          ]
+        },
+        {
+          "name": "rocm-libdivide",
+          "version": "5.2.0",
+          "files": [
+            {
+              "path": "libdivide-5.2.0/LICENSE.txt",
+              "archive": "rocm-source-libdivide",
+              "member": "libdivide-5.2.0/LICENSE.txt",
+              "sha256": "524ffe6eed9d379255605a01076282517f8a41657c137fe00073e2c5659f4584",
+              "size": 2704
+            }
+          ]
+        },
+        {
+          "name": "rocm-libdrm",
+          "version": "2.4.134",
+          "files": [
+            {
+              "path": "libdrm-libdrm-2.4.134/amdgpu/amdgpu.h",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/amdgpu/amdgpu.h",
+              "sha256": "83f5e436813f0a886f20943cde8535195c6b79ebc58ba2391bdae27e3d1d35ef",
+              "size": 64459
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/amdgpu/amdgpu_asic_id.c",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/amdgpu/amdgpu_asic_id.c",
+              "sha256": "5b7f65b5556f4b9b60f8a9cfabd15f2c6b9c7320fdbd377d55a805fa01365e1d",
+              "size": 7883
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/amdgpu/amdgpu_bo.c",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/amdgpu/amdgpu_bo.c",
+              "sha256": "024eac033e088e1e4191bd95e50e1a913bc559e6aebd89b5eebc975bdb7fc23b",
+              "size": 20643
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/amdgpu/amdgpu_cs.c",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/amdgpu/amdgpu_cs.c",
+              "sha256": "d03f54d3b27c1976db01a218ede787c2f7080d94963214c6c27a037b35028103",
+              "size": 25783
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/amdgpu/amdgpu_device.c",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/amdgpu/amdgpu_device.c",
+              "sha256": "2375fd246096031adfc580f5a9f3f8067aecdc7e22860f56b212c0b4b0cac615",
+              "size": 9980
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/amdgpu/amdgpu_gpu_info.c",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/amdgpu/amdgpu_gpu_info.c",
+              "sha256": "c43e7495ae9e9c621ab66ba070490169ccc76ad472eda672e205d41106652ed2",
+              "size": 11979
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/amdgpu/amdgpu_internal.h",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/amdgpu/amdgpu_internal.h",
+              "sha256": "acf7572c5fc2f79e2d13697327658d7608d6e126a8b4eaff11177bcb585ac2f4",
+              "size": 5024
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/amdgpu/amdgpu_userq.c",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/amdgpu/amdgpu_userq.c",
+              "sha256": "e8bab1eb94a8a6224c116967cfea990e5c0740cec07288a0c9f5e2bf3dee0773",
+              "size": 3323
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/amdgpu/amdgpu_vamgr.c",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/amdgpu/amdgpu_vamgr.c",
+              "sha256": "835f1b03a03094b49cbbb4687192e573ea0f0f820178ee305646b38cac5dd744",
+              "size": 11696
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/amdgpu/amdgpu_vm.c",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/amdgpu/amdgpu_vm.c",
+              "sha256": "dcdc86d851066f29e24bbe1b130d4d46c7067756ae9f5571ab5e1b7210e7305a",
+              "size": 1741
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/amdgpu/handle_table.c",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/amdgpu/handle_table.c",
+              "sha256": "885179ce933988b025917794cf263703cd55b283583e7c592498b6e20e35f398",
+              "size": 2250
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/amdgpu/handle_table.h",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/amdgpu/handle_table.h",
+              "sha256": "4ee3b05e54fec215638f9709c29c2d57c564506381f36af166e8504b8a1d6318",
+              "size": 1655
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/amdgpu/meson.build",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/amdgpu/meson.build",
+              "sha256": "59d97857ad73445d66e4f546f5e4d2688d80422cb5031f437783d1c819110d0d",
+              "size": 2347
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/gen_table_fourcc.py",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/gen_table_fourcc.py",
+              "sha256": "a4601c51a0b099450e35019ce591ea009640d64c0e9d8414982ae8e0361dc618",
+              "size": 2900
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/include/drm/amdgpu_drm.h",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/include/drm/amdgpu_drm.h",
+              "sha256": "2881120496c69fc2154e590d0bc6e615a48adc43df1a658dd8cd8f78ec648557",
+              "size": 49845
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/include/drm/drm.h",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/include/drm/drm.h",
+              "sha256": "f9eadbfa0f9e1aeacc27f5c931ca3bd7b46974dbad817cd02fe601ccb5cdf08d",
+              "size": 48072
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/include/drm/drm_fourcc.h",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/include/drm/drm_fourcc.h",
+              "sha256": "992f33804acda60b0b46f1a272942c3592484ea3217d469239f1cb12249de2eb",
+              "size": 78466
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/include/drm/drm_mode.h",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/include/drm/drm_mode.h",
+              "sha256": "ee4068c026dfb6c85c668cb4e41ff9cbf30e99c10c5e7ef2ad1c7870d3f9a3bf",
+              "size": 47922
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/include/drm/drm_sarea.h",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/include/drm/drm_sarea.h",
+              "sha256": "fd1a9f523738de090ab5018fc6776b83d18e43ad84f2a0825f6a72d6278c542a",
+              "size": 2782
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/libdrm_lists.h",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/libdrm_lists.h",
+              "sha256": "4082f33572984041a3579bf785eccdca5919252817c229f6d9c1cc1854527488",
+              "size": 4563
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/libdrm_macros.h",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/libdrm_macros.h",
+              "sha256": "98915f32c88ff7a455e6c81211cbd13aa6e190300d61bdee14f83b37cc3a4438",
+              "size": 2735
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/libsync.h",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/libsync.h",
+              "sha256": "0c681ebeb5ff98b61261a3240baa9cf855efb105231985c5a717d26383fe02fd",
+              "size": 3462
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/meson.build",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/meson.build",
+              "sha256": "cddfdf347a0492f29e07793d7797859f05017aafac854eec8270e1f55a57eb43",
+              "size": 11350
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/util_double_list.h",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/util_double_list.h",
+              "sha256": "c8bbb222a9737a10da59209403d180559c4cd49e1af0f73a94ec295d501eee6c",
+              "size": 4678
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/util_math.h",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/util_math.h",
+              "sha256": "cbcd2b9aa649a6953c1b16daf982bb525ee20557eb36cb9cad2672d90007b410",
+              "size": 1912
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/xf86atomic.h",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/xf86atomic.h",
+              "sha256": "447d9a2e6937928997e612d5fb0c20b39a295ee9759a4830d8c305d649201134",
+              "size": 3924
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/xf86drm.c",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/xf86drm.c",
+              "sha256": "dcab8434584e7485d2eb79c847a7c4b6d3b2c90588fad4f3ca9c9b6f346a89a9",
+              "size": 136562
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/xf86drm.h",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/xf86drm.h",
+              "sha256": "5fad86acbddcc3b6a685690da0c7de59412d354d1375644734672f5c6bdf4202",
+              "size": 37600
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/xf86drmHash.c",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/xf86drmHash.c",
+              "sha256": "76c46073e7745ca474e077558b612390eac6850171f8a9889e7279d113209d6d",
+              "size": 7163
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/xf86drmHash.h",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/xf86drmHash.h",
+              "sha256": "eb1a84cf55b56e7772fb67da456f6404f1450a7083296c357f04c0b01cd1334f",
+              "size": 2006
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/xf86drmMode.c",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/xf86drmMode.c",
+              "sha256": "642bf81371fd6e8cc4b76147772f78bea5fbcdfdbfeecca5180877623dd80dda",
+              "size": 45167
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/xf86drmMode.h",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/xf86drmMode.h",
+              "sha256": "96d7da4829bd41f41a3e26011c7cf9a63a597d66407f3348aa9bb2bd3712e2e2",
+              "size": 16557
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/xf86drmRandom.c",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/xf86drmRandom.c",
+              "sha256": "f9c811c486704b2435d756c87a82dd1b747aba7657c71fc7a9590db7b1e697fe",
+              "size": 4860
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/xf86drmRandom.h",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/xf86drmRandom.h",
+              "sha256": "65ae85c0e392ec2e24585df684e278d565299598c689bac73a63ebbec894da89",
+              "size": 1500
+            },
+            {
+              "path": "libdrm-libdrm-2.4.134/xf86drmSL.c",
+              "archive": "rocm-source-libdrm",
+              "member": "libdrm-libdrm-2.4.134/xf86drmSL.c",
+              "sha256": "75e07aba21a635e78ec1108f6c4f88a3e8a6aa57e37f96a239a4e6742a995e82",
+              "size": 8718
+            }
+          ]
+        },
+        {
+          "name": "rocm-liblzma",
+          "version": "5.8.1",
+          "files": [
+            {
+              "path": "xz-5.8.1/COPYING",
+              "archive": "rocm-source-liblzma",
+              "member": "xz-5.8.1/COPYING",
+              "sha256": "616a3ad264ce29b8f1cb97e53037b139d406899ca8d1f799651e17bfa09830b8",
+              "size": 3119
+            },
+            {
+              "path": "xz-5.8.1/COPYING.0BSD",
+              "archive": "rocm-source-liblzma",
+              "member": "xz-5.8.1/COPYING.0BSD",
+              "sha256": "0b01625d853911cd0e2e088dcfb743261034a091bb379246cb25a14cc4c74bf1",
+              "size": 607
+            }
+          ]
+        },
+        {
+          "name": "rocm-libmnl",
+          "version": "1.0.5",
+          "files": [
+            {
+              "path": "libmnl-1.0.5/src/socket.c",
+              "archive": "rocm-source-libmnl",
+              "member": "libmnl-1.0.5/src/socket.c",
+              "sha256": "c70c6cac641e77a7ac2584518ebf20c3a64b4899076451e547b4f988b7c51b07",
+              "size": 10950
+            },
+            {
+              "path": "libmnl-1.0.5/README",
+              "archive": "rocm-source-libmnl",
+              "member": "libmnl-1.0.5/README",
+              "sha256": "526d1f89123fb568085da0e9b0b282458b140042e447abfb2aa7f9de13c5e712",
+              "size": 1221
+            },
+            {
+              "path": "libmnl-1.0.5/COPYING",
+              "archive": "rocm-source-libmnl",
+              "member": "libmnl-1.0.5/COPYING",
+              "sha256": "dc626520dcd53a22f727af3ee42c770e56c97a64fe3adb063799d8ab032fe551",
+              "size": 26530
+            }
+          ]
+        },
+        {
+          "name": "rocm-libnl",
+          "version": "3.12.0",
+          "files": [
+            {
+              "path": "libnl-3.12.0/COPYING",
+              "archive": "rocm-source-libnl",
+              "member": "libnl-3.12.0/COPYING",
+              "sha256": "dc626520dcd53a22f727af3ee42c770e56c97a64fe3adb063799d8ab032fe551",
+              "size": 26530
+            },
+            {
+              "path": "libnl-3.12.0/lib/nl.c",
+              "archive": "rocm-source-libnl",
+              "member": "libnl-3.12.0/lib/nl.c",
+              "sha256": "d5d3b86405afdc7c55812966fb4d6ea622f61b67506af6ea07e9b2c63a33bcc0",
+              "size": 33085
+            }
+          ]
+        },
+        {
+          "name": "rocm-msgpack-cxx",
+          "version": "7.0.0",
+          "files": [
+            {
+              "path": "msgpack-cxx-7.0.0/NOTICE",
+              "archive": "rocm-source-msgpack-cxx",
+              "member": "msgpack-cxx-7.0.0/NOTICE",
+              "sha256": "10514de451bfef1eee4885ce1da8d0e3fdfe36f58357d9199ed0201cdae0334e",
+              "size": 419
+            },
+            {
+              "path": "msgpack-cxx-7.0.0/LICENSE_1_0.txt",
+              "archive": "rocm-source-msgpack-cxx",
+              "member": "msgpack-cxx-7.0.0/LICENSE_1_0.txt",
+              "sha256": "c9bff75738922193e67fa726fa225535870d2aa1059f91452c411736284ad566",
+              "size": 1338
+            },
+            {
+              "path": "msgpack-cxx-7.0.0/COPYING",
+              "archive": "rocm-source-msgpack-cxx",
+              "member": "msgpack-cxx-7.0.0/COPYING",
+              "sha256": "664550b43996452a5a2c7471bb0ff77185a58c69ccafa60f983dc4c162e1ee22",
+              "size": 200
+            }
+          ]
+        },
+        {
+          "name": "rocm-numactl",
+          "version": "2.0.19",
+          "files": [
+            {
+              "path": "numactl-2.0.19/LICENSE.LGPL2.1",
+              "archive": "rocm-source-numactl",
+              "member": "numactl-2.0.19/LICENSE.LGPL2.1",
+              "sha256": "dc626520dcd53a22f727af3ee42c770e56c97a64fe3adb063799d8ab032fe551",
+              "size": 26530
+            },
+            {
+              "path": "numactl-2.0.19/libnuma.c",
+              "archive": "rocm-source-numactl",
+              "member": "numactl-2.0.19/libnuma.c",
+              "sha256": "ce278a0e8135a99ed98797cb466d029c0162be31875b20bdc308d30bd948400c",
+              "size": 52376
+            },
+            {
+              "path": "numactl-2.0.19/README.md",
+              "archive": "rocm-source-numactl",
+              "member": "numactl-2.0.19/README.md",
+              "sha256": "56ea0c5b6cc2634a2b4b646c7dfb208ffc716755733c266efdd0dfdddda91af5",
+              "size": 1819
+            },
+            {
+              "path": "numactl-2.0.19/LICENSE.GPL2",
+              "archive": "rocm-source-numactl",
+              "member": "numactl-2.0.19/LICENSE.GPL2",
+              "sha256": "ab15fd526bd8dd18a9e77ebc139656bf4d33e97fc7238cd11bf60e2b9b8666c6",
+              "size": 17987
+            }
+          ]
+        },
+        {
+          "name": "rocm-spdlog",
+          "version": "1.15.3",
+          "files": [
+            {
+              "path": "spdlog-1.15.3/LICENSE",
+              "archive": "rocm-source-spdlog",
+              "member": "spdlog-1.15.3/LICENSE",
+              "sha256": "4ccecab18d1ff0b61174fe3d6c430541625d3ddb865b0d5887db296f883c76e7",
+              "size": 1354
+            },
+            {
+              "path": "spdlog-1.15.3/include/spdlog/fmt/bundled/fmt.license.rst",
+              "archive": "rocm-source-spdlog",
+              "member": "spdlog-1.15.3/include/spdlog/fmt/bundled/fmt.license.rst",
+              "sha256": "07580f2a3b35709ce703d523f447b242f6dfec7582a8c0df102c7fa2849375f8",
+              "size": 1431
+            }
+          ]
+        },
+        {
+          "name": "rocm-sqlite3",
+          "version": "3.51.3",
+          "files": [
+            {
+              "path": "sqlite-amalgamation-3510300/sqlite3.h",
+              "archive": "rocm-source-sqlite3",
+              "member": "sqlite-amalgamation-3510300/sqlite3.h",
+              "sha256": "19585c8b5230e9d4f223bf31b709ece7b6a0bb3faf00d8310625d8e58cda1b1d",
+              "size": 671786
+            }
+          ]
+        },
+        {
+          "name": "rocm-yaml-cpp",
+          "version": "0.8.0",
+          "files": [
+            {
+              "path": "yaml-cpp-0.8.0/LICENSE",
+              "archive": "rocm-source-yaml-cpp",
+              "member": "yaml-cpp-0.8.0/LICENSE",
+              "sha256": "aa6fcc27be034e41e21dd832f9175bfe694a48491d9e14ff0fa278e19ad14f1b",
+              "size": 1061
+            },
+            {
+              "path": "yaml-cpp-0.8.0/test/gtest-1.11.0/LICENSE",
+              "archive": "rocm-source-yaml-cpp",
+              "member": "yaml-cpp-0.8.0/test/gtest-1.11.0/LICENSE",
+              "sha256": "9702de7e4117a8e2b20dafab11ffda58c198aede066406496bef670d40a22138",
+              "size": 1475
+            },
+            {
+              "path": "yaml-cpp-0.8.0/test/gtest-1.11.0/googlemock/scripts/generator/LICENSE",
+              "archive": "rocm-source-yaml-cpp",
+              "member": "yaml-cpp-0.8.0/test/gtest-1.11.0/googlemock/scripts/generator/LICENSE",
+              "sha256": "5e0df8c845c742e76f2f64d2d9ce1b7e74a2422fddbc577ae6a56319083de0bf",
+              "size": 11386
+            }
+          ]
+        },
+        {
+          "name": "rocm-zlib",
+          "version": "1.3.2",
+          "files": [
+            {
+              "path": "zlib-1.3.2/LICENSE",
+              "archive": "rocm-source-zlib",
+              "member": "zlib-1.3.2/LICENSE",
+              "sha256": "e32ff4e00d9d94930537635291da39e7e612703334bf6fde8c7f1686fe8a45a2",
+              "size": 1002
+            }
+          ]
+        },
+        {
+          "name": "rocm-zstd",
+          "version": "1.5.7",
+          "files": [
+            {
+              "path": "zstd-1.5.7/COPYING",
+              "archive": "rocm-source-zstd",
+              "member": "zstd-1.5.7/COPYING",
+              "sha256": "f9c375a1be4a41f7b70301dd83c91cb89e41567478859b77eef375a52d782505",
+              "size": 18091
+            },
+            {
+              "path": "zstd-1.5.7/LICENSE",
+              "archive": "rocm-source-zstd",
+              "member": "zstd-1.5.7/LICENSE",
+              "sha256": "7055266497633c9025b777c78eb7235af13922117480ed5c674677adc381c9d8",
+              "size": 1549
+            }
+          ]
+        }
+      ],
+      "sourceArchives": [
+        {
+          "name": "rocm-source-bzip2",
+          "version": "1.0.8",
+          "url": "https://rocm-third-party-deps.s3.us-east-2.amazonaws.com/bzip2-1.0.8.tar.gz",
+          "sha256": "ab5a03176ee106d3f0fa90e381da478ddae405918153cca248e682cd0c4a2269",
+          "size": 810029,
+          "filename": "rocm-bzip2-1.0.8.tar.gz",
+          "kind": "upstream-source",
+          "recipe": "https://github.com/ROCm/TheRock/blob/16adc4d875fd4f65ea23c7c84e1c66706fde3047/third-party/sysdeps/common/bzip2/CMakeLists.txt",
+          "upstreamRecipeHash": {
+            "algorithm": "SHA512",
+            "digest": "083f5e675d73f3233c7930ebe20425a533feedeaaa9d8cc86831312a6581cefbe6ed0d08d2fa89be81082f2a5abdabca8b3c080bf97218a1bd59dc118a30b9f3"
+          }
+        },
+        {
+          "name": "rocm-source-elfutils",
+          "version": "0.195",
+          "url": "https://rocm-third-party-deps.s3.us-east-2.amazonaws.com/elfutils-0.195.tar.bz2",
+          "sha256": "37629fdf7f1f3dc2818e138fca2b8094177d6c2d0f701d3bb650a561218dc026",
+          "size": 12032640,
+          "filename": "rocm-elfutils-0.195.tar.bz2",
+          "kind": "upstream-source",
+          "recipe": "https://github.com/ROCm/TheRock/blob/16adc4d875fd4f65ea23c7c84e1c66706fde3047/third-party/sysdeps/linux/elfutils/CMakeLists.txt",
+          "upstreamRecipeHash": {
+            "algorithm": "SHA512",
+            "digest": "e1e1fdf4f7f72bf520deb0103bb8fd208dc247bab14af100c6fb56d38c0ef6c6d54ff5bd15b84e4f70e2b2ea481e5999fea2842360f8932a861122df79b5fc8f"
+          }
+        },
+        {
+          "name": "rocm-source-fmt",
+          "version": "11.1.3",
+          "url": "https://rocm-third-party-deps.s3.us-east-2.amazonaws.com/fmt-11.1.3.zip",
+          "sha256": "7df2fd3426b18d552840c071c977dc891efe274051d2e7c47e2c83c3918ba6df",
+          "size": 1425508,
+          "filename": "rocm-fmt-11.1.3.zip",
+          "kind": "upstream-source",
+          "recipe": "https://github.com/ROCm/TheRock/blob/16adc4d875fd4f65ea23c7c84e1c66706fde3047/third-party/fmt/CMakeLists.txt",
+          "upstreamRecipeHash": {
+            "algorithm": "SHA256",
+            "digest": "7df2fd3426b18d552840c071c977dc891efe274051d2e7c47e2c83c3918ba6df"
+          }
+        },
+        {
+          "name": "rocm-source-host-blas",
+          "version": "18638c70eff1f0d08e2833b2724deaa128d6a334",
+          "url": "https://rocm-third-party-deps.s3.us-east-2.amazonaws.com/OpenBLAS-18638c7.tar.gz",
+          "sha256": "5d81882fdf45a92a190bda2be2922d3372fef19af8f4442f720c0ebc4d10eba8",
+          "size": 25202313,
+          "filename": "rocm-OpenBLAS-18638c7.tar.gz",
+          "kind": "upstream-source",
+          "recipe": "https://github.com/ROCm/TheRock/blob/16adc4d875fd4f65ea23c7c84e1c66706fde3047/third-party/host-blas/CMakeLists.txt",
+          "upstreamRecipeHash": {
+            "algorithm": "SHA256",
+            "digest": "5d81882fdf45a92a190bda2be2922d3372fef19af8f4442f720c0ebc4d10eba8"
+          }
+        },
+        {
+          "name": "rocm-source-libbacktrace",
+          "version": "b9e40069c0b47a722286b94eb5231f7f05c08713",
+          "url": "https://rocm-third-party-deps.s3.us-east-2.amazonaws.com/libbacktrace-b9e40069c0b47a722286b94eb5231f7f05c08713.zip",
+          "sha256": "d2162ff65da45db62e0a1d5fa7662d04b72247cc0ccedad8257cf00e801bb15e",
+          "size": 684708,
+          "filename": "rocm-libbacktrace-b9e40069c0b47a722286b94eb5231f7f05c08713.zip",
+          "kind": "upstream-source",
+          "recipe": "https://github.com/ROCm/TheRock/blob/16adc4d875fd4f65ea23c7c84e1c66706fde3047/third-party/sysdeps/common/libbacktrace/CMakeLists.txt",
+          "upstreamRecipeHash": {
+            "algorithm": "SHA512",
+            "digest": "8acc3324d367413f41a7a65d86b96ad536907ef8c54905041670f5b9adac229a45d454a954385f230c4236d0d69d486551194b1298694af9df2229a05e998997"
+          }
+        },
+        {
+          "name": "rocm-source-libcap",
+          "version": "2.69",
+          "url": "https://rocm-third-party-deps.s3.us-east-2.amazonaws.com/libcap-2.69.tar.gz",
+          "sha256": "9cc2fa3ee744d881629cdac1a1b54c302e7684fda3e3622056218c7681642ffb",
+          "size": 254816,
+          "filename": "rocm-libcap-2.69.tar.gz",
+          "kind": "upstream-source",
+          "recipe": "https://github.com/ROCm/TheRock/blob/16adc4d875fd4f65ea23c7c84e1c66706fde3047/third-party/sysdeps/linux/libcap/CMakeLists.txt",
+          "upstreamRecipeHash": {
+            "algorithm": "SHA256",
+            "digest": "9cc2fa3ee744d881629cdac1a1b54c302e7684fda3e3622056218c7681642ffb"
+          }
+        },
+        {
+          "name": "rocm-source-libdivide",
+          "version": "5.2.0",
+          "url": "https://rocm-third-party-deps.s3.us-east-2.amazonaws.com/libdivide-5.2.0.tar.gz",
+          "sha256": "73ae910c4cdbda823b7df2c1e0e1e7427464ebc43fc770b1a30bb598cb703f49",
+          "size": 1283521,
+          "filename": "rocm-libdivide-5.2.0.tar.gz",
+          "kind": "upstream-source",
+          "recipe": "https://github.com/ROCm/TheRock/blob/16adc4d875fd4f65ea23c7c84e1c66706fde3047/third-party/libdivide/CMakeLists.txt",
+          "upstreamRecipeHash": {
+            "algorithm": "SHA256",
+            "digest": "73ae910c4cdbda823b7df2c1e0e1e7427464ebc43fc770b1a30bb598cb703f49"
+          }
+        },
+        {
+          "name": "rocm-source-libdrm",
+          "version": "2.4.134",
+          "url": "https://rocm-third-party-deps.s3.us-east-2.amazonaws.com/libdrm-libdrm-2.4.134.tar.bz2",
+          "sha256": "d77e5af336b6491f9e2427378244912ef5295c3c034af76846c0fcffe2eb869c",
+          "size": 480043,
+          "filename": "rocm-libdrm-libdrm-2.4.134.tar.bz2",
+          "kind": "upstream-source",
+          "recipe": "https://github.com/ROCm/TheRock/blob/16adc4d875fd4f65ea23c7c84e1c66706fde3047/third-party/sysdeps/linux/libdrm/CMakeLists.txt",
+          "upstreamRecipeHash": {
+            "algorithm": "SHA256",
+            "digest": "d77e5af336b6491f9e2427378244912ef5295c3c034af76846c0fcffe2eb869c"
+          }
+        },
+        {
+          "name": "rocm-source-liblzma",
+          "version": "5.8.1",
+          "url": "https://rocm-third-party-deps.s3.us-east-2.amazonaws.com/xz-5.8.1.tar.bz2",
+          "sha256": "5965c692c4c8800cd4b33ce6d0f6ac9ac9d6ab227b17c512b6561bce4f08d47e",
+          "size": 1902964,
+          "filename": "rocm-xz-5.8.1.tar.bz2",
+          "kind": "upstream-source",
+          "recipe": "https://github.com/ROCm/TheRock/blob/16adc4d875fd4f65ea23c7c84e1c66706fde3047/third-party/sysdeps/common/liblzma/CMakeLists.txt",
+          "upstreamRecipeHash": {
+            "algorithm": "SHA256",
+            "digest": "5965c692c4c8800cd4b33ce6d0f6ac9ac9d6ab227b17c512b6561bce4f08d47e"
+          }
+        },
+        {
+          "name": "rocm-source-libmnl",
+          "version": "1.0.5",
+          "url": "https://rocm-third-party-deps.s3.us-east-2.amazonaws.com/libmnl-1.0.5.tar.bz2",
+          "sha256": "274b9b919ef3152bfb3da3a13c950dd60d6e2bcd54230ffeca298d03b40d0525",
+          "size": 314791,
+          "filename": "rocm-libmnl-1.0.5.tar.bz2",
+          "kind": "upstream-source",
+          "recipe": "https://github.com/ROCm/TheRock/blob/16adc4d875fd4f65ea23c7c84e1c66706fde3047/third-party/sysdeps/linux/libmnl/CMakeLists.txt",
+          "upstreamRecipeHash": {
+            "algorithm": "SHA256",
+            "digest": "274b9b919ef3152bfb3da3a13c950dd60d6e2bcd54230ffeca298d03b40d0525"
+          }
+        },
+        {
+          "name": "rocm-source-libnl",
+          "version": "3.12.0",
+          "url": "https://rocm-third-party-deps.s3.us-east-2.amazonaws.com/libnl-3.12.0.tar.gz",
+          "sha256": "fc51ca7196f1a3f5fdf6ffd3864b50f4f9c02333be28be4eeca057e103c0dd18",
+          "size": 1191546,
+          "filename": "rocm-libnl-3.12.0.tar.gz",
+          "kind": "upstream-source",
+          "recipe": "https://github.com/ROCm/TheRock/blob/16adc4d875fd4f65ea23c7c84e1c66706fde3047/third-party/sysdeps/linux/libnl/CMakeLists.txt",
+          "upstreamRecipeHash": {
+            "algorithm": "SHA256",
+            "digest": "fc51ca7196f1a3f5fdf6ffd3864b50f4f9c02333be28be4eeca057e103c0dd18"
+          }
+        },
+        {
+          "name": "rocm-source-msgpack-cxx",
+          "version": "7.0.0",
+          "url": "https://rocm-third-party-deps.s3.us-east-2.amazonaws.com/msgpack-cxx-7.0.0.tar.gz",
+          "sha256": "7504b7af7e7b9002ce529d4f941e1b7fb1fb435768780ce7da4abaac79bb156f",
+          "size": 480653,
+          "filename": "rocm-msgpack-cxx-7.0.0.tar.gz",
+          "kind": "upstream-source",
+          "recipe": "https://github.com/ROCm/TheRock/blob/16adc4d875fd4f65ea23c7c84e1c66706fde3047/third-party/msgpack-cxx/CMakeLists.txt",
+          "upstreamRecipeHash": {
+            "algorithm": "SHA256",
+            "digest": "7504b7af7e7b9002ce529d4f941e1b7fb1fb435768780ce7da4abaac79bb156f"
+          }
+        },
+        {
+          "name": "rocm-source-numactl",
+          "version": "2.0.19",
+          "url": "https://rocm-third-party-deps.s3.us-east-2.amazonaws.com/numactl-2.0.19.tar.gz",
+          "sha256": "f2672a0381cb59196e9c246bf8bcc43d5568bc457700a697f1a1df762b9af884",
+          "size": 450856,
+          "filename": "rocm-numactl-2.0.19.tar.gz",
+          "kind": "upstream-source",
+          "recipe": "https://github.com/ROCm/TheRock/blob/16adc4d875fd4f65ea23c7c84e1c66706fde3047/third-party/sysdeps/linux/numactl/CMakeLists.txt",
+          "upstreamRecipeHash": {
+            "algorithm": "SHA256",
+            "digest": "f2672a0381cb59196e9c246bf8bcc43d5568bc457700a697f1a1df762b9af884"
+          }
+        },
+        {
+          "name": "rocm-source-spdlog",
+          "version": "1.15.3",
+          "url": "https://rocm-third-party-deps.s3.us-east-2.amazonaws.com/spdlog-1.15.3.tar.gz",
+          "sha256": "15a04e69c222eb6c01094b5c7ff8a249b36bb22788d72519646fb85feb267e67",
+          "size": 277691,
+          "filename": "rocm-spdlog-1.15.3.tar.gz",
+          "kind": "upstream-source",
+          "recipe": "https://github.com/ROCm/TheRock/blob/16adc4d875fd4f65ea23c7c84e1c66706fde3047/third-party/spdlog/CMakeLists.txt",
+          "upstreamRecipeHash": {
+            "algorithm": "SHA256",
+            "digest": "15a04e69c222eb6c01094b5c7ff8a249b36bb22788d72519646fb85feb267e67"
+          }
+        },
+        {
+          "name": "rocm-source-sqlite3",
+          "version": "3.51.3",
+          "url": "https://rocm-third-party-deps.s3.us-east-2.amazonaws.com/sqlite-amalgamation-3510300.zip",
+          "sha256": "acb1e6f5d832484bf6d32b681e858c38add8b2acdfd42ac5df24b8afb46552b4",
+          "size": 2876305,
+          "filename": "rocm-sqlite-amalgamation-3510300.zip",
+          "kind": "upstream-source",
+          "recipe": "https://github.com/ROCm/TheRock/blob/16adc4d875fd4f65ea23c7c84e1c66706fde3047/third-party/sysdeps/common/sqlite3/CMakeLists.txt",
+          "upstreamRecipeHash": {
+            "algorithm": "SHA256",
+            "digest": "acb1e6f5d832484bf6d32b681e858c38add8b2acdfd42ac5df24b8afb46552b4"
+          }
+        },
+        {
+          "name": "rocm-source-yaml-cpp",
+          "version": "0.8.0",
+          "url": "https://rocm-third-party-deps.s3.us-east-2.amazonaws.com/yaml-cpp-0.8.0.tar.gz",
+          "sha256": "fbe74bbdcee21d656715688706da3c8becfd946d92cd44705cc6098bb23b3a16",
+          "size": 1017151,
+          "filename": "rocm-yaml-cpp-0.8.0.tar.gz",
+          "kind": "upstream-source",
+          "recipe": "https://github.com/ROCm/TheRock/blob/16adc4d875fd4f65ea23c7c84e1c66706fde3047/third-party/yaml-cpp/CMakeLists.txt",
+          "upstreamRecipeHash": {
+            "algorithm": "SHA256",
+            "digest": "fbe74bbdcee21d656715688706da3c8becfd946d92cd44705cc6098bb23b3a16"
+          }
+        },
+        {
+          "name": "rocm-source-zlib",
+          "version": "1.3.2",
+          "url": "https://rocm-third-party-deps.s3.us-east-2.amazonaws.com/zlib-1.3.2.tar.gz",
+          "sha256": "bb329a0a2cd0274d05519d61c667c062e06990d72e125ee2dfa8de64f0119d16",
+          "size": 1502830,
+          "filename": "rocm-zlib-1.3.2.tar.gz",
+          "kind": "upstream-source",
+          "recipe": "https://github.com/ROCm/TheRock/blob/16adc4d875fd4f65ea23c7c84e1c66706fde3047/third-party/sysdeps/common/zlib/CMakeLists.txt",
+          "upstreamRecipeHash": {
+            "algorithm": "SHA256",
+            "digest": "bb329a0a2cd0274d05519d61c667c062e06990d72e125ee2dfa8de64f0119d16"
+          }
+        },
+        {
+          "name": "rocm-source-zstd",
+          "version": "1.5.7",
+          "url": "https://rocm-third-party-deps.s3.us-east-2.amazonaws.com/zstd-1.5.7.tar.gz",
+          "sha256": "eb33e51f49a15e023950cd7825ca74a4a2b43db8354825ac24fc1b7ee09e6fa3",
+          "size": 2434947,
+          "filename": "rocm-zstd-1.5.7.tar.gz",
+          "kind": "upstream-source",
+          "recipe": "https://github.com/ROCm/TheRock/blob/16adc4d875fd4f65ea23c7c84e1c66706fde3047/third-party/sysdeps/common/zstd/CMakeLists.txt",
+          "upstreamRecipeHash": {
+            "algorithm": "SHA256",
+            "digest": "eb33e51f49a15e023950cd7825ca74a4a2b43db8354825ac24fc1b7ee09e6fa3"
+          }
+        },
+        {
+          "name": "rocm-therock-build-recipes",
+          "version": "10.0.0",
+          "url": "https://codeload.github.com/ROCm/TheRock/tar.gz/16adc4d875fd4f65ea23c7c84e1c66706fde3047",
+          "filename": "TheRock-10.0.0-source.tar.gz",
+          "sha256": "16b3c486d4f73a3a15991472bb93bd93b2ded094da50b9c1bd5869818c627947",
+          "size": 2917503,
+          "kind": "upstream-source",
+          "scope": "Exact ROCm release build recipes and patches, without git submodules"
+        }
+      ],
+      "scope": "Pinned release notices for the candidate HIP runtime dependency closure. Extra source headers preserve embedded original notices. The final binary dependency manifest determines which libraries are deployed."
+    }
+  }
+}
