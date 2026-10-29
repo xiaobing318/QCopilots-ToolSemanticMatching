@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 #include "core/retrieval.h"
 #include <QCoreApplication>
+#include <QCryptographicHash>
 #include <QDir>
 #include <QElapsedTimer>
 #include <QFile>
@@ -112,6 +113,37 @@ class RetrievalTest : public QObject
       QVERIFY(second.getRecords({"native:clip"}).value("records").toArray().isEmpty());
     }
 
+    void rawRecordNormalizationIsSharedAndLossless()
+    {
+      const QList<QPair<QJsonObject,QString>> fixtures{
+        {{{"binary_id","bin.gdalwarp"}},"example"},
+        {{{"algorithm_id","native:buffer"},{"name","Buffer"},{"description","buffer"},{"parameters",QJsonObject{{"DISTANCE",100}}}},"example"},
+        {{{"name","buffer"},{"parameters",QJsonObject{{"type","object"},{"properties",QJsonObject{}}}}},"definition"},
+        {{{"name","buffer"},{"inputSchema",QJsonObject{{"type","object"}}}},"definition"},
+        {{{"id","native:buffer"},{"provider","native"},{"parameters",QJsonArray{QJsonObject{{"name","INPUT"},{"type","source"}}}},{"outputs",QJsonArray{}}},"definition"},
+        {{{"id","bin.gdalwarp"},{"name","gdalwarp"},{"risk","R2"}},"definition"},
+        {{{"name","send"},{"payload",QJsonObject{{"x",1}}}},"definition"}
+      };
+      for(const auto &fixture:fixtures)
+      {
+        const auto record=normalizeCapabilityRecord(fixture.first);
+        QCOMPARE(record.value("kind").toString(),fixture.second);
+        QCOMPARE(record.value("payload").toObject(),fixture.first);
+        QCOMPARE(normalizeCapabilityRecord(record),record);
+        QTemporaryDir temporary;auto provider=std::make_shared<TestProvider>();
+        RetrievalEngine engine(temporary.filePath("index.sqlite"),provider,testProfile());
+        QCOMPARE(engine.syncCatalog(catalog({fixture.first})).value("status").toString(),QString("succeeded"));
+        const auto stored=engine.getRecords({record.value("record_id").toString()}).value("records").toArray().first().toObject();
+        QCOMPARE(stored.value("payload").toObject(),fixture.first);
+        QCOMPARE(stored.value("kind").toString(),fixture.second);
+        QCOMPARE(stored.value("capability_id"),record.value("capability_id"));
+      }
+      const auto processing=normalizeCapabilityRecord(fixtures[4].first);
+      QCOMPARE(processing.value("capability_id").toString(),QString("native:buffer"));
+      const QJsonObject explicitDefinition{{"kind","definition"},{"payload",fixtures[0].first}};
+      QCOMPARE(normalizeCapabilityRecord(explicitDefinition).value("kind").toString(),QString("definition"));
+    }
+
     void documentBatchesAndAtomicValidation()
     {
       QTemporaryDir temporary; auto provider=std::make_shared<TestProvider>();
@@ -122,9 +154,9 @@ class RetrievalTest : public QObject
       const auto indexed=engine.syncCatalog(catalog(records),nullptr,[&](qint64 completed,qint64 total){progress.append({completed,total});});
       QCOMPARE(indexed.value("status").toString(),QString("succeeded"));
       QCOMPARE(indexed.value("embedded_records").toInt(),10);
-      QCOMPARE(provider->batchSizes,QList<int>({8,2}));
+      QCOMPARE(provider->batchSizes,QList<int>({8,8,4}));
       QCOMPARE(engine.status().value("embedded_records").toInt(),10);
-      QCOMPARE(progress,(QList<QPair<qint64,qint64>>{{0,10},{8,10},{10,10}}));
+      QCOMPARE(progress,(QList<QPair<qint64,qint64>>{{0,10},{4,10},{8,10},{10,10}}));
       progress.clear();
       QCOMPARE(engine.syncCatalog(catalog(records),nullptr,[&](qint64 completed,qint64 total){progress.append({completed,total});}).value("status").toString(),QString("succeeded"));
       QCOMPARE(progress,(QList<QPair<qint64,qint64>>{{10,10}}));
@@ -185,6 +217,32 @@ class RetrievalTest : public QObject
       QVERIFY(response.value("metadata_applied").toBool());
       QVERIFY(first.getRecords({"native:buffer"}).value("records").toArray().isEmpty());
       QCOMPARE(first.status().value("embedded_records").toInt(),0);
+    }
+
+    void previousDocumentProfileIsNotReadAsTwoViews()
+    {
+      QTemporaryDir temporary;const QString path=temporary.filePath("index.sqlite");
+      auto provider=std::make_shared<TestProvider>();RetrievalEngine engine(path,provider,testProfile());
+      const auto snapshot=catalog({definition("native:buffer","buffer")});
+      QCOMPARE(engine.syncCatalog(snapshot).value("status").toString(),QString("succeeded"));
+      auto oldProfile=testProfile().toJson();oldProfile.remove("vector_layout");oldProfile.insert("document_version","capability-json-v1");
+      const QByteArray profileJson=QJsonDocument(oldProfile).toJson(QJsonDocument::Compact);
+      const QByteArray fingerprint=QCryptographicHash::hash(profileJson,QCryptographicHash::Sha256).toHex();
+      sqlite3 *raw=nullptr;QCOMPARE(sqlite3_open(path.toUtf8().constData(),&raw),SQLITE_OK);
+      sqlite3_stmt *statement=nullptr;
+      QCOMPARE(sqlite3_prepare_v2(raw,"INSERT INTO qctsm_profiles VALUES(?,?)",-1,&statement,nullptr),SQLITE_OK);
+      QCOMPARE(sqlite3_bind_text(statement,1,fingerprint.constData(),fingerprint.size(),SQLITE_TRANSIENT),SQLITE_OK);
+      QCOMPARE(sqlite3_bind_text(statement,2,profileJson.constData(),profileJson.size(),SQLITE_TRANSIENT),SQLITE_OK);
+      QCOMPARE(sqlite3_step(statement),SQLITE_DONE);sqlite3_finalize(statement);
+      QCOMPARE(sqlite3_prepare_v2(raw,"UPDATE qctsm_vectors SET profile=?,vector=substr(vector,1,12)",-1,&statement,nullptr),SQLITE_OK);
+      QCOMPARE(sqlite3_bind_text(statement,1,fingerprint.constData(),fingerprint.size(),SQLITE_TRANSIENT),SQLITE_OK);
+      QCOMPARE(sqlite3_step(statement),SQLITE_DONE);sqlite3_finalize(statement);QCOMPARE(sqlite3_close(raw),SQLITE_OK);
+      const int previousRequests=provider->requests.size();
+      QCOMPARE(engine.search({{"query","buffer"}}).value("retrieval_mode").toString(),QString("lexical"));
+      QCOMPARE(provider->requests.size(),previousRequests);
+      QCOMPARE(engine.status().value("embedded_records").toInt(),0);
+      QCOMPARE(engine.syncCatalog(snapshot).value("embedded_records").toInt(),1);
+      QCOMPARE(engine.search({{"query","buffer"}}).value("retrieval_mode").toString(),QString("hybrid"));
     }
 
     void noTransactionHeldAcrossEmbedding()

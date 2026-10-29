@@ -14,8 +14,10 @@ spec.loader.exec_module(runner)
 class QualityContractTests(unittest.TestCase):
     def test_frozen_fixture_hashes_and_labels(self):
         manifest = json.loads((ROOT / "fixture-manifest.json").read_text(encoding="utf-8"))
+        self.assertEqual(manifest["hash_normalization"], "utf8-lf")
         for name in ("catalog", "queries"):
-            self.assertEqual(hashlib.sha256((ROOT / f"{name}.json").read_bytes()).hexdigest(), manifest[f"{name}_sha256"])
+            canonical_bytes = (ROOT / f"{name}.json").read_bytes().replace(b"\r\n", b"\n")
+            self.assertEqual(hashlib.sha256(canonical_bytes).hexdigest(), manifest[f"{name}_sha256"])
         catalog = json.loads((ROOT / "catalog.json").read_text(encoding="utf-8"))
         dataset = json.loads((ROOT / "queries.json").read_text(encoding="utf-8"))
         available = {r["capability_id"] for r in catalog["records"]}

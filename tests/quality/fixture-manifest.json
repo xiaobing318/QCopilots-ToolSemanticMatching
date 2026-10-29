@@ -1,8 +1,9 @@
 {
   "schema_version": 1,
-  "catalog_sha256": "4985bceb67205e82ef199e0f611358ba8243101a47aafebd9d06984aa10e7b7d",
-  "queries_sha256": "2160c3a9728ce845cebe2696ff0e6aabdd1a1202430a7cf27f3bcfaaa4fd397a",
+  "catalog_sha256": "50e992e4ed7fad885b2a589eae029717c20b367fd4f8d69f052fe353e0a7e40f",
+  "queries_sha256": "803abd6530ab5aabd252eaa82cfe6d89bf9652d5c4cc697191cb86a47df8d9b0",
   "record_count": 59,
   "query_count": 74,
-  "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c"
+  "source_commit": "8f513743d20f78e88688e2174c59f6dc6a922b2c",
+  "hash_normalization": "utf8-lf"
 }

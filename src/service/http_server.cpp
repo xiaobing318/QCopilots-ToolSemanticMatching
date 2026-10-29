@@ -70,20 +70,28 @@ public:
     server.Post("/v1/embeddings",[this](const httplib::Request &req,httplib::Response &res){
       QJsonObject body;if(!objectBody(req,res,body))return;
       std::atomic_bool cancelled{false};
-      std::jthread watcher([this,&req,&cancelled](std::stop_token stop){
-        while(!stop.stop_requested()) {
+      std::atomic_bool watcherDone{false};
+      std::thread watcher([this,&req,&cancelled,&watcherDone]{
+        while(!watcherDone.load()) {
           if(shutdown.load()||req.is_connection_closed()){cancelled=true;return;}
           std::this_thread::sleep_for(std::chrono::milliseconds(50));
         }
       });
+      struct WatcherJoin {
+        std::atomic_bool &done;
+        std::thread &thread;
+        ~WatcherJoin(){done=true;if(thread.joinable())thread.join();}
+      } join{watcherDone,watcher};
       auto result=service->embeddings(body,&cancelled);
-      watcher.request_stop();watcher.join();
+      watcherDone=true;watcher.join();
       if(result.value("status").toString()==QStringLiteral("failed")) {const auto code=result.value("error_code").toString();error(res,code.toUtf8().constData(),result.value("message").toString(),code==QStringLiteral("embedding_failed")?503:400);return;}
       reply(res,result);
     });
-    server.Put(R"(/v1/catalogs/([^/]+))",[this](const httplib::Request &req,httplib::Response &res){
+    server.Put(R"(/v1/catalogs/(.+))",[this](const httplib::Request &req,httplib::Response &res){
       const auto doc=parse(req,res);if(doc.isNull())return;
-      const auto id=QUrl::fromPercentEncoding(QByteArray::fromStdString(req.matches[1].str()));
+      // cpp-httplib has already percent-decoded the path exactly once.
+      const auto sourceBytes=req.matches[1].str();
+      const auto id=QString::fromUtf8(sourceBytes.data(),qsizetype(sourceBytes.size()));
       if(id.isEmpty()||id.size()>256){error(res,"invalid_source_id",QStringLiteral("source_id must contain 1 to 256 characters"));return;}
       const auto catalog=normalizeCatalog(doc.isArray()?QJsonValue(doc.array()):QJsonValue(doc.object()),id);
       if(catalog.value("status").toString()==QStringLiteral("failed")){reply(res,catalog,400);return;}

@@ -31,6 +31,13 @@ def git(*args):
     result = subprocess.run(['git','-C',str(SOURCE),*args],capture_output=True,text=True,encoding='utf-8')
     return result.stdout.strip() if result.returncode==0 else ''
 
+def source_bytes(name, commit, dirty):
+    if commit and not dirty:
+        # Use the committed blob, not a checkout transformed by core.autocrlf.
+        # This makes the same source commit produce the same SDK on every OS.
+        return subprocess.check_output(['git','-C',str(SOURCE),'show',commit+':'+name])
+    return (SOURCE/name).read_bytes().replace(b'\r\n',b'\n')
+
 def export(output, allow_dirty=False):
     output=Path(output).resolve()
     if output==SOURCE or SOURCE in output.parents:
@@ -46,9 +53,10 @@ def export(output, allow_dirty=False):
             raise ValueError('Missing SDK module: '+prefix)
         for path in sorted(directory.rglob('*')):
             if path.is_file() and not path.is_symlink():
-                files[path.relative_to(SOURCE).as_posix()]=path.read_bytes()
+                name=path.relative_to(SOURCE).as_posix()
+                files[name]=source_bytes(name,commit,dirty)
     for name in ('LICENSE','THIRD_PARTY_NOTICES.md','docs/integration-contract.md'):
-        files[name]=(SOURCE/name).read_bytes()
+        files[name]=source_bytes(name,commit,dirty)
     files['CMakeLists.txt']=SDK_CMAKE.encode()
     manifest={'schema_version':1,'interface_version':1,'version':'0.1.0',
               'repository':'https://github.com/xiaobing318/QCopilots-ToolSemanticMatching',

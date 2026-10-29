@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "packages": [
+    {
+      "id": "qtbase",
+      "module": "qtbase",
+      "version": "6.12.0",
+      "filename": "qtbase-everywhere-src-6.12.0.tar.xz",
+      "url": "https://download.qt.io/archive/qt/6.12/6.12.0/submodules/qtbase-everywhere-src-6.12.0.tar.xz",
+      "size": 51220268,
+      "sha256": "a951bd163c7b80fc6b8c88d7668fb56abf91c152373e13c10666763238131307",
+      "checksumUrl": "https://download.qt.io/archive/qt/6.12/6.12.0/submodules/qtbase-everywhere-src-6.12.0.tar.xz.sha256",
+      "metadataUrl": "https://download.qt.io/archive/qt/6.12/6.12.0/submodules/qtbase-everywhere-src-6.12.0.tar.xz.meta4",
+      "sourceArchiveRoot": "qtbase-everywhere-src-6.12.0",
+      "name": "qtbase"
+    },
+    {
+      "id": "qtsvg",
+      "module": "qtsvg",
+      "version": "6.12.0",
+      "filename": "qtsvg-everywhere-src-6.12.0.tar.xz",
+      "url": "https://download.qt.io/archive/qt/6.12/6.12.0/submodules/qtsvg-everywhere-src-6.12.0.tar.xz",
+      "size": 2341876,
+      "sha256": "e4ab39534ec97987b1b9b60ef7f4d3253d5912a69f8c713a01753174a4029331",
+      "checksumUrl": "https://download.qt.io/archive/qt/6.12/6.12.0/submodules/qtsvg-everywhere-src-6.12.0.tar.xz.sha256",
+      "metadataUrl": "https://download.qt.io/archive/qt/6.12/6.12.0/submodules/qtsvg-everywhere-src-6.12.0.tar.xz.meta4",
+      "sourceArchiveRoot": "qtsvg-everywhere-src-6.12.0",
+      "name": "qtsvg"
+    }
+  ]
+}

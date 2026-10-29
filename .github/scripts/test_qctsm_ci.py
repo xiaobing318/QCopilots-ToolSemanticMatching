@@ -4,7 +4,9 @@ import copy
 import importlib.util
 from pathlib import Path
 import sys
+import tempfile
 import unittest
+from unittest import mock
 
 sys.dont_write_bytecode = True
 spec = importlib.util.spec_from_file_location('qctsm_selection', Path(__file__).with_name('qctsm-artifact-selection.py'))
@@ -83,6 +85,17 @@ class ArtifactSelectionTests(unittest.TestCase):
         jobs,artifacts = inventory()
         jobs[0]['conclusion'] = 'skipped'
         self.assertFalse(self.select(jobs,artifacts)['passed'])
+
+    def test_model_metadata_test_cannot_replace_real_model_acceptance(self):
+        native_spec = importlib.util.spec_from_file_location('qctsm_native_gate',Path(__file__).with_name('qctsm-native-ci.py'))
+        native = importlib.util.module_from_spec(native_spec)
+        native_spec.loader.exec_module(native)
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root/'ctest.xml').write_text('<testsuite><testcase name="qctsm-model-files"/></testsuite>',encoding='utf-8')
+            with mock.patch.object(native,'dev'),mock.patch.object(native,'reports',return_value=root):
+                with self.assertRaisesRegex(RuntimeError,'qctsm-embedding-real-model'):
+                    native.test()
 
 
 if __name__ == '__main__':

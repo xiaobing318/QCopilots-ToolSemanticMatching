@@ -223,18 +223,18 @@ def build(root: Path, destination: Path) -> None:
                            for n, (lang, query, expected) in enumerate(QUERIES, 1)]}
     destination.mkdir(parents=True, exist_ok=True)
     for name, data in (("catalog.json", catalog), ("queries.json", queries)):
-        (destination / name).write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        (destination / name).write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
     examples = destination.parents[1] / "examples"
     examples.mkdir(parents=True, exist_ok=True)
-    (examples / "gdalwarp-call.json").write_text(json.dumps(example, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (examples / "gdalwarp-call.json").write_text(json.dumps(example, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
     small = dict(catalog)
     small["source_id"] = "gdalwarp-definition-and-example"
     small["records"] = [record for record in records if record["capability_id"] == "bin.gdalwarp"]
-    (examples / "gdalwarp-catalog.json").write_text(json.dumps(small, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    manifest = {"schema_version": 1, "catalog_sha256": hashlib.sha256((destination / "catalog.json").read_bytes()).hexdigest(),
+    (examples / "gdalwarp-catalog.json").write_text(json.dumps(small, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
+    manifest = {"schema_version": 1, "hash_normalization": "utf8-lf", "catalog_sha256": hashlib.sha256((destination / "catalog.json").read_bytes()).hexdigest(),
                 "queries_sha256": hashlib.sha256((destination / "queries.json").read_bytes()).hexdigest(),
                 "record_count": len(records), "query_count": len(QUERIES), "source_commit": SOURCE_COMMIT}
-    (destination / "fixture-manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+    (destination / "fixture-manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8", newline="\n")
     print(json.dumps(manifest))
 
 

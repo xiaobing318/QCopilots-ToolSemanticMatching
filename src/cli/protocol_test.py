@@ -111,6 +111,14 @@ def main() -> int:
             submitted = next(row for row in received if row["path"].endswith("/v1/search"))
             assert submitted["body"]["query"] == "道路缓冲区 buffer"
             assert submitted["body"]["top_n"] == 3
+            for option in (("--available", "false"), ("--available", "true"), ("--available-only",)):
+                run("search", "--query", "x", *option)
+                assert received[-1]["body"]["filters"]["available"] is (option != ("--available", "false")), received[-1]
+            for option in (("--available", "yes"), ("--available", "false", "--available-only")):
+                previous = len(received)
+                invalid = run("search", "--query", "x", *option, success=False)
+                assert invalid["error_code"] == "invalid_arguments", invalid
+                assert len(received) == previous, "Invalid availability filter reached the service"
 
             source = [{"binary_id": "bin.gdalwarp", "confirmed_risk": True, "arguments": ["-r", "lanczos", "a.tif", "b.tif"]}]
             catalog = Path(temporary) / "目录.json"

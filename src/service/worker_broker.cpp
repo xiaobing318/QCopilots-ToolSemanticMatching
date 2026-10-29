@@ -9,6 +9,8 @@
 #include <QProcess>
 #include <QUuid>
 #include <cmath>
+#include <algorithm>
+#include <chrono>
 #include <condition_variable>
 #include <deque>
 #include <mutex>
@@ -79,7 +81,7 @@ public:
       else if(launch(process,r->error)) {
         const QString id=QUuid::createUuid().toString(QUuid::WithoutBraces);
         const auto message=QJsonDocument(QJsonObject{{"id",id},{"operation","embed"},{"input",QJsonArray{r->text}}}).toJson(QJsonDocument::Compact)+'\n';
-        if(process.write(message)!=message.size() || (process.bytesToWrite()>0 && !process.waitForBytesWritten(5000))) r->error=QStringLiteral("Cannot write to embedding worker");
+        if(process.write(message)!=message.size() || (process.bytesToWrite()>0 && !process.waitForBytesWritten(5000))) {r->error=QStringLiteral("Cannot write to embedding worker");terminate(process);}
         else {
           QElapsedTimer timer;timer.start();
           QByteArray buffer,diagnostics;
@@ -134,7 +136,14 @@ QList<QVector<float>> WorkerBroker::embed(const QStringList &texts,int priority,
     std::unique_lock lock(d->mutex);
     if(d->stopping.load()) {if(error)*error=QStringLiteral("Service is stopping");return {};}
     d->queue.push_back(r);d->available.notify_one();
-    r->changed.wait(lock,[&r]{return r->done;});
+    while(!r->done) {
+      r->changed.wait_for(lock,std::chrono::milliseconds(50),[&r]{return r->done;});
+      if(!r->done && cancel && cancel->load()) {
+        const auto queued=std::find(d->queue.begin(),d->queue.end(),r);
+        if(queued!=d->queue.end()) {d->queue.erase(queued);r->error=QStringLiteral("cancelled");r->done=true;}
+        // An active request is owned by run(), which observes the same flag.
+      }
+    }
     if(!r->error.isEmpty()) {if(error)*error=r->error;return {};}
     vectors.append(r->vector);
   }

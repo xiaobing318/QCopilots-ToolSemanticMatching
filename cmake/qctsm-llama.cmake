@@ -95,6 +95,8 @@ endif()
 FetchContent_Declare(qctsm_llama
   URL "${_qctsm_llama_url}"
   URL_HASH "SHA256=${_qctsm_llama_sha}"
+  TIMEOUT 600
+  INACTIVITY_TIMEOUT 60
   DOWNLOAD_DIR "${FETCHCONTENT_BASE_DIR}/downloads"
   DOWNLOAD_NAME "llama-${_qctsm_llama_cache_id}.tar.gz"
   DOWNLOAD_EXTRACT_TIMESTAMP TRUE

@@ -1,6 +1,7 @@
 # Package deployment adapted from QCopilots-Search (MIT).
 include_guard(GLOBAL)
 include(GNUInstallDirs)
+include(qctsm-licenses)
 
 if(APPLE)
   set_target_properties(qctsm-gui PROPERTIES
@@ -82,7 +83,7 @@ if(QCOPILOTS_TOOL_SEMANTIC_MATCHING_DEPLOY_QT)
     string(APPEND _qctsm_deploy_arguments " POST_EXCLUDE_FILES${_qctsm_excluded}\n")
   endif()
   if(MSVC)
-    string(APPEND _qctsm_deploy_arguments " NO_COMPILER_RUNTIME\n DEPLOY_TOOL_OPTIONS --exclude-plugins qpdf\n")
+    string(APPEND _qctsm_deploy_arguments " NO_COMPILER_RUNTIME\n DEPLOY_TOOL_OPTIONS --exclude-plugins qpdf,qicns,qjp2,qdds,qtga,qtiff,qwbmp,qwebp,qmng\n")
   endif()
   if(APPLE)
     set(_qctsm_executable "qctsm-gui.app")
@@ -125,6 +126,7 @@ install(FILES "${PROJECT_SOURCE_DIR}/config/build-variants.json"
   "${PROJECT_SOURCE_DIR}/config/gpu-license-sources.lock.json"
   "${PROJECT_SOURCE_DIR}/tools/qt-packages.lock.json" DESTINATION "${CMAKE_INSTALL_DATADIR}/qctsm")
 install(FILES "${PROJECT_SOURCE_DIR}/tests/runtime/fixtures/LICENSE-DigUp"
+  "${CMAKE_CURRENT_LIST_DIR}/qctsm-model-terms.txt"
   DESTINATION "${CMAKE_INSTALL_DATADIR}/qctsm/licenses")
 install(DIRECTORY "${PROJECT_SOURCE_DIR}/schemas/" DESTINATION "${CMAKE_INSTALL_DATADIR}/qctsm/schemas")
 install(DIRECTORY "${PROJECT_SOURCE_DIR}/examples/" DESTINATION "${CMAKE_INSTALL_DATADIR}/qctsm/examples")

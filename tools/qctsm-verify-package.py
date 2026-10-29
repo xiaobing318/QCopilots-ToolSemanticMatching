@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.util
 import json
 import math
 import os
@@ -153,6 +154,13 @@ def smoke(root, models, work, expected_commit=None):
             raise RuntimeError('Installed package run, attempt, or variant differs from this execution')
     suffix = '.exe' if os.name == 'nt' else ''
     gpu_payload = verify_gpu_payload(root, binary, identity)
+    license_manifests = list(root.rglob('qctsm-license-manifest.json'))
+    if len(license_manifests) != 1:
+        raise RuntimeError('Distribution requires one complete runtime license materials manifest')
+    spec = importlib.util.spec_from_file_location('qctsm_package_licenses',SOURCE/'tools/qctsm-license-materials.py')
+    license_module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(license_module)
+    license_report = license_module.validate_runtime_license_directory(license_manifests[0].parent)
     initial = {name:digest(binary/(name+suffix)) for name in PROGRAMS}
     env = clean_environment(work, binary)
     for name in PROGRAMS:
@@ -186,7 +194,7 @@ def smoke(root, models, work, expected_commit=None):
         raise RuntimeError('Installed backend discovery failed: '+json.dumps(devices))
     if devices.get('gpu_load_error_kind') == 'package':
         raise RuntimeError('Installed GPU package is invalid: '+json.dumps(devices))
-    return {'passed':True, 'identity':identity, 'programSha256':initial,
+    return {'passed':True, 'identity':identity, 'programSha256':initial,'runtimeLicenses':license_report,
             'realModel':{'passed':True, 'dimensions':768, 'count':2, 'runtime':runtime},
             'deviceInventory':devices, 'gpuPayload':gpu_payload, 'gpuInference':{'executed':False,
                 'reason':'Package smoke explicitly uses CPU. This report provides no GPU inference acceptance evidence.'}}

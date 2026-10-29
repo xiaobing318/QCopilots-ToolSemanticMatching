@@ -6,7 +6,7 @@
 
 头文件 `src/core/retrieval.h`，命名空间 `qctsm`。CMake targets `qctsm-retrieval` 和 `qctsm-http-provider`，aliases `qctsm::retrieval` / `qctsm::http_provider`。
 
-`EmbeddingProfile` 保存 modelId、revision、dimensions，提供 `fingerprint()`、`toJson()`、`fromJson()`。指纹包括 mean/L2、query/document 提示版本和文档规范化版本，不包含 endpoint。相同模型 revision 的本地及远端 provider 可以共享向量。
+`EmbeddingProfile` 保存 modelId、revision、dimensions，提供 `fingerprint()`、`toJson()`、`fromJson()`。指纹包括 mean/L2、query/document 提示版本和文档规范化版本，不包含 endpoint。相同模型 revision 与完整 profile 的本地及远端 provider 可以共享向量。当前文档版本为 `capability-json-views-v2`，向量布局为 `document-then-name-v1`，分别保存完整能力说明和名称视图。每个视图仍为模型原生维度，旧单视图 profile 不会被当作兼容向量读取。
 
 `EmbeddingProvider::embed(const QStringList &, const std::atomic_bool *, QString *) -> QList<QVector<float>>` 接收原始文本，返回按输入顺序排列的真实向量。调用发生在后台线程。错误写 error 并返回空列表。
 
@@ -39,7 +39,7 @@ definition payload 可为 MCP descriptor 或 Processing/Binary 详情。example 
 
 QgsSettings Plugins section key `QCopilots/servicesV1` 保存 JSON 字符串：
 `{schema_version:1,web_url,planner:{api_base_mode:follow_web|explicit,api_base_url,model_id,authcfg},embedding:{endpoint_mode:follow_planner|explicit,api_base_url,model_id,revision,authcfg},retrieval:{database_path,top_n:8},tool_mode:gateway|full,timeout_seconds:60}`。
-旧 `QCopilots/serverUrl` 仍为网页地址投影。新安装默认远端 URL `https://1692fe05.r27.cpolar.top`，旧设置原值优先。默认模型 Qwen3.8-27B-UD-Q8_K_XL 和 embeddinggemma-2-Q8_0。
+旧 `QCopilots/serverUrl` 仍为网页地址投影。新安装默认远端 URL `https://35fcc12d.r27.cpolar.top`，旧设置原值优先。默认模型 Qwen3.8-27B-UD-Q8_K_XL 和 embeddinggemma-2-Q8_0。
 
 进程内 QObject objectName `QCopilotsSemanticRuntimeV1`，不注册 WebChannel。Q_INVOKABLE `QString submit(QString requestJson)`, `QString snapshot(QString jobId)`, `QString cancel(QString jobId)`。请求含 operation `sync_catalog|search|get_records|index_status|chat` 和 payload。submit 只入队，返回 `{status:queued,job_id}`。snapshot 返回 `{status:queued|running|succeeded|failed|cancelled,result?:object,error_code?:string,message?:string}`。chat 的 payload 为 OpenAI 请求体，运行时使用 planner 端点/认证。每任务捕获配置快照。
 

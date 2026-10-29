@@ -174,11 +174,38 @@ def test():
     names = [case.attrib.get('name','') for case in cases]
     required = {'qctsm-core','qctsm-http-provider','qctsm-service','qctsm-gui-interaction',
                 'qctsm-model-files','qctsm-embedding-real-model','qctsm-worker-protocol',
-                'qctsm-quality-real-model','qctsm-cli-protocol','qctsm-tooling'}
+                'qctsm-quality-real-model','qctsm-quality-contract','qctsm-quality-cold-latency','qctsm-cli-protocol',
+                'qctsm-tooling','qctsm-license-materials'}
     missing = required-set(names)
     if missing:
         raise RuntimeError('Required product tests were not executed: '+', '.join(sorted(missing)))
     print(json.dumps({'passed':True,'testCount':len(cases),'testNames':names}))
+    quality_files = list((variant_root()/'runs/Release/quality').glob('*/gis-quality.json'))
+    if len(quality_files) != 1:
+        raise RuntimeError('Fresh CI execution requires one inspectable real-model quality report')
+    quality = json.loads(quality_files[0].read_text(encoding='utf-8'))
+    if quality.get('passed') is not True or quality.get('query_count',0) < 50 or quality.get('recall_at_8',0) < .9:
+        raise RuntimeError('Real-model retrieval acceptance report did not meet the required dataset and recall')
+    evidence = {key:quality.get(key) for key in ('dataset_id','dataset_revision','query_count',
+        'catalog_sha256','queries_sha256','recall_at_8','mrr_at_8','context_size',
+        'latency_seconds','warm_repeat_seconds','query_transport','cli_http_parity','failures')}
+    cold_files = list((variant_root()/'runs/Release/quality').glob('*/cold-latency.json'))
+    if len(cold_files) != 1:
+        raise RuntimeError('Fresh CI execution requires one independent cold/warm latency report')
+    cold = json.loads(cold_files[0].read_text(encoding='utf-8'))
+    if cold.get('passed') is not True or cold.get('ranking_payload_parity') is not True:
+        raise RuntimeError('Independent cold/warm query verification did not pass')
+    evidence['cold_warm'] = {key:cold.get(key) for key in ('cold_scope','cold_query_seconds',
+        'warm_query_seconds','cold_recall','ranking_payload_parity','prepare_graceful_shutdown','restart_graceful_shutdown')}
+    evidence['gpu_test_output'] = [line.strip() for case in cases
+        for line in case.findtext('system-out','').splitlines() if 'GPU inference tested=' in line]
+    (reports()/'acceptance-summary.json').write_text(json.dumps(evidence,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    print(json.dumps({'acceptance':evidence},ensure_ascii=False,indent=2))
+    if os.environ.get('GITHUB_STEP_SUMMARY'):
+        with environment_path('GITHUB_STEP_SUMMARY').open('a',encoding='utf-8') as summary:
+            print(f'Validated {quality["query_count"]} frozen real-model queries. '
+                  f'Recall@8={quality["recall_at_8"]:.4f}, MRR@8={quality["mrr_at_8"]:.4f}.',file=summary)
+            print('\n```json\n'+json.dumps(evidence,ensure_ascii=False,indent=2)+'\n```',file=summary)
 
 
 def package():

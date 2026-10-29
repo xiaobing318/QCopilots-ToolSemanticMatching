@@ -3,7 +3,6 @@
 #include "worker_broker.h"
 #include "provider_http/http_embedding_provider.h"
 #include "runtime/model_files.h"
-#include <QCryptographicHash>
 #include <QDateTime>
 #include <QDebug>
 #include <QDir>
@@ -12,6 +11,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QSaveFile>
+#include <QRegularExpression>
 #include <QUrl>
 #include <QUuid>
 #include <cmath>
@@ -28,23 +28,12 @@ QString now(){return QDateTime::currentDateTimeUtc().toString(Qt::ISODateWithMs)
 bool terminal(const QString &s){return s==QStringLiteral("succeeded")||s==QStringLiteral("failed")||s==QStringLiteral("cancelled");}
 }
 QJsonObject normalizeCatalog(const QJsonValue &value,const QString &sourceId) {
-  if(value.isObject() && value.toObject().contains("records")) {auto o=value.toObject();o["source_id"]=sourceId;return o;}
+  if(value.isObject() && value.toObject().contains("records") && value.toObject().contains("schema_version")) {auto o=value.toObject();o["source_id"]=sourceId;return o;}
   QJsonArray input=value.isArray()?value.toArray():QJsonArray{value};
   QJsonArray records;
   for(const auto &v:input) {
     if(!v.isObject()) return fail(QStringLiteral("invalid_catalog"),QStringLiteral("Every catalog record must be a JSON object"));
-    auto o=v.toObject();
-    if(o.contains("payload")) {records.append(o);continue;}
-    const auto id=o.value("binary_id").toString(o.value("algorithm_id").toString(o.value("name").toString()));
-    const auto hash=QString::fromLatin1(QCryptographicHash::hash(QJsonDocument(o).toJson(QJsonDocument::Compact),QCryptographicHash::Sha256).toHex());
-    const auto parameters=o.value("parameters").toObject();
-    const bool schema=o.contains("inputSchema")||o.contains("outputSchema")||
-      parameters.value("type").toString()==QStringLiteral("object")||parameters.contains("properties");
-    const bool example=!schema&&(o.contains("arguments")||o.contains("parameters"));
-    QJsonObject r{{"record_id",hash},{"capability_id",id.isEmpty()?hash:id},{"kind",example?"example":"definition"},{"payload",o}};
-    if(o.contains("name")) r["name"]=o["name"];
-    if(o.contains("description")) r["description"]=o["description"];
-    records.append(r);
+    records.append(normalizeCapabilityRecord(v.toObject()));
   }
   return {{"schema_version",1},{"source_id",sourceId},{"revision",QUuid::createUuid().toString(QUuid::WithoutBraces)},{"records",records}};
 }
@@ -53,6 +42,8 @@ public:
   struct Job {
     QString id,operation,status=QStringLiteral("queued"),created=now(),updated=created;
     QJsonObject payload,result;
+    bool resultStored=false;
+    QString errorCode,errorMessage;
     std::atomic_bool cancelled{false};
     qint64 completed=0,total=0;
   };
@@ -66,9 +57,20 @@ public:
   std::deque<std::shared_ptr<Job>> queryQueue,indexQueue;
   std::atomic_bool stopping{false};
   std::thread queryThread,indexThread;
+  QString resultPath(const Job &job) const {return QDir(config.profilePath).filePath(QStringLiteral("job-results/")+job.id+QStringLiteral(".json"));}
   void persist() {
     QJsonArray rows;
-    for(const auto &pair:jobs) rows.append(json(*pair.second));
+    if(!QDir().mkpath(QDir(config.profilePath).filePath(QStringLiteral("job-results")))){qWarning()<<"Cannot create job result directory";return;}
+    for(const auto &pair:jobs) {
+      auto &job=*pair.second;
+      if(!job.result.isEmpty()&&!job.resultStored) {
+        QSaveFile resultFile(resultPath(job));
+        const auto bytes=QJsonDocument(job.result).toJson(QJsonDocument::Compact);
+        if(!resultFile.open(QIODevice::WriteOnly)||resultFile.write(bytes)!=bytes.size()||!resultFile.commit()){qWarning()<<"Cannot persist job result:"<<resultFile.errorString();return;}
+        job.resultStored=true;
+      }
+      rows.append(json(job,false));
+    }
     QSaveFile file(QDir(config.profilePath).filePath(QStringLiteral("jobs.json")));
     if(!QDir().mkpath(config.profilePath)||!file.open(QIODevice::WriteOnly)){qWarning()<<"Cannot persist task journal:"<<file.errorString();return;}
     const auto bytes=QJsonDocument(QJsonObject{{"schema_version",1},{"jobs",rows}}).toJson(QJsonDocument::Compact);
@@ -76,12 +78,16 @@ public:
   }
   void restore() {
     QFile file(QDir(config.profilePath).filePath(QStringLiteral("jobs.json")));
-    if(!file.open(QIODevice::ReadOnly)||file.size()>32*1024*1024)return;
+    if(!file.open(QIODevice::ReadOnly))return;
     const auto rows=QJsonDocument::fromJson(file.readAll()).object().value("jobs").toArray();
     for(const auto &value:rows){
-      const auto o=value.toObject();const auto id=o.value("job_id").toString();if(id.isEmpty())continue;
+      const auto o=value.toObject();const auto id=o.value("job_id").toString();
+      static const QRegularExpression safeId(QStringLiteral("^[A-Za-z0-9_-]{1,128}$"));
+      if(!safeId.match(id).hasMatch())continue;
       auto j=std::make_shared<Job>();j->id=id;j->operation=o.value("operation").toString();j->status=o.value("status").toString();j->created=o.value("created_at").toString();j->updated=o.value("updated_at").toString();j->result=o.value("result").toObject();
-      if(!terminal(j->status)){j->status=QStringLiteral("failed");j->updated=now();j->result=fail(QStringLiteral("interrupted"),QStringLiteral("The service stopped before this operation completed. Inspect the shared index and submit a new request."));}
+      j->errorCode=o.value("error_code").toString();j->errorMessage=o.value("message").toString();
+      j->resultStored=o.value("result_file").toString()==id+QStringLiteral(".json");
+      if(!terminal(j->status)){j->status=QStringLiteral("failed");j->updated=now();j->result=fail(QStringLiteral("interrupted"),QStringLiteral("The service stopped before this operation completed. Inspect the shared index and submit a new request."));j->resultStored=false;}
       jobs.emplace(id,j);if(jobs.size()>=256)break;
     }
     persist();
@@ -99,11 +105,21 @@ public:
     }
     restore();queryThread=std::thread([this]{run(false);});indexThread=std::thread([this]{run(true);});
   }
-  QJsonObject json(const Job &j) const {
+  QJsonObject json(const Job &j,bool includeResult=true) const {
     QJsonObject o{{"job_id",j.id},{"operation",j.operation},{"status",j.status},{"created_at",j.created},{"updated_at",j.updated}};
     if(j.total>0) {o["completed"]=double(j.completed);o["total"]=double(j.total);}
-    if(!j.result.isEmpty()) o["result"]=j.result;
+    if(j.resultStored&&!includeResult)o["result_file"]=j.id+QStringLiteral(".json");
+    if(includeResult) {
+      if(!j.result.isEmpty())o["result"]=j.result;
+      else if(j.resultStored) {
+        QFile file(resultPath(j));
+        const auto result=file.open(QIODevice::ReadOnly)?QJsonDocument::fromJson(file.readAll()).object():QJsonObject();
+        if(result.isEmpty()){o["execution_status"]=j.status;o["status"]="failed";o["error_code"]="job_result_unavailable";o["message"]="The persisted job result is missing or invalid";return o;}
+        o["result"]=result;
+      }
+    }
     if(j.result.contains("error_code")) {o["error_code"]=j.result.value("error_code");o["message"]=j.result.value("message");}
+    else if(!j.errorCode.isEmpty()){o["error_code"]=j.errorCode;o["message"]=j.errorMessage;}
     return o;
   }
   void run(bool index) {
@@ -151,7 +167,7 @@ QJsonObject TaskService::submit(const QString &operation,const QJsonObject &payl
   if(d->stopping.load())return fail(QStringLiteral("service_stopping"),QStringLiteral("Service is stopping"));
   if(d->jobs.size()>=256) {
     for(auto it=d->jobs.begin();it!=d->jobs.end()&&d->jobs.size()>=200;) {
-      if(terminal(it->second->status))it=d->jobs.erase(it);else ++it;
+      if(terminal(it->second->status)){if(it->second->resultStored)QFile::remove(d->resultPath(*it->second));it=d->jobs.erase(it);}else ++it;
     }
     if(d->jobs.size()>=256)return fail(QStringLiteral("queue_full"),QStringLiteral("Too many active jobs"));
   }

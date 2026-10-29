@@ -166,8 +166,10 @@ def evaluate(args) -> int:
     report_path = args.report.resolve()
     if report_path == root or root in report_path.parents:
         raise ValueError("--report must be outside the source checkout")
-    catalog_bytes = args.catalog.read_bytes()
-    query_bytes = args.queries.read_bytes()
+    # Git checkouts on Windows and POSIX must identify the same frozen input.
+    # Only transport line endings are canonicalized, never JSON values/labels.
+    catalog_bytes = args.catalog.read_bytes().replace(b"\r\n", b"\n")
+    query_bytes = args.queries.read_bytes().replace(b"\r\n", b"\n")
     catalog, dataset = json.loads(catalog_bytes), json.loads(query_bytes)
     queries = dataset["queries"]
     if len(queries) < 50 or any(not item.get("expected") for item in queries):
@@ -183,6 +185,7 @@ def evaluate(args) -> int:
     upload = copy.deepcopy(catalog)
     upload["source_id"] = source_id
     report = {"schema_version": 1, "dataset_id": dataset["dataset_id"], "dataset_revision": dataset["revision"],
+              "hash_normalization": "utf8-lf",
               "catalog_sha256": hashlib.sha256(catalog_bytes).hexdigest(),
               "queries_sha256": hashlib.sha256(query_bytes).hexdigest(),
               "record_count": len(catalog["records"]), "query_count": len(queries),

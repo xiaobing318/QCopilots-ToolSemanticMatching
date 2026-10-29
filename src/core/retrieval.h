@@ -13,6 +13,10 @@
 
 namespace qctsm
 {
+// Shared import projection for raw JSON or an explicit record envelope.
+// The payload is preserved verbatim. syncCatalog performs validation afterwards.
+QJsonObject normalizeCapabilityRecord(const QJsonObject &input);
+
 struct EmbeddingProfile
 {
   QString modelId = QStringLiteral("embeddinggemma-2-Q8_0");

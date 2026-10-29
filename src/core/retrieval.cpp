@@ -319,11 +319,45 @@ QString lockPath(const QString &path)
 }
 }
 
+QJsonObject normalizeCapabilityRecord(const QJsonObject &input)
+{
+  QJsonObject record = input;
+  const QString kind = input.value("kind").toString();
+  const bool envelope = input.contains("payload") && (input.contains("record_id") || input.contains("capability_id") || kind == "definition" || kind == "example");
+  if (!envelope)
+  {
+    const QJsonObject parameters = input.value("parameters").toObject();
+    const bool schema = input.value("inputSchema").isObject() || input.value("outputSchema").isObject() ||
+      parameters.value("type") == "object" || parameters.value("properties").isObject();
+    bool parameterDefinitions = input.value("parameters").isArray();
+    for (const QJsonValue &parameter : input.value("parameters").toArray())
+      parameterDefinitions = parameterDefinitions && parameter.isObject() && parameter.toObject().contains("name") && parameter.toObject().contains("type");
+    const bool processingDefinition = input.value("id").isString() && (input.contains("provider") || input.contains("start_policy")) &&
+      parameterDefinitions && input.value("outputs").isArray();
+    const bool invocation = !schema && !processingDefinition && (input.contains("binary_id") || input.contains("algorithm_id") || input.contains("arguments") || input.contains("parameters"));
+    record = {{"kind", invocation ? "example" : "definition"}, {"payload", input}};
+  }
+  if (!record.contains("kind")) record.insert("kind", "definition");
+  QString id = record.value("record_id").toString();
+  if (id.isEmpty()) { id = hash(json(record)); record.insert("record_id", id); }
+  const QJsonObject payload = record.value("payload").toObject();
+  QString capability = record.value("capability_id").toString();
+  for (const QString &key : {QStringLiteral("binary_id"), QStringLiteral("algorithm_id"), QStringLiteral("id"), QStringLiteral("name")})
+    if (capability.isEmpty()) capability = payload.value(key).toString();
+  if (capability.isEmpty()) capability = id;
+  record.insert("capability_id", capability);
+  if (!record.contains("name")) record.insert("name", payload.value("name").toString(capability));
+  if (!record.contains("description")) record.insert("description", payload.value("description").toString());
+  if (!record.contains("available")) record.insert("available", true);
+  return record;
+}
+
 QString EmbeddingProfile::fingerprint() const { return hash(json(toJson())); }
 QJsonObject EmbeddingProfile::toJson() const
 {
   return {{"model_id", modelId}, {"revision", revision}, {"dimensions", dimensions}, {"pooling", "mean"},
-          {"normalization", "l2"}, {"prompt_version", "embeddinggemma-search-v1"}, {"document_version", "capability-json-v1"}};
+          {"normalization", "l2"}, {"prompt_version", "embeddinggemma-search-v1"},
+          {"document_version", "capability-json-views-v2"}, {"vector_layout", "document-then-name-v1"}};
 }
 EmbeddingProfile EmbeddingProfile::fromJson(const QJsonObject &object)
 {
@@ -375,35 +409,17 @@ QJsonObject RetrievalEngine::syncCatalog(const QJsonObject &snapshot, const std:
     for (const auto &value : input)
     {
       if (!value.isObject()) return failure("invalid_record", "Every record must be a JSON object.");
-      QJsonObject record = value.toObject();
-      // A raw invocation object is a valid standalone example.
-      if (!record.contains("payload"))
-      {
-        const bool isDefinition = record.contains("inputSchema") || record.contains("outputSchema") ||
-                                  (record.contains("name") && record.contains("description") && !record.contains("arguments"));
-        record = {{"kind", isDefinition ? "definition" : "example"}, {"payload", record}};
-      }
+      QJsonObject record = normalizeCapabilityRecord(value.toObject());
       if (!record.value("payload").isObject()) return failure("invalid_record", "Record payload must be a JSON object.");
       const QString kind = record.value("kind").toString("definition");
       if (kind != "definition" && kind != "example") return failure("invalid_record_kind", "Record kind must be definition or example.");
       record.insert("kind", kind);
       if (json(record).size() > 1024 * 1024) return failure("record_too_large", "One JSON record exceeds 1 MiB.");
-      QString id = record.value("record_id").toString();
-      if (id.isEmpty()) id = hash(json(record));
+      const QString id = record.value("record_id").toString();
       if (seen.contains(id)) return failure("duplicate_record_id", "A source snapshot contains duplicate record IDs.");
       seen.insert(id);
-      record.insert("record_id", id);
-      QString capability = record.value("capability_id").toString();
-      const auto payload = record.value("payload").toObject();
-      if (capability.isEmpty()) capability = payload.value("binary_id").toString();
-      if (capability.isEmpty()) capability = payload.value("algorithm_id").toString();
-      if (capability.isEmpty()) capability = payload.value("name").toString();
-      if (capability.isEmpty()) capability = id;
-      record.insert("capability_id", capability);
-      if (!record.contains("name")) record.insert("name", payload.value("name").toString(capability));
-      if (!record.contains("description")) record.insert("description", payload.value("description").toString());
+      const QString capability = record.value("capability_id").toString();
       if (record.contains("available") && !record.value("available").isBool()) return failure("invalid_record", "available must be boolean.");
-      if (!record.contains("available")) record.insert("available", true);
       records.append(record);
       if (kind == "definition") definitions.insert(capability, record);
     }
@@ -480,7 +496,9 @@ QJsonObject RetrievalEngine::syncCatalog(const QJsonObject &snapshot, const std:
     QString embeddingError;
     int recordIndex = 0;
     int documentOffset = 0;
+    bool titleQueued = false;
     QHash<int, QVector<float>> sums;
+    QHash<int, QVector<float>> names;
     while (recordIndex < pending.size())
     {
       if (cancelled(cancel))
@@ -489,23 +507,32 @@ QJsonObject RetrievalEngine::syncCatalog(const QJsonObject &snapshot, const std:
       }
       if (!d->provider) { embeddingError = "No embedding provider configured."; break; }
       QStringList texts;
-      QList<int> owners;
+      struct Fragment { int owner; bool name; };
+      QList<Fragment> owners;
       QList<int> completeRecords;
       while (texts.size() < EmbeddingBatchSize && recordIndex < pending.size())
       {
         const auto &record = pending[recordIndex];
+        if (!titleQueued)
+        {
+          texts.append(QStringLiteral("title: %1 | text: %1").arg(record.title));
+          owners.append({recordIndex, true});
+          titleQueued = true;
+          continue;
+        }
         int length = std::min(DocumentChunkChars, int(record.document.size()) - documentOffset);
         if (length > 0 && documentOffset + length < record.document.size()
             && record.document.at(documentOffset + length - 1).isHighSurrogate()
             && record.document.at(documentOffset + length).isLowSurrogate()) --length;
         texts.append(QStringLiteral("title: %1 | text: %2").arg(record.title, record.document.mid(documentOffset, length)));
-        owners.append(recordIndex);
+        owners.append({recordIndex, false});
         documentOffset += length;
         if (documentOffset >= record.document.size())
         {
           completeRecords.append(recordIndex);
           ++recordIndex;
           documentOffset = 0;
+          titleQueued = false;
         }
       }
       QString error;
@@ -521,7 +548,12 @@ QJsonObject RetrievalEngine::syncCatalog(const QJsonObject &snapshot, const std:
       if (!embeddingError.isEmpty()) break;
       for (int fragment = 0; fragment < vectors.size(); ++fragment)
       {
-        auto &sum = sums[owners[fragment]];
+        if (owners[fragment].name)
+        {
+          names.insert(owners[fragment].owner, vectors[fragment]);
+          continue;
+        }
+        auto &sum = sums[owners[fragment].owner];
         if (sum.isEmpty()) sum.fill(0, d->profile.dimensions);
         for (int dimension = 0; dimension < sum.size(); ++dimension) sum[dimension] += vectors[fragment][dimension];
       }
@@ -546,15 +578,17 @@ QJsonObject RetrievalEngine::syncCatalog(const QJsonObject &snapshot, const std:
         for (int owner : completeRecords)
         {
           const auto &record = pending[owner];
+          QVector<float> views = sums[owner];
+          views.append(names[owner]);
           Statement insert(db, "INSERT INTO qctsm_vectors(source_id,record_id,profile,document_hash,vector) SELECT ?,?,?,?,? WHERE EXISTS(SELECT 1 FROM qctsm_records r JOIN qctsm_sources s ON s.source_id=r.source_id WHERE r.source_id=? AND r.record_id=? AND r.document_hash=? AND s.revision=? AND s.snapshot_hash=?) ON CONFLICT(source_id,record_id,profile) DO UPDATE SET document_hash=excluded.document_hash,vector=excluded.vector");
-          insert.bind(1, source); insert.bind(2, record.id); insert.bind(3, profile); insert.bind(4, record.hash); insert.bind(5, vectorBytes(sums[owner]));
+          insert.bind(1, source); insert.bind(2, record.id); insert.bind(3, profile); insert.bind(4, record.hash); insert.bind(5, vectorBytes(views));
           insert.bind(6, source); insert.bind(7, record.id); insert.bind(8, record.hash); insert.bind(9, revision); insert.bind(10, snapshotHash); insert.next();
         }
         db.advance(); transaction.commit();
       }
       writer.unlock();
       completed += completeRecords.size();
-      for (int owner : completeRecords) sums.remove(owner);
+      for (int owner : completeRecords) { sums.remove(owner); names.remove(owner); }
       if (progress) progress(existing + completed, total);
     }
     QJsonObject result{{"status", "succeeded"}, {"source_id", source}, {"revision", revision}, {"record_count", records.size()},
@@ -586,7 +620,7 @@ QJsonObject RetrievalEngine::search(const QJsonObject &request, const std::atomi
     Database db(d->path);
     // The rows and generation must come from one read snapshot even with another process indexing.
     qint64 generation = 0;
-    struct Row { QString source, id, capability, document; QJsonObject record; QVector<float> vector; QHash<QString,int> terms; int length=0; double semantic=-2, lexical=0, fused=0; };
+    struct Row { QString source, id, capability, document; QJsonObject record; QVector<float> vector, nameVector; QHash<QString,int> terms; int length=0; double semantic=-2, nameSemantic=-2, lexical=0, fused=0; };
     QList<Row> rows;
     auto loadRows = [&]()
     {
@@ -602,7 +636,14 @@ QJsonObject RetrievalEngine::search(const QJsonObject &request, const std::atomi
         checkCancellation(cancel);
         Row row; row.source=records.text(0); row.id=records.text(1); row.capability=records.text(2);
         row.record=QJsonDocument::fromJson(records.text(3).toUtf8()).object(); row.document=records.text(4);
-        row.vector=readVector(records.blob(5), d->profile.dimensions);
+        const QByteArray views=records.blob(5);
+        const int viewBytes=d->profile.dimensions*int(sizeof(float));
+        if(views.size()==2*viewBytes)
+        {
+          row.vector=readVector(views.first(viewBytes),d->profile.dimensions);
+          row.nameVector=readVector(views.sliced(viewBytes),d->profile.dimensions);
+          if(row.vector.isEmpty() || row.nameVector.isEmpty()) { row.vector.clear(); row.nameVector.clear(); }
+        }
         for (const auto &term : tokenize(row.document)) { ++row.terms[term]; ++row.length; }
         rows.append(std::move(row));
       }
@@ -640,6 +681,8 @@ QJsonObject RetrievalEngine::search(const QJsonObject &request, const std::atomi
       {
         row.semantic=0;
         for (int i=0;i<queryVector.size();++i) row.semantic+=double(queryVector[i])*row.vector[i];
+        row.nameSemantic=0;
+        for (int i=0;i<queryVector.size();++i) row.nameSemantic+=double(queryVector[i])*row.nameVector[i];
       }
       for (const QString &term : uniqueTerms)
       {
@@ -650,14 +693,16 @@ QJsonObject RetrievalEngine::search(const QJsonObject &request, const std::atomi
       }
       if (normalized(query)==normalized(row.capability) || normalized(query)==normalized(row.record.value("name").toString())) row.lexical+=100;
     }
-    QList<int> semanticOrder, lexicalOrder;
-    for (int i=0;i<rows.size();++i) { if (rows[i].semantic>-2) semanticOrder.append(i); if (rows[i].lexical>0) lexicalOrder.append(i); }
-    auto rank=[&](QList<int> &order, bool semantic)
+    QList<int> semanticOrder, nameOrder, lexicalOrder;
+    for (int i=0;i<rows.size();++i) { if (rows[i].semantic>-2) semanticOrder.append(i); if (rows[i].nameSemantic>-2) nameOrder.append(i); if (rows[i].lexical>0) lexicalOrder.append(i); }
+    auto rank=[&](QList<int> &order, double Row::*score, double weight)
     {
-      std::stable_sort(order.begin(),order.end(),[&](int a,int b){return semantic ? rows[a].semantic>rows[b].semantic : rows[a].lexical>rows[b].lexical;});
-      for (int i=0;i<order.size();++i) rows[order[i]].fused+=1.0/(61+i);
+      std::stable_sort(order.begin(),order.end(),[&](int a,int b){return rows[a].*score>rows[b].*score;});
+      for (int i=0;i<order.size();++i) rows[order[i]].fused+=weight/(61+i);
     };
-    rank(semanticOrder,true); rank(lexicalOrder,false);
+    // The short name is a supplemental view. Its lower weight avoids overwhelming
+    // descriptive matches when a request uses a paraphrase absent from the name.
+    rank(semanticOrder,&Row::semantic,1.0); rank(nameOrder,&Row::nameSemantic,0.5); rank(lexicalOrder,&Row::lexical,1.0);
     QList<int> order;
     for(int i=0;i<rows.size();++i) if(rows[i].fused>0) order.append(i);
     std::stable_sort(order.begin(),order.end(),[&](int a,int b){return rows[a].fused>rows[b].fused;});
@@ -685,6 +730,7 @@ QJsonObject RetrievalEngine::search(const QJsonObject &request, const std::atomi
                             {"score",best.fused},{"lexical_score",best.lexical},{"payload",display->record.value("payload")},
                             {"matched_records",matched},{"metadata",display->record.value("metadata")}};
       candidate.insert("semantic_score",best.semantic>-2 ? QJsonValue(best.semantic) : QJsonValue(QJsonValue::Null));
+      candidate.insert("name_semantic_score",best.nameSemantic>-2 ? QJsonValue(best.nameSemantic) : QJsonValue(QJsonValue::Null));
       candidates.append(candidate);
       if(candidates.size()>=limit) break;
     }

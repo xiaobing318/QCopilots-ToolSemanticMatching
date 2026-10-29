@@ -9,6 +9,8 @@ include(FetchContent)
 FetchContent_Declare(qctsm_sqlite
   URL https://sqlite.org/2026/sqlite-amalgamation-3530400.zip
   URL_HASH SHA256=1e71ddf93849c6a6ecf58b827c0692073d2dd7ee40196158068f7b29f422e87d
+  TIMEOUT 300
+  INACTIVITY_TIMEOUT 60
   DOWNLOAD_EXTRACT_TIMESTAMP TRUE)
 FetchContent_GetProperties(qctsm_sqlite)
 if(NOT qctsm_sqlite_POPULATED)

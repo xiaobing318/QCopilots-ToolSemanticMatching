@@ -34,11 +34,14 @@ int main(int argc,char **argv) {
   QString error;auto config=qctsm::ServiceConfig::load(parser.value("profile"),&error);
   if(!error.isEmpty()){QTextStream(stderr)<<error<<Qt::endl;return 2;}
   if(!QDir().mkpath(config.profilePath)){QTextStream(stderr)<<"Cannot create service profile"<<Qt::endl;return 2;}
+  QLockFile instance(QDir(config.profilePath).filePath(QStringLiteral("service.lock")));instance.setStaleLockTime(0);
+  if(!instance.tryLock()){QTextStream(stderr)<<"A service already owns this profile"<<Qt::endl;return 3;}
+  // Another first-time starter may have created config.json while we waited.
+  config=qctsm::ServiceConfig::load(config.profilePath,&error);
+  if(!error.isEmpty()){QTextStream(stderr)<<error<<Qt::endl;return 2;}
   if(!QFileInfo::exists(config.configFilePath())&&!config.save(&error)){QTextStream(stderr)<<error<<Qt::endl;return 2;}
   if(parser.isSet("port")){bool ok=false;const int port=parser.value("port").toInt(&ok);if(!ok||port<0||port>65535){QTextStream(stderr)<<"Invalid --port"<<Qt::endl;return 2;}config.port=port;}
   if(parser.isSet("smoke-test"))config.port=0;
-  QLockFile instance(QDir(config.profilePath).filePath(QStringLiteral("service.lock")));instance.setStaleLockTime(0);
-  if(!instance.tryLock()){QTextStream(stderr)<<"A service already owns this profile"<<Qt::endl;return 3;}
   QFile file(QDir(config.profilePath).filePath(QStringLiteral("service.log")));
   if(file.size()>2*1024*1024){file.remove();}
   if(file.open(QIODevice::WriteOnly|QIODevice::Append)){logFile=&file;qInstallMessageHandler(logMessage);}

@@ -182,6 +182,19 @@ QWidget *MainWindow::buildSearchPage()
   m_sourceFilter->setObjectName(QStringLiteral("sourceFilter"));
   m_sourceFilter->setPlaceholderText(QStringLiteral("留空搜索全部来源"));
   options->addWidget(m_sourceFilter, 1);
+  options->addWidget(textLabel(QStringLiteral("记录类型")));
+  m_kindFilter = new QComboBox;
+  m_kindFilter->setObjectName(QStringLiteral("recordKindFilter"));
+  m_kindFilter->addItem(QStringLiteral("全部"), QString());
+  m_kindFilter->addItem(QStringLiteral("工具定义"), QStringLiteral("definition"));
+  m_kindFilter->addItem(QStringLiteral("调用示例"), QStringLiteral("example"));
+  options->addWidget(m_kindFilter);
+  options->addWidget(textLabel(QStringLiteral("可用性")));
+  m_availabilityFilter = new QComboBox;
+  m_availabilityFilter->setObjectName(QStringLiteral("availabilityFilter"));
+  m_availabilityFilter->addItem(QStringLiteral("可用"), true);
+  m_availabilityFilter->addItem(QStringLiteral("已停用"), false);
+  options->addWidget(m_availabilityFilter);
   m_searchButton = new QPushButton(QStringLiteral("检索工具"));
   m_searchButton->setObjectName(QStringLiteral("searchButton"));
   m_searchButton->setDefault(true);
@@ -544,7 +557,9 @@ void MainWindow::runSearch()
   if (m_searchPending) return;
   const auto query = m_query->toPlainText().trimmed();
   if (query.isEmpty()) { notice(QStringLiteral("请先输入要完成的任务或工具用途。"), true); m_query->setFocus(); return; }
-  QJsonObject filters{{QStringLiteral("available"), true}};
+  QJsonObject filters{{QStringLiteral("available"), m_availabilityFilter->currentData().toBool()}};
+  const auto kind = m_kindFilter->currentData().toString();
+  if (!kind.isEmpty()) filters.insert(QStringLiteral("kind"), kind);
   if (!m_sourceFilter->text().trimmed().isEmpty()) filters.insert(QStringLiteral("source_id"), m_sourceFilter->text().trimmed());
   m_searchPending = true;
   ++m_searchGeneration;

@@ -28,6 +28,7 @@
         "description": {"type": "string"},
         "score": {"type": "number"},
         "semantic_score": {"type": ["number", "null"]},
+        "name_semantic_score": {"type": ["number", "null"]},
         "lexical_score": {"type": "number"},
         "payload": {"type": "object", "additionalProperties": true},
         "metadata": {"type": ["object", "null"], "additionalProperties": true},

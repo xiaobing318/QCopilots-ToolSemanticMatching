@@ -2,6 +2,7 @@
 #include "main_window.h"
 #include <QApplication>
 #include <QClipboard>
+#include <QComboBox>
 #include <QDir>
 #include <QFileInfo>
 #include <QHostAddress>
@@ -157,6 +158,36 @@ class GuiTest : public QObject
       window.findChild<QPushButton *>(QStringLiteral("copyOriginalJson"))->click();
       QCOMPARE(QJsonDocument::fromJson(QApplication::clipboard()->text().toUtf8()).object(), endpoint.original);
       QVERIFY(!QFileInfo::exists(QDir(temporary.path()).filePath(QStringLiteral("config.json"))));
+    }
+
+    void selectedFiltersAreSentToSearch()
+    {
+      QTemporaryDir temporary;
+      QVERIFY(temporary.isValid());
+      Endpoint endpoint;
+      QVERIFY(endpoint.listen(QHostAddress::LocalHost, 0));
+      qctsm::MainWindow window(configFor(temporary.path(), endpoint.serverPort()));
+      window.show();
+      auto *kind = window.findChild<QComboBox *>(QStringLiteral("recordKindFilter"));
+      auto *availability = window.findChild<QComboBox *>(QStringLiteral("availabilityFilter"));
+      auto *source = window.findChild<QLineEdit *>(QStringLiteral("sourceFilter"));
+      auto *query = window.findChild<QPlainTextEdit *>(QStringLiteral("searchQuery"));
+      auto *search = window.findChild<QPushButton *>(QStringLiteral("searchButton"));
+      auto *table = window.findChild<QTableWidget *>(QStringLiteral("candidateTable"));
+      QVERIFY(kind && availability && source && query && search && table);
+      const int exampleIndex = kind->findData(QStringLiteral("example"));
+      const int unavailableIndex = availability->findData(false);
+      QVERIFY(exampleIndex >= 0);
+      QVERIFY(unavailableIndex >= 0);
+      kind->setCurrentIndex(exampleIndex);
+      availability->setCurrentIndex(unavailableIndex);
+      source->setText(QStringLiteral("source-x"));
+      query->setPlainText(QStringLiteral("查找已停用的栅格重采样调用示例"));
+      search->click();
+      QTRY_COMPARE_WITH_TIMEOUT(table->rowCount(), 1, 5000);
+      const QJsonObject expected{{"kind", "example"}, {"available", false}, {"source_id", "source-x"}};
+      QCOMPARE(endpoint.query.value(QStringLiteral("filters")).toObject(), expected);
+      QCOMPARE(endpoint.searches, 1);
     }
 
     void editingSettingsKeepsRunningJobConnection()

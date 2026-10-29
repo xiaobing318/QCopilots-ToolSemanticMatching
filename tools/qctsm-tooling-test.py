@@ -2,6 +2,7 @@
 """Verify fixed build coverage and reproducible SDK export without touching user data."""
 from __future__ import annotations
 import importlib.util
+import hashlib
 import json
 from pathlib import Path
 import tarfile
@@ -11,6 +12,17 @@ import unittest
 SOURCE=Path(__file__).resolve().parents[1]
 
 class ToolingTests(unittest.TestCase):
+    def test_pinned_source_manifest_and_qt_runtime_closure(self):
+        dependencies=json.loads((SOURCE/'dependencies.lock.json').read_text())
+        llama=dependencies['llama.cpp']
+        self.assertEqual(hashlib.sha256((SOURCE/llama['sourceManifest']).read_bytes()).hexdigest(),
+                         llama['sourceManifestSha256'])
+        qt=json.loads((SOURCE/'tools/qt-packages.lock.json').read_text())
+        self.assertIn('icu',{item['module'] for item in qt['platforms']['linux']['archives']})
+        for platform in qt['platforms'].values():
+            self.assertTrue({'qtbase','qttools'} <= {item['module'] for item in platform['archives']})
+            self.assertFalse({'qtpdf','qtmultimedia'} & {item['module'] for item in platform['archives']})
+
     def test_native_matrix_is_complete(self):
         variants=json.loads((SOURCE/'config/build-variants.json').read_text())['variants']
         self.assertEqual(len(variants),11)

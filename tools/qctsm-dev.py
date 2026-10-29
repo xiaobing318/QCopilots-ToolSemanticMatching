@@ -117,8 +117,9 @@ class Workflow:
                 run([helper_python,'-m','pip','install','py7zr==1.1.3'],env=self.env)
             run([helper_python,'-B',SOURCE/'tools/qctsm-bootstrap-qt.py','--qt-root',self.qtroot,
                  '--cache-dir',self.base/'sdk/qt-downloads'],env=self.env)
-        self.gpu(install=True)
-        if os.name == 'nt':
+        if not self.args.core_only:
+            self.gpu(install=True)
+        if os.name == 'nt' and not self.args.core_only:
             run([sys.executable,'-B',SOURCE/'tools/qctsm-bootstrap-nsis.py','--output-dir',
                  self.root/'bootstrap/nsis','--cache-dir',self.base/'sdk/nsis-downloads'],env=self.env)
 
@@ -131,17 +132,17 @@ class Workflow:
             tools[name] = {'path':found,'version':run([found,'--version'],env=self.env,capture=True).stdout.splitlines()[0]}
         if not (self.qt/'lib/cmake/Qt6/Qt6Config.cmake').is_file():
             raise RuntimeError(f'Qt SDK missing: {self.qt}. Run bootstrap or pass --qt-root.')
-        report = self.gpu()
+        report = {'required':False,'reason':'Shared SDK has no inference backend'} if self.args.core_only else self.gpu()
         write_json(self.reports/'doctor.json', {'variant':self.variant,'python':sys.executable,
                    'qt':str(self.qt),'tools':tools,'gpu_sdk':report,
                    'gpu_hardware_tested':False})
 
     def configure(self):
-        gpu = self.gpu()
+        gpu = {} if self.args.core_only else self.gpu()
         command = ['cmake','-S',SOURCE,'-B',self.build,'-G','Ninja',
             '-DCMAKE_BUILD_TYPE='+self.args.config,'-DCMAKE_PREFIX_PATH='+str(self.qt),
             '-DCMAKE_INSTALL_PREFIX='+str(self.stage),'-DCPACK_PACKAGE_DIRECTORY='+str(self.packages),
-            '-DPython3_EXECUTABLE='+sys.executable,
+            '-DPython3_EXECUTABLE:FILEPATH='+Path(sys.executable).as_posix(),
             '-D'+PREFIX+'VARIANT='+self.variant['id'],
             '-D'+PREFIX+'DEPENDENCY_ROOT='+str(self.root/'deps'/self.args.config),
             '-D'+PREFIX+'TEST_ROOT='+str(self.root/'runs'/self.args.config),
@@ -260,7 +261,9 @@ def main():
              'build':workflow.build_all,'models':workflow.download_models,'test':workflow.test,
              'install':workflow.install,'package':workflow.package,'verify-package':workflow.verify,
              'installers':lambda:workflow.verify(True),'products':workflow.products}
-    for stage in (['doctor','configure','build','models','test','install','package','verify-package','installers','products'] if args.stage=='check' else [args.stage]):
+    check_stages = ['doctor','configure','build','test'] if args.core_only else [
+        'doctor','configure','build','models','test','install','package','verify-package','installers','products']
+    for stage in (check_stages if args.stage=='check' else [args.stage]):
         actions[stage]()
     return 0
 

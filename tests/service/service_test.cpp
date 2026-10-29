@@ -4,10 +4,15 @@
 #include "service/http_server.h"
 #include <httplib.h>
 #include <QFile>
+#include <QFileInfo>
+#include <QDir>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QTemporaryDir>
 #include <QTest>
+#include <atomic>
+#include <chrono>
+#include <thread>
 
 class ServiceTest:public QObject {
   Q_OBJECT
@@ -47,6 +52,30 @@ private slots:
     const auto empty=qctsm::normalizeCatalog(QJsonArray{},QStringLiteral("tools"));
     QVERIFY(empty.value("records").toArray().isEmpty());QVERIFY(!empty.value("revision").toString().isEmpty());
     QCOMPARE(qctsm::normalizeCatalog(QJsonArray{3},QStringLiteral("tools")).value("error_code").toString(),QStringLiteral("invalid_catalog"));
+    const QJsonObject rawPayload{{"name","send"},{"payload",QJsonObject{{"x",1}}}};
+    const QJsonObject rawRecords{{"name","count_records"},{"arguments",QJsonObject{}},{"records",QJsonArray{QJsonObject{{"id",1}}}}};
+    for(const auto &raw:{rawPayload,rawRecords}) {
+      const auto normalized=qctsm::normalizeCatalog(raw,QStringLiteral("raw-fields"));
+      QCOMPARE(normalized.value("records").toArray().first().toObject().value("payload").toObject(),raw);
+    }
+  }
+  void largeResultsSurviveRestart() {
+    QTemporaryDir dir;QVERIFY(dir.isValid());auto config=qctsm::ServiceConfig::load(dir.path());
+    QVERIFY(QDir().mkpath(dir.filePath(QStringLiteral("job-results"))));
+    const auto resultPath=dir.filePath(QStringLiteral("job-results/large-result.json"));
+    QFile result(resultPath);QVERIFY(result.open(QIODevice::WriteOnly));
+    const int length=33*1024*1024;
+    result.write(QJsonDocument(QJsonObject{{"status","succeeded"},{"blob",QString(length,QLatin1Char('x'))}}).toJson(QJsonDocument::Compact));result.close();
+    QFile journal(dir.filePath(QStringLiteral("jobs.json")));QVERIFY(journal.open(QIODevice::WriteOnly));
+    journal.write(QJsonDocument(QJsonObject{{"schema_version",1},{"jobs",QJsonArray{QJsonObject{{"job_id","large-result"},{"operation","search"},{"status","succeeded"},{"result_file","large-result.json"}}}}}).toJson());journal.close();
+    qctsm::TaskService service(config);const auto restored=service.snapshot(QStringLiteral("large-result"));
+    QCOMPARE(restored.value("status").toString(),QStringLiteral("succeeded"));
+    QCOMPARE(restored.value("result").toObject().value("blob").toString().size(),length);
+    QVERIFY(QFileInfo(journal.fileName()).size()<32*1024);
+    QVERIFY(QFile::remove(resultPath));
+    const auto missing=service.snapshot(QStringLiteral("large-result"));
+    QCOMPARE(missing.value("error_code").toString(),QStringLiteral("job_result_unavailable"));
+    QCOMPARE(missing.value("execution_status").toString(),QStringLiteral("succeeded"));service.stop();
   }
   void interruptedJobIsNotReplayed() {
     QTemporaryDir dir;QVERIFY(dir.isValid());auto config=qctsm::ServiceConfig::load(dir.path());
@@ -56,6 +85,39 @@ private slots:
     QCOMPARE(restored.value("status").toString(),QStringLiteral("failed"));
     QCOMPARE(restored.value("error_code").toString(),QStringLiteral("interrupted"));
     QVERIFY(!QFile::exists(config.databasePath));service.stop();
+  }
+  void cancelStopsInFlightEmbedding() {
+    struct Remote {
+      httplib::Server server;
+      std::atomic_bool started{false};
+      std::thread thread;
+      int port=0;
+      Remote() {
+        server.Post("/v1/embeddings",[this](const httplib::Request &request,httplib::Response &response){
+          started=true;
+          // Deliberately provide no vector. Cancellation must abort this request.
+          const auto deadline=std::chrono::steady_clock::now()+std::chrono::seconds(5);
+          while(!request.is_connection_closed()&&std::chrono::steady_clock::now()<deadline)
+            std::this_thread::sleep_for(std::chrono::milliseconds(25));
+          response.status=503;
+        });
+        port=server.bind_to_any_port("127.0.0.1");
+        if(port>0)thread=std::thread([this]{server.listen_after_bind();});
+      }
+      ~Remote(){server.stop();if(thread.joinable())thread.join();}
+    } remote;
+    QVERIFY(remote.port>0);
+    QTemporaryDir dir;QVERIFY(dir.isValid());auto config=qctsm::ServiceConfig::load(dir.path());
+    config.provider=QStringLiteral("http");config.apiBase=QStringLiteral("http://127.0.0.1:%1/v1/").arg(remote.port);
+    qctsm::TaskService service(config);
+    const auto catalog=qctsm::normalizeCatalog(QJsonObject{{"binary_id","bin.gdalwarp"},{"arguments",QJsonArray{"-r","lanczos"}}},QStringLiteral("cancel-source"));
+    const auto queued=service.submit(QStringLiteral("sync_catalog"),catalog);
+    const auto id=queued.value("job_id").toString();QVERIFY(!id.isEmpty());
+    QTRY_VERIFY_WITH_TIMEOUT(remote.started.load(),3000);
+    service.cancel(id);
+    QTRY_COMPARE_WITH_TIMEOUT(service.snapshot(id).value("status").toString(),QStringLiteral("cancelled"),3000);
+    QCOMPARE(service.indexStatus().value("embedded_records").toInt(),0);
+    service.stop();
   }
   void httpBoundaries() {
     QTemporaryDir dir;QVERIFY(dir.isValid());auto config=qctsm::ServiceConfig::load(dir.path());config.port=0;config.token=QStringLiteral("test-service-secret");
@@ -68,6 +130,12 @@ private slots:
     auto input=client.Post("/v1/search","{\"query\":\"\"}","application/json");QVERIFY(input);QCOMPARE(input->status,400);
     auto model=client.Post("/v1/embeddings","{\"model\":\"unknown\",\"input\":\"hello\"}","application/json");QVERIFY(model);QCOMPARE(model->status,400);
     auto missing=client.Get("/v1/jobs/not-a-job");QVERIFY(missing);QCOMPARE(missing->status,404);
+    for(const auto &path:{"/v1/catalogs/geo%2520tools","/v1/catalogs/geo%20tools","/v1/catalogs/geo%2Ftools"}) {
+      auto imported=client.Put(path,"[]","application/json");QVERIFY(imported);QCOMPARE(imported->status,202);
+    }
+    QTRY_COMPARE_WITH_TIMEOUT(service->indexStatus().value("sources").toArray().size(),3,3000);
+    QStringList sources;for(const auto &value:service->indexStatus().value("sources").toArray())sources<<value.toObject().value("source_id").toString();
+    QVERIFY(sources.contains(QStringLiteral("geo%20tools")));QVERIFY(sources.contains(QStringLiteral("geo tools")));QVERIFY(sources.contains(QStringLiteral("geo/tools")));
     auto csrf=client.Post("/v1/shutdown",{{"Origin","https://example.com"}},"{}","application/json");QVERIFY(csrf);QCOMPARE(csrf->status,403);QVERIFY(!server.shutdownRequested());
     auto stop=client.Post("/v1/shutdown","{}","application/json");QVERIFY(stop);QCOMPARE(stop->status,200);QVERIFY(server.shutdownRequested());
     service->stop();server.stop();

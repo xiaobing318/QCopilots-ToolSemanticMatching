@@ -10,4 +10,13 @@ if(TARGET qctsm-service AND NOT QCOPILOTS_TOOL_SEMANTIC_MATCHING_CORE_ONLY)
     LABELS "quality;real-model;integration"
     TIMEOUT 1800
     ENVIRONMENT "QCOPILOTS_TOOL_SEMANTIC_MATCHING_MODEL_DIR=${QCOPILOTS_TOOL_SEMANTIC_MATCHING_MODEL_DIR}")
+  add_test(NAME qctsm-quality-cold-latency
+    COMMAND "${Python3_EXECUTABLE}" -B "${CMAKE_CURRENT_SOURCE_DIR}/run_cold_latency.py"
+      --service "$<TARGET_FILE:qctsm-service>"
+      --cli "$<TARGET_FILE:qctsm-cli>"
+      --output-dir "${QCOPILOTS_TOOL_SEMANTIC_MATCHING_TEST_ROOT}/quality")
+  set_tests_properties(qctsm-quality-cold-latency PROPERTIES
+    LABELS "quality;real-model;integration"
+    TIMEOUT 900
+    ENVIRONMENT "QCOPILOTS_TOOL_SEMANTIC_MATCHING_MODEL_DIR=${QCOPILOTS_TOOL_SEMANTIC_MATCHING_MODEL_DIR}")
 endif()

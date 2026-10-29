@@ -1,0 +1,26 @@
+EmbeddingGemma 2 model download information
+
+Model weights are optional external downloads. No model weights are included in
+this source repository, application installer or portable application package.
+
+The selected GGUF repository is ggml-org/embeddinggemma-2-GGUF at revision
+bfcd298762cc34d0357ece5ebdd31791a3a374d8. Its model card declares Apache-2.0.
+The upstream source model is google/embeddinggemma-2. The model's own license
+and notices apply independently of the application's MIT license.
+
+Pinned model card:
+https://huggingface.co/ggml-org/embeddinggemma-2-GGUF/blob/bfcd298762cc34d0357ece5ebdd31791a3a374d8/README.md
+
+Model repository and associated files:
+https://huggingface.co/ggml-org/embeddinggemma-2-GGUF/tree/bfcd298762cc34d0357ece5ebdd31791a3a374d8
+
+Upstream source model:
+https://huggingface.co/google/embeddinggemma-2
+
+Apache License, Version 2.0:
+https://www.apache.org/licenses/LICENSE-2.0
+
+The application verifies the GGUF byte count and SHA-256 against its installed
+qctsm-models.lock.json before model loading. Importing a file does not alter its
+upstream terms. The local SQLite retrieval index contains catalog JSON and
+computed embeddings, not a copy of the model weights.

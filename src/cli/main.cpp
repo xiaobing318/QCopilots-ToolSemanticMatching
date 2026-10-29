@@ -227,7 +227,8 @@ int main(int argc, char **argv)
       {QStringLiteral("top-n"), QStringLiteral("Maximum candidate count (1-100)."), QStringLiteral("number"), QStringLiteral("8")},
       {QStringLiteral("source"), QStringLiteral("Source ID for import or search filtering."), QStringLiteral("id")},
       {QStringLiteral("kind"), QStringLiteral("Search record kind: definition or example."), QStringLiteral("kind")},
-      {QStringLiteral("available-only"), QStringLiteral("Search only available capabilities.")},
+      {QStringLiteral("available"), QStringLiteral("Filter capabilities by availability: true or false."), QStringLiteral("boolean")},
+      {QStringLiteral("available-only"), QStringLiteral("Alias for --available true. Cannot combine with --available.")},
       {QStringLiteral("file"), QStringLiteral("JSON input file or model GGUF file, depending on command."), QStringLiteral("path")},
       {QStringLiteral("ids"), QStringLiteral("Comma-separated record IDs."), QStringLiteral("ids")},
       {QStringLiteral("job-id"), QStringLiteral("Job ID for job or cancel."), QStringLiteral("id")},
@@ -308,7 +309,14 @@ int main(int argc, char **argv)
         return printJson(failure(QStringLiteral("invalid_arguments"), QStringLiteral("--kind must be definition or example.")), 1);
       filters.insert(QStringLiteral("kind"), kind);
     }
-    if (parser.isSet(QStringLiteral("available-only")))
+    if (parser.isSet(QStringLiteral("available"))) {
+      if (parser.isSet(QStringLiteral("available-only")))
+        return printJson(failure(QStringLiteral("invalid_arguments"), QStringLiteral("Use either --available or --available-only, not both.")), 1);
+      const QString available = parser.value(QStringLiteral("available"));
+      if (available != QStringLiteral("true") && available != QStringLiteral("false"))
+        return printJson(failure(QStringLiteral("invalid_arguments"), QStringLiteral("--available must be true or false.")), 1);
+      filters.insert(QStringLiteral("available"), available == QStringLiteral("true"));
+    } else if (parser.isSet(QStringLiteral("available-only")))
       filters.insert(QStringLiteral("available"), true);
     payload = QJsonDocument(QJsonObject{{QStringLiteral("query"), query}, {QStringLiteral("top_n"), topN}, {QStringLiteral("filters"), filters}});
     method = QByteArrayLiteral("POST");

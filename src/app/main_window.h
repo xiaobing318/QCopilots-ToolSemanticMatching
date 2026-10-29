@@ -80,6 +80,8 @@ class MainWindow final : public QMainWindow
     QPlainTextEdit *m_query = nullptr;
     QSpinBox *m_topN = nullptr;
     QLineEdit *m_sourceFilter = nullptr;
+    QComboBox *m_kindFilter = nullptr;
+    QComboBox *m_availabilityFilter = nullptr;
     QPushButton *m_searchButton = nullptr;
     QProgressBar *m_searchProgress = nullptr;
     QTableWidget *m_candidates = nullptr;
