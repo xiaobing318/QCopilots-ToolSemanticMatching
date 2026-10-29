@@ -53,6 +53,7 @@ public:
   }
   bool launch(QProcess &process,QString &error) {
     if(process.state()!=QProcess::NotRunning) return true;
+    if(!config.validate(&error))return false;
     if(!QFileInfo::exists(program)) {error=QStringLiteral("Packaged qctsm-worker is missing: ")+program;return false;}
     if(!QFileInfo::exists(config.modelPath)) {error=QStringLiteral("Model GGUF is missing. Download or import the model first.");return false;}
     QStringList args{QStringLiteral("--model"),config.modelPath,QStringLiteral("--backend"),config.backend,QStringLiteral("--threads"),QString::number(config.threads)};

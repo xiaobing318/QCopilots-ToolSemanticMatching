@@ -5,8 +5,7 @@
     "windows": {
       "kit": "6.12.0/msvc2022_64",
       "metadata": [
-        "https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/qt6_6120/qt6_6120_msvc2022_64/Updates.xml",
-        "https://download.qt.io/online/qtsdkrepository/windows_x86/extensions/qtpdf/6120/61400/msvc2022_64/Updates.xml"
+        "https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/qt6_6120/qt6_6120_msvc2022_64/Updates.xml"
       ],
       "archives": [
         {
@@ -59,8 +58,7 @@
     "macos": {
       "kit": "6.12.0/macos",
       "metadata": [
-        "https://download.qt.io/online/qtsdkrepository/mac_x64/desktop/qt6_6120/qt6_6120/Updates.xml",
-        "https://download.qt.io/online/qtsdkrepository/mac_x64/extensions/qtpdf/6120/61400/clang_64/Updates.xml"
+        "https://download.qt.io/online/qtsdkrepository/mac_x64/desktop/qt6_6120/qt6_6120/Updates.xml"
       ],
       "archives": [
         {
@@ -95,8 +93,7 @@
     "linux": {
       "kit": "6.12.0/gcc_64",
       "metadata": [
-        "https://download.qt.io/online/qtsdkrepository/linux_x64/desktop/qt6_6120/qt6_6120/Updates.xml",
-        "https://download.qt.io/online/qtsdkrepository/linux_x64/extensions/qtpdf/6120/61400/x86_64/Updates.xml"
+        "https://download.qt.io/online/qtsdkrepository/linux_x64/desktop/qt6_6120/qt6_6120/Updates.xml"
       ],
       "archives": [
         {
@@ -107,6 +104,15 @@
           "destination": "6.12.0/gcc_64",
           "sha256": "943023b929d0c08eafe7341700b5ed7601284410b7afd6093f950be291d1d7cd",
           "size": 23729678
+        },
+        {
+          "module": "icu",
+          "package": "qt.qt6.6120.linux_gcc_64",
+          "version": "6.12.0-0-202609280346",
+          "url": "https://download.qt.io/online/qtsdkrepository/linux_x64/desktop/qt6_6120/qt6_6120/qt.qt6.6120.linux_gcc_64/6.12.0-0-202609280346icu-linux-Rhel8.6-x86_64.7z",
+          "destination": "6.12.0/gcc_64/lib",
+          "sha256": "1fdbcd67b1760f3a3f031c64637a9f19992aed2f35aa615e12a468f8c655d4da",
+          "size": 9660660
         },
         {
           "module": "qtsvg",

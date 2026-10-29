@@ -188,10 +188,14 @@ def package():
 
 def products():
     selected = variant()
+    verified = {}
     for filename in ('package.json', 'installers.json') if selected['os'] != 'macos' else ('package.json',):
         report = json.loads((reports()/filename).read_text(encoding='utf-8'))
         if report.get('passed') is not True:
             raise RuntimeError('Package verification did not pass: '+filename)
+        for entry in report.get('checks',[])+report.get('installers',[]):
+            if entry.get('package') and entry.get('passed') is True:
+                verified[entry['package']] = entry.get('sha256')
     version = artifact_selection.project_version(SOURCE)
     alternatives = artifact_selection.package_name_options(selected['id'],version)
     allowed = set().union(*alternatives)
@@ -206,6 +210,8 @@ def products():
         with path.open('rb') as stream:
             for block in iter(lambda:stream.read(1024*1024),b''):
                 digest.update(block)
+        if verified.get(path.name) != digest.hexdigest():
+            raise RuntimeError('Final package differs from its successfully verified bytes: '+path.name)
         records.append({'name':path.name,'path':str(path),'bytes':path.stat().st_size,'sha256':digest.hexdigest()})
     report = {'candidateHead':candidate_head(),'runId':os.environ['GITHUB_RUN_ID'],
               'attempt':int(os.environ['GITHUB_RUN_ATTEMPT']),'variant':selected['id'],'packages':records}

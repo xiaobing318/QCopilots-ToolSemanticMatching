@@ -173,7 +173,7 @@ QWidget *MainWindow::buildSearchPage()
   options->addWidget(textLabel(QStringLiteral("候选数")));
   m_topN = new QSpinBox;
   m_topN->setObjectName(QStringLiteral("topN"));
-  m_topN->setRange(1, 50);
+  m_topN->setRange(1, 100);
   m_topN->setValue(8);
   options->addWidget(m_topN);
   options->addSpacing(14);
@@ -723,7 +723,7 @@ void MainWindow::renderSearch(const QJsonObject &result)
   m_searchInfo->setText(QStringLiteral("%1 个候选 · %2 · 索引版本 %3").arg(candidates.size()).arg(modeText, result.value(QStringLiteral("generation")).toVariant().toString()));
   if (!candidates.isEmpty()) m_candidates->selectRow(0);
   else m_detail->setPlainText(QStringLiteral("没有匹配候选。请检查目录来源与索引，或调整需求描述。"));
-  const auto reason = result.value(QStringLiteral("degraded_reason")).toString(result.value(QStringLiteral("warning")).toString());
+  const auto reason = result.value(QStringLiteral("degradation_reason")).toString(result.value(QStringLiteral("degraded_reason")).toString(result.value(QStringLiteral("warning")).toString()));
   notice(reason.isEmpty() ? QStringLiteral("检索完成。选择候选查看原始 JSON，匹配器不会执行工具。") : QStringLiteral("检索完成，当前为降级模式：") + reason);
 }
 
@@ -810,6 +810,14 @@ bool MainWindow::saveSettings()
 void MainWindow::updateProviderControls()
 {
   const bool embedded = m_provider->currentData().toString() == QLatin1String("embedded");
+  m_modelId->setReadOnly(embedded);
+  m_modelRevision->setReadOnly(embedded);
+  if (embedded) {
+    const auto models = ModelFiles::manifest().value(QStringLiteral("models")).toArray();
+    const auto model = models.isEmpty() ? QJsonObject() : models.at(0).toObject();
+    m_modelId->setText(model.value(QStringLiteral("id")).toString());
+    m_modelRevision->setText(model.value(QStringLiteral("revision")).toString());
+  }
   m_modelPath->setEnabled(embedded);
   m_backend->setEnabled(embedded);
   m_deviceId->setEnabled(embedded && m_backend->currentData().toString() == QLatin1String("gpu"));

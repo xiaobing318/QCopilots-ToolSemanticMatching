@@ -12,12 +12,14 @@
 
 `RetrievalEngine(const QString &databasePath, std::shared_ptr<EmbeddingProvider>, const EmbeddingProfile &)`。
 
-- `QJsonObject syncCatalog(const QJsonObject &snapshot, const std::atomic_bool *cancel = nullptr)`
+- `QJsonObject syncCatalog(const QJsonObject &snapshot, const std::atomic_bool *cancel = nullptr, const std::function<void(qint64 completed, qint64 total)> &progress = {})`
 - `QJsonObject search(const QJsonObject &request, const std::atomic_bool *cancel = nullptr)`
 - `QJsonObject getRecords(const QStringList &ids)`
 - `QJsonObject status()`
 
 同步 SDK API 由应用、QGIS native runtime 的后台 job 包装成异步。结果统一含 `status`，错误含 `error_code` 和 `message`。不抛异常跨越 Qt 边界。成功状态为 `succeeded`。
+
+索引进度回调在持有数据库写锁之外调用，统计兼容的已有向量与本次已提交的向量。嵌入以最多 8 个文档片段为一批发送，返回向量经完整校验后再提交。
 
 `HttpEmbeddingProvider` 头文件 `src/provider_http/http_embedding_provider.h`，构造 `(const QUrl &apiBase, const QString &modelId, const QByteArray &authorization = {}, int timeoutMs = 60000)`。apiBase 以 /v1/ 结束。provider 使用调用线程自己的 network event loop，禁止跨线程共享 QNetworkAccessManager。
 

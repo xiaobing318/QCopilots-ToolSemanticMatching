@@ -24,6 +24,7 @@ struct ServiceConfig {
   static ServiceConfig load(const QString &path = {}, QString *error = nullptr);
   QString configFilePath() const;
   QJsonObject toJson(bool includeSecrets = true) const;
+  bool validate(QString *error = nullptr) const;
   bool save(QString *error = nullptr) const;
 };
 }

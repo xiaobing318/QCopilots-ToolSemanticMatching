@@ -128,7 +128,7 @@ public:
           result=ok?QJsonObject{{"status","succeeded"},{"model_path",config.modelPath}}:fail(QStringLiteral("model_file_error"),error);
         } else {
           RetrievalEngine engine(config.databasePath,index?indexing:interactive,profile);
-          if(j->operation==QStringLiteral("sync_catalog")) result=engine.syncCatalog(j->payload,&j->cancelled);
+          if(j->operation==QStringLiteral("sync_catalog")) result=engine.syncCatalog(j->payload,&j->cancelled,[this,j](qint64 completed,qint64 total){std::lock_guard lock(mutex);j->completed=completed;j->total=total;j->updated=now();});
           else result=engine.search(j->payload,&j->cancelled);
         }
       } catch(const std::exception &e){result=fail(QStringLiteral("operation_exception"),QString::fromUtf8(e.what()));}

@@ -363,6 +363,8 @@ QJsonObject RetrievalEngine::syncCatalog(const QJsonObject &snapshot, const std:
       return failure("invalid_embedding_profile", "A model identity, revision and valid dimension are required.");
     if (snapshot.contains("expected_revision") && !snapshot.value("expected_revision").isNull() && !snapshot.value("expected_revision").isString())
       return failure("invalid_catalog", "expected_revision must be a string, null (source must be new), or omitted.");
+    if (snapshot.contains("force_rebuild") && !snapshot.value("force_rebuild").isBool())
+      return failure("invalid_catalog", "force_rebuild must be boolean.");
     const QString source = snapshot.value("source_id").toString();
     const QString revision = snapshot.value("revision").toString();
     const QJsonArray input = snapshot.value("records").toArray();

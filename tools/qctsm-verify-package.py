@@ -184,6 +184,8 @@ def smoke(root, models, work, expected_commit=None):
                              {'id':'package-devices', 'operation':'devices'},backend='auto')
     if devices.get('status') != 'succeeded':
         raise RuntimeError('Installed backend discovery failed: '+json.dumps(devices))
+    if devices.get('gpu_load_error_kind') == 'package':
+        raise RuntimeError('Installed GPU package is invalid: '+json.dumps(devices))
     return {'passed':True, 'identity':identity, 'programSha256':initial,
             'realModel':{'passed':True, 'dimensions':768, 'count':2, 'runtime':runtime},
             'deviceInventory':devices, 'gpuPayload':gpu_payload, 'gpuInference':{'executed':False,
@@ -316,10 +318,14 @@ def installer_checks(directory, models, scratch, expected_commit):
             extract(setups[0], external_payload)
             installer = external_payload/'setup.exe'
         install_root = scratch/'installed'
+        package = (installers or setups)[0]
+        package_digest = digest(package)
         try:
             run([installer, '/S', '/D='+str(install_root)], timeout=180)
             report = smoke(install_root, models, scratch/'installed-profile', expected_commit)
-            records.append({'package':(installers or setups)[0].name, **report})
+            if digest(package) != package_digest:
+                raise RuntimeError('Installer package changed during verification')
+            records.append({'package':package.name,'sha256':package_digest,**report})
         finally:
             remove_owned_windows_installation(install_root)
     elif sys.platform.startswith('linux'):
@@ -334,10 +340,13 @@ def installer_checks(directory, models, scratch, expected_commit):
         if prior.returncode == 0 or Path('/opt/qctsm').exists():
             raise RuntimeError('Refusing to replace an existing user installation during verification')
         sudo = [] if os.geteuid() == 0 else ['sudo', '-n']
+        package_digest = digest(packages[0])
         try:
             run([*sudo, 'dpkg', '-i', packages[0]], timeout=180)
             report = smoke(Path('/opt/qctsm'), models, scratch/'installed-profile', expected_commit)
-            records.append({'package':packages[0].name, **report})
+            if digest(packages[0]) != package_digest:
+                raise RuntimeError('DEB changed during verification')
+            records.append({'package':packages[0].name,'sha256':package_digest,**report})
         finally:
             installed = subprocess.run(['dpkg-query','-W','-f=${Version}',package_name],capture_output=True,text=True)
             if installed.returncode == 0:

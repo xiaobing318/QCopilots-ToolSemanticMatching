@@ -6,6 +6,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QJsonArray>
+#include <QJsonDocument>
 #include <QLockFile>
 #include <QProcess>
 #include <QTemporaryDir>
@@ -272,6 +273,8 @@ class RetrievalTest : public QObject
       QCOMPARE(engine.syncCatalog(snapshot).value("embedded_records").toInt(),1);
       QCOMPARE(engine.getRecords({"native:buffer"}).value("records"),before);
       QCOMPARE(engine.syncCatalog(catalog({definition("native:buffer","buffer")})).value("embedded_records").toInt(),0);
+      snapshot.insert("force_rebuild","true");
+      QCOMPARE(engine.syncCatalog(snapshot).value("error_code").toString(),QString("invalid_catalog"));
     }
 
     void expectedRevisionRejectsStaleSnapshot()
@@ -302,6 +305,24 @@ class RetrievalTest : public QObject
       QVERIFY(QFile::remove(path)); // Constructor failure must not leave a Windows file handle open.
     }
 
+    void crossProcessSnapshotIsObserved()
+    {
+      QTemporaryDir temporary;const QString path=temporary.filePath(QString::fromUtf8("共享 index.sqlite"));
+      auto provider=std::make_shared<TestProvider>();RetrievalEngine engine(path,provider,testProfile());
+      QCOMPARE(engine.syncCatalog(catalog({definition("native:buffer","buffer")})).value("status").toString(),QString("succeeded"));
+      const auto generation=engine.status().value("generation").toDouble();
+      QProcess child;
+      child.start(QCoreApplication::applicationFilePath(),{"--replace-catalog",path,"r2","native:clip"});
+      QVERIFY(child.waitForStarted());QVERIFY(child.waitForFinished(10000));
+      QCOMPARE(child.exitStatus(),QProcess::NormalExit);QCOMPARE(child.exitCode(),0);
+      const auto state=engine.status();
+      QVERIFY(state.value("generation").toDouble()>generation);
+      QCOMPARE(state.value("record_count").toInt(),1);
+      QCOMPARE(state.value("sources").toArray().first().toObject().value("revision").toString(),QString("r2"));
+      QVERIFY(engine.getRecords({"native:buffer"}).value("records").toArray().isEmpty());
+      QCOMPARE(engine.search({{"query","clip"}}).value("candidates").toArray().first().toObject().value("capability_id").toString(),QString("native:clip"));
+    }
+
     void cancellationAndWriterProcess()
     {
       QTemporaryDir temporary; QVERIFY(temporary.isValid());
@@ -324,6 +345,13 @@ class RetrievalTest : public QObject
 int main(int argc,char **argv)
 {
   QCoreApplication app(argc,argv);
+  if(app.arguments().size()==5 && app.arguments()[1]=="--replace-catalog")
+  {
+    auto provider=std::make_shared<TestProvider>();RetrievalEngine engine(app.arguments()[2],provider,testProfile());
+    const auto result=engine.syncCatalog(catalog({definition(app.arguments()[4],app.arguments()[4])},app.arguments()[3]));
+    QTextStream stream(stdout);stream<<QJsonDocument(result).toJson(QJsonDocument::Compact)<<'\n';stream.flush();
+    return result.value("status")=="succeeded"?0:3;
+  }
   if(app.arguments().size()==3 && app.arguments()[1]=="--hold-index-lock")
   {
     const QFileInfo info(app.arguments()[2]);

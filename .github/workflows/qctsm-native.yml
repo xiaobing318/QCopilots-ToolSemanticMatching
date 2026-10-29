@@ -77,6 +77,8 @@ jobs:
         run: python3 .github/scripts/qctsm-native-ci.py matrix
       - name: Verify immutable artifact selection rules
         run: python3 -B .github/scripts/test_qctsm_ci.py
+      - name: Verify package guards and GPU payload integrity checks
+        run: python3 -B .github/scripts/test_qctsm_package.py
 
   native:
     name: qctsm ${{ matrix.id }}

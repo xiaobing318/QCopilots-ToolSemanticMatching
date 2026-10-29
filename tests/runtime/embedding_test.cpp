@@ -87,6 +87,13 @@ class EmbeddingTest : public QObject
       QCOMPARE(discovery.value("status").toString(), QStringLiteral("succeeded"));
       const auto backend = discovery.value("packaged_backend").toString();
       const auto loadError = discovery.value("gpu_load_error").toString();
+      const bool requireGpu = qEnvironmentVariableIntValue("QCOPILOTS_TOOL_SEMANTIC_MATCHING_REQUIRE_GPU") == 1;
+      QVERIFY2(discovery.value("gpu_load_error_kind").toString() != QLatin1String("package"), qPrintable(loadError));
+      if (requireGpu)
+      {
+        QVERIFY2(backend != QLatin1String("cpu"), "GPU validation was required, but this is a CPU-only package");
+        QVERIFY2(loadError.isEmpty(), qPrintable(loadError));
+      }
       if (backend == QLatin1String("cpu") || !loadError.isEmpty())
       {
         qInfo().noquote() << "GPU inference tested=false reason="
@@ -141,6 +148,7 @@ class EmbeddingTest : public QObject
       if (!tested)
         qInfo().noquote() << "GPU inference tested=false reason=no compatible physical GPU with required capability; discovery="
           << QString::fromUtf8(QJsonDocument(discovery).toJson(QJsonDocument::Compact));
+      QVERIFY2(!requireGpu || tested > 0, "GPU validation was required, but no compatible GPU completed strict inference");
     }
 };
 QTEST_GUILESS_MAIN(EmbeddingTest)

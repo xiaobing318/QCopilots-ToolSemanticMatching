@@ -24,6 +24,13 @@ private slots:
     auto catalog=qctsm::normalizeCatalog(example,QStringLiteral("example-source"));const auto record=catalog.value("records").toArray().first().toObject();
     QCOMPARE(record.value("kind").toString(),QStringLiteral("example"));QCOMPARE(record.value("capability_id").toString(),QStringLiteral("bin.gdalwarp"));QCOMPARE(record.value("payload").toObject(),example);
   }
+  void embeddedIdentityCannotBeRelabelled() {
+    QTemporaryDir dir;QVERIFY(dir.isValid());auto config=qctsm::ServiceConfig::load(dir.path());QString error;
+    config.modelRevision=QStringLiteral("another-remote-model");
+    QVERIFY(!config.save(&error));QVERIFY(error.contains(QStringLiteral("locked model manifest")));
+    config.provider=QStringLiteral("http");QVERIFY(config.save(&error));
+    config.apiBase=QStringLiteral("https://user:secret@example.org/v1/");QVERIFY(!config.save(&error));
+  }
   void rawArrayAndExplicitCatalogPreserved() {
     const QJsonObject distanceSchema{{"type","number"}};
     const QJsonObject parametersSchema{{"type","object"},{"properties",QJsonObject{{"DISTANCE",distanceSchema}}}};

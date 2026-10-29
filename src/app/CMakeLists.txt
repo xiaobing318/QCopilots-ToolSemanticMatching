@@ -10,7 +10,7 @@ if(QCOPILOTS_TOOL_SEMANTIC_MATCHING_BUILD_TESTS)
   target_compile_features(qctsm-gui-test PRIVATE cxx_std_20)
   target_include_directories(qctsm-gui-test PRIVATE "${PROJECT_SOURCE_DIR}/src")
   target_link_libraries(qctsm-gui-test PRIVATE Qt6::Widgets Qt6::Network Qt6::Test qctsm-service-library)
-  add_test(NAME qctsm-gui-interaction COMMAND qctsm-gui-test)
+  add_test(NAME qctsm-gui-interaction COMMAND qctsm-gui-test -o -,txt)
   set_tests_properties(qctsm-gui-interaction PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=offscreen" LABELS "gui;functional" TIMEOUT 45)
 endif()
 

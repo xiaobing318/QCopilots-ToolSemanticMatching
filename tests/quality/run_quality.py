@@ -190,6 +190,7 @@ def evaluate(args) -> int:
               "started_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
               "service": {}, "queries": [], "errors": [], "cleanup": "pending", "passed": False}
     report["query_transport"] = "qctsm-cli" if args.cli else "http"
+    report["latency_scope"] = "Complete query transport, including CLI startup when selected. Indexing may already have loaded the model."
     report["context_size"] = {"unit": "compact_json_utf8_bytes", "full_catalog_payloads":
                               json_bytes([record["payload"] for record in catalog["records"]])}
     imported = False
@@ -214,6 +215,7 @@ def evaluate(args) -> int:
                 }
                 result = (cli_search(client, args.cli, request, report_path.parent, args.query_timeout)
                           if args.cli else client.completed(client.request("POST", "v1/search", request), args.query_timeout))
+                row["latency_seconds"] = time.monotonic() - started
                 mode = result.get("retrieval_mode")
                 if mode != "hybrid":
                     raise ServiceError(f"Real-embedding acceptance requires hybrid retrieval, got {mode!r}")
@@ -229,7 +231,9 @@ def evaluate(args) -> int:
                 row["candidate_payloads_bytes"] = json_bytes([candidate.get("payload") for candidate in candidates])
                 row["candidate_response_bytes"] = json_bytes(candidates)
                 if args.cli and not report["queries"]:
+                    parity_started = time.monotonic()
                     direct = client.completed(client.request("POST", "v1/search", request), args.query_timeout)
+                    report["cli_http_parity_seconds"] = time.monotonic() - parity_started
                     # Both paths query the same immutable catalogue and profile.
                     def comparable(value):
                         return [(item.get("capability_id"), item.get("record_id"), item.get("payload"),
@@ -243,7 +247,7 @@ def evaluate(args) -> int:
             except ServiceError as error:
                 row.update({"expected": query["expected"], "found": [], "missing": query["expected"],
                             "recall": 0.0, "reciprocal_rank": 0.0, "ranked": [], "error": str(error)})
-            row["latency_seconds"] = time.monotonic() - started
+            row.setdefault("latency_seconds", time.monotonic() - started)
             report["queries"].append(row)
             print(json.dumps({"id": row["id"], "recall": row["recall"], "seconds": round(row["latency_seconds"], 3),
                               "error": row.get("error")}, ensure_ascii=False), flush=True)
@@ -251,9 +255,11 @@ def evaluate(args) -> int:
         # Repeat one unchanged query to distinguish cache/warm behavior from
         # first-request latency. It is not an extra labelled success.
         started = time.monotonic()
-        warm = client.completed(client.request("POST", "v1/search", {
+        warm_request = {
             "query": queries[0]["query"], "top_n": top_n, "filters": {"source_id": source_id, "available": True}
-        }), args.query_timeout)
+        }
+        warm = (cli_search(client, args.cli, warm_request, report_path.parent, args.query_timeout)
+                if args.cli else client.completed(client.request("POST", "v1/search", warm_request), args.query_timeout))
         report["warm_repeat_seconds"] = time.monotonic() - started
         report["warm_repeat_mode"] = warm.get("retrieval_mode")
         if warm.get("retrieval_mode") != "hybrid":

@@ -150,7 +150,9 @@ def main() -> int:
         # Relocate qmake and Qt command-line tools to the selected SDK root.
         (kit / "bin" / "qt.conf").write_text("[Paths]\nPrefix=..\n", encoding="utf-8")
         qmake = kit / "bin" / ("qmake.exe" if args.platform == "windows" else "qmake")
-        result = subprocess.run([str(qmake), "-query", "QT_VERSION"], text=True, capture_output=True, check=True)
+        result = subprocess.run([str(qmake), "-query", "QT_VERSION"], text=True, capture_output=True)
+        if result.returncode:
+            raise RuntimeError(f"Qt SDK qmake failed ({result.returncode}): {result.stdout.strip()} {result.stderr.strip()}")
         if result.stdout.strip() != lock["qtVersion"]:
             raise RuntimeError(f"Unexpected installed Qt version: {result.stdout.strip()}")
         print(f"Qt {result.stdout.strip()} ready: {kit}", flush=True)

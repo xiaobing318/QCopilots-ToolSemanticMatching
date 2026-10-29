@@ -72,10 +72,17 @@ bool loadModule(const QString &name)
   }
   return false;
 }
+bool moduleExists(const QString &name)
+{
+  for (const auto &root : backendRoots())
+    if (QFileInfo(QDir(root).absoluteFilePath(libraryName(name))).isFile()) return true;
+  return false;
+}
 struct RuntimeDevices
 {
   QVector<ggml_backend_dev_t> handles;
   QVector<detail::BackendDevice> descriptions;
+  QString gpuFailureKind;
 };
 std::recursive_mutex &initializationMutex()
 {
@@ -116,17 +123,30 @@ RuntimeDevices initializeDevices(detail::BackendMode mode, QString *gpuError)
   });
   static std::once_flag gpuInitialized;
   static QString gpuFailure;
+  static QString gpuFailureKind;
   if (mode != detail::BackendMode::Cpu)
     std::call_once(gpuInitialized, [] {
       const auto backend = packagedBackend();
       if (backend == QLatin1String("cpu") || registered(backend)) return;
       gpuFailure = detail::prepareGpuRuntime(QCoreApplication::applicationDirPath(), backend);
-      if (!gpuFailure.isEmpty()) return;
+      if (!gpuFailure.isEmpty()) { gpuFailureKind = QStringLiteral("package"); return; }
+      if (!moduleExists(backend))
+      {
+        gpuFailure = QStringLiteral("Packaged %1 GPU module is missing").arg(backend);
+        gpuFailureKind = QStringLiteral("package");
+        return;
+      }
       if (!loadModule(backend) || !registered(backend))
+      {
         gpuFailure = QStringLiteral("Cannot load packaged %1 GPU module or its runtime dependencies").arg(backend);
+        // ggml does not distinguish absent drivers from a backend that fails
+        // initialization. Never describe this result as confirmed no hardware.
+        gpuFailureKind = QStringLiteral("initialization");
+      }
     });
   *gpuError = mode == detail::BackendMode::Cpu ? QString{} : gpuFailure;
   RuntimeDevices result;
+  result.gpuFailureKind = mode == detail::BackendMode::Cpu ? QString{} : gpuFailureKind;
   for (size_t i = 0; i < ggml_backend_dev_count(); ++i)
   {
     auto device = ggml_backend_dev_get(i);
@@ -410,7 +430,8 @@ QJsonObject LlamaEmbeddingProvider::devices(const QString &backend)
     const auto devices = initializeDevices(*mode, &error);
     QJsonArray entries;
     for (const auto &device : devices.descriptions) entries.append(deviceJson(device));
-    return {{"status", "succeeded"}, {"packaged_backend", packagedBackend()}, {"devices", entries}, {"gpu_load_error", error}};
+    return {{"status", "succeeded"}, {"packaged_backend", packagedBackend()}, {"devices", entries},
+            {"gpu_load_error", error}, {"gpu_load_error_kind", devices.gpuFailureKind}};
   }
   catch (const std::exception &failure)
   { return {{"status", "failed"}, {"message", QString::fromUtf8(failure.what())}}; }

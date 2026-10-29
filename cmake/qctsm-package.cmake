@@ -127,6 +127,7 @@ install(FILES "${PROJECT_SOURCE_DIR}/config/build-variants.json"
 install(FILES "${PROJECT_SOURCE_DIR}/tests/runtime/fixtures/LICENSE-DigUp"
   DESTINATION "${CMAKE_INSTALL_DATADIR}/qctsm/licenses")
 install(DIRECTORY "${PROJECT_SOURCE_DIR}/schemas/" DESTINATION "${CMAKE_INSTALL_DATADIR}/qctsm/schemas")
+install(DIRECTORY "${PROJECT_SOURCE_DIR}/examples/" DESTINATION "${CMAKE_INSTALL_DATADIR}/qctsm/examples")
 if(EXISTS "${PROJECT_SOURCE_DIR}/docs")
   install(DIRECTORY "${PROJECT_SOURCE_DIR}/docs/" DESTINATION "${CMAKE_INSTALL_DATADIR}/doc/qctsm")
 endif()
